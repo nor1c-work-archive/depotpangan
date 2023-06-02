@@ -1,0 +1,18 @@
+HTTP/1.1 201 Created
+Content-Type: application/json; charset=utf-8
+Content-Length: 690
+Connection: close
+Date: Tue, 27 Dec 2022 02:00:13 GMT
+x-amzn-RequestId: 5e2b3817-2ccf-4cf9-bb22-6c2b0cfa749c
+Strict-Transport-Security: max-age=2592000
+x-amzn-Remapped-Content-Length: 690
+api-supported-versions: 1.20191010, 1.20201120
+x-amz-apigw-id: aP75nEHUSwMF1Pw=
+Location: https://api.training.myopenpay.com.au/v1/merchant/orders/3000000068423
+X-Amzn-Trace-Id: Root=1-601ca6a3-61a9bd5a304be67457bf0e54;Sampled=0
+X-Cache: Miss from cloudfront
+Via: 1.1 0ef909a3f793c1f9f28327e4342d41b1.cloudfront.net (CloudFront)
+X-Amz-Cf-Pop: MEL50-C2
+X-Amz-Cf-Id: muOmsstaQlmavAQGW0LMTmM3pjUhKwzkb35rebzpfmqNOFWlaIHkJw==
+
+{"orderId":"3000000068423","blackListMatch":0,"orderStatus":null,"planStatus":null,"purchasePrice":null,"retailerAmount":null,"nextAction":{"type":"FormPost","formPost":{"formPostUrl":"https://retailer.myopenpay.com.au/websalestraining/","formFields":[{"fieldName":"JamCallbackURL","fieldValue":"https://example.com/return"},{"fieldName":"JamCancelURL","fieldValue":"https://example.com/cancel"},{"fieldName":"JamFailURL","fieldValue":"https://example.com/fail"},{"fieldName":"TransactionToken","fieldValue":"Al5dE65ZExKP8jDF53iQKmFKocB24McXntfc3c4iJI21uQjH6YAK%2BGFnH4Npi7coFvf%2BMYGgXr4WwrCoDFS%2FHoqLtu9Ulbe2G4%2F0cly%2BBeI%3D"},{"fieldName":"JamPlanID","fieldValue":"3000000068423"}]}}}

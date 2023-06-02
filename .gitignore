@@ -6,7 +6,7 @@
 /public/delivery
 /storage/*.key
 /storage/installed
-/vendor
+# /vendor
 .env
 .env.backup
 .phpunit.result.cache

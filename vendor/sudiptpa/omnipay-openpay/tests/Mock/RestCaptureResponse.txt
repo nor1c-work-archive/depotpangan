@@ -1,0 +1,17 @@
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+Content-Length: 148
+Connection: close
+Date: Tue, 27 Dec 2022 23:00:49 GMT
+x-amzn-RequestId: 4031937f-ceb4-4f03-a773-3a3519a06a51
+Strict-Transport-Security: max-age=2592000
+x-amzn-Remapped-Content-Length: 148
+api-supported-versions: 1.20191010, 1.20201120
+x-amz-apigw-id: aZadDHBjSwMFYCw=
+X-Amzn-Trace-Id: Root=1-60207120-1df67e2476a05d1569646154;Sampled=0
+X-Cache: Miss from cloudfront
+Via: 1.1 df2fefb9685f0f1e7989f28b7baf61bb.cloudfront.net (CloudFront)
+X-Amz-Cf-Pop: MEL50-C2
+X-Amz-Cf-Id: BQeHYmPQXMD92hlYR3qQN39EHoxodfddUp0QGA7RaEunG5IedFQlgg==
+
+{"orderId":"3000000071096","blackListMatch":null,"orderStatus":null,"planStatus":null,"purchasePrice":20000,"retailerAmount":null,"nextAction":null}

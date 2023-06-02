@@ -1,0 +1,21 @@
+HTTP/1.1 200 OK
+status: 200
+Content-Type: application/json; charset=utf-8
+Content-Length: 35
+Connection: keep-alive
+Date: Tue, 27 Dec 2022 00:00:32 GMT
+x-amzn-RequestId: 7d23a9e3-4e20-4fa9-a86e-a2406365e4da
+Strict-Transport-Security: max-age=2592000
+x-amzn-Remapped-Content-Length: 35
+api-supported-versions: 1.20191010, 1.20201120
+x-amz-apigw-id: aPqZEHqtywMFR_w=
+X-Amzn-Trace-Id: Root=1-601c8aa0-03db5ddb49ee630d68950fe2;Sampled=0
+X-Cache: Miss from cloudfront
+Via: 1.1 c95a47b47c75b952a58317e0d3b6004b.cloudfront.net (CloudFront)
+X-Amz-Cf-Pop: MEL50-C2
+X-Amz-Cf-Id: tP8qKsp_66TRjXkTjq7HCP24KMrEy7CYcIAJ7ynj5CO6P0iOFM6v_Q==
+
+{
+  "minPrice": 5000,
+  "maxPrice": 500000
+}
