@@ -2,7 +2,7 @@
 /node_modules
 /public/hot
 /public/storage
-/public/gallary
+# /public/gallary
 /public/delivery
 /storage/*.key
 /storage/installed
