@@ -1,0 +1,6 @@
+product_type,product_name,sku,video_url,gallary_id,price,discount_price,unit_id,product_weight,brand_id,tax_id,product_categories,products_attributes,combination_sku,product_variation,variation_price,variation_images
+Variable,red shirt,sku-00-001,,pro1.jpg,50,30,pcs,10,brand1,GST,"Cat1, Cat2","Size|Small-Large, Color|Red-Green","sku-00-001-a, sku-00-001-b, sku-00-001-c, sku-00-001-d","Small-Red, Small-Green, Large-Red, Large-Green","30,30,40,40","pexel.jpg,watch.jpg,bottles.jpg,blog3.jpg"
+Simple,yellow shirt,sku-00-002,,pro1.jpg,60,40,pcs,20,brand2,GST,"Cat1, Cat2",,,,,"pexel.jpg,watch.jpg,bottles.jpg"
+Simple,green shirt,sku-00-003,,pro1.jpg,30,20,pcs,20,brand1,GST,"Cat1, Cat2",,,,,"pexel.jpg,watch.jpg,bottles.jpg"
+Variable,blue shirt,sku-00-004,,pro1.jpg,70,50,pcs,50,brand2,GST,"Cat1, Cat2","Size|Small-Large, Color|Red-Green","sku-00-001-a, sku-00-001-b, sku-00-001-c, sku-00-001-d","Small-Red, Small-Green, Large-Red, Large-Green","30,30,40,40","pexel.jpg,watch.jpg,bottles.jpg,blog3.jpg"
+Variable,Pink Shirt,sku-00-005,,pro1.jpg,80,50,pcs,25,brand1,GST,"Cat1, Cat2","Size|Small-Large, Color|Red-Green","sku-00-001-a, sku-00-001-b, sku-00-001-c, sku-00-001-d","Small-Red, Small-Green, Large-Red, Large-Green","30,30,40,40","pexel.jpg,watch.jpg,bottles.jpg,blog3.jpg"

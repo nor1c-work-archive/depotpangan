@@ -1,0 +1,41 @@
+# Rawal Dev Deployement 
+# deployment:
+#       tasks:
+#         - export DEPLOYPATH=/home/vectorcoderdev/public_html/rawal-dev
+#         - /bin/cp -r * $DEPLOYPATH
+
+# Kundol Deployement
+deployment:
+      tasks:
+        - export DEPLOYPATH=/home/themescoder/public_html/kundol/default/web_api
+        - /bin/cp -r * $DEPLOYPATH
+
+        - export DEPLOYPATH=/home/themescoder/public_html/kundol/cosmetics/web_api
+        - /bin/cp -r * $DEPLOYPATH
+
+        - export DEPLOYPATH=/home/themescoder/public_html/kundol/electronics/web_api
+        - /bin/cp -r * $DEPLOYPATH
+
+        - export DEPLOYPATH=/home/themescoder/public_html/kundol/fashion/web_api
+        - /bin/cp -r * $DEPLOYPATH
+
+        - export DEPLOYPATH=/home/themescoder/public_html/kundol/flowers/web_api
+        - /bin/cp -r * $DEPLOYPATH
+
+        - export DEPLOYPATH=/home/themescoder/public_html/kundol/glasses/web_api
+        - /bin/cp -r * $DEPLOYPATH
+
+        - export DEPLOYPATH=/home/themescoder/public_html/kundol/grocery/web_api
+        - /bin/cp -r * $DEPLOYPATH
+
+        - export DEPLOYPATH=/home/themescoder/public_html/kundol/jewelry/web_api
+        - /bin/cp -r * $DEPLOYPATH
+
+        - export DEPLOYPATH=/home/themescoder/public_html/kundol/market1/web_api
+        - /bin/cp -r * $DEPLOYPATH
+
+        - export DEPLOYPATH=/home/themescoder/public_html/kundol/market2/web_api
+        - /bin/cp -r * $DEPLOYPATH
+
+        - export DEPLOYPATH=/home/themescoder/public_html/kundol/shoes/web_api
+        - /bin/cp -r * $DEPLOYPATH
