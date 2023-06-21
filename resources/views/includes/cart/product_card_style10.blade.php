@@ -37,13 +37,13 @@
       <div class="price product-card-price">
       </div>
      {{-- <a class="btn-secondary btn display-none  icon swipe-to-top product-card-link listing-none" >
-      Add to Cart
+      Tambah ke Keranjang
         </a>  --}}
    </div>                 
 
    <div class="product-action">
      <a class="btn-secondary btn display-non  icon swipe-to-top product-card-link" >
-     Add to Cart
+     Tambah ke Keranjang
        </a> 
    </div><!-- End .product-action -->
   </article>

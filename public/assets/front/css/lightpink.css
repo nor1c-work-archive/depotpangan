@@ -17171,7 +17171,7 @@ input[type=button].btn-block {
   width: 1rem;
   height: 1rem;
   content: "";
-  background: 50% / 50% 50% no-repeat;
+  background: 50%/50% 50% no-repeat;
 }
 
 .custom-checkbox .custom-control-label::before {
@@ -39271,6 +39271,9 @@ a.carousel-control-next.btn-secondary.swipe-to-top:focus {
   padding: 15px;
   width: auto;
   display: inline-block;
+  aspect-ratio: 1/1;
+  -o-object-fit: cover;
+     object-fit: cover;
 }
 .categories-content .cat-banner .categories-image {
   overflow: hidden;

@@ -27,7 +27,7 @@
 
                     </div>
                     {{-- <a class="btn-secondary btn btn-block display-none icon swipe-to-top product-card-link">
-                        Add to Cart
+                        Tambah ke Keranjang
                     </a> --}}
                     <div class="content">
                         <span class="tag product-card-category">

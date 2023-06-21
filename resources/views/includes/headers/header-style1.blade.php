@@ -22,7 +22,7 @@
             <div class="row">
                 <div class="col-12 col-md-6">
 
-                    <div class="navbar-lang">
+                    {{-- <div class="navbar-lang">
 
                         <div class="dropdown">
                             <button class="btn dropdown-toggle language-default-name" type="button">
@@ -53,7 +53,7 @@
                                 @endforeach
                             </div>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
 
                 <div class="col-12 col-md-6 without-auth-login">

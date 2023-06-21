@@ -171,7 +171,7 @@
                             <div id="imagePreview" class="rounded">
                               <img
                                 :src="url"
-                                style="height: 194px; width: 100%"
+                                style="width: 100%"
                               />
                             </div>
                           </div>
@@ -221,7 +221,7 @@
                     <div
                       v-for="gallary in gallaries"
                       class="
-                        col-6 col-sm-4 col-md-3 col-lg-4 col-xl-3
+                        col-6 col-sm-4 col-md-3 col-lg-4 col-xl-2
                         loadingmore
                       "
                       style="display: block"

@@ -11,7 +11,7 @@
                                 <div class="card-header align-items-center  border-bottom-dark px-0">
                                     <div class="card-title mb-0">
                                         <h3 class="card-label mb-0 font-weight-bold text-body">
-                                            Product Category
+                                            Kategori Produk
                                         </h3>
                                     </div>
                                     <div class="icons d-flex">
@@ -60,16 +60,19 @@
                                                                 ID
                                                             </th>
                                                             <th class="sorting" tabindex="0"  rowspan="1" colspan="1" aria-label="category: activate to sort column ascending"  @click="sorting('category_name')" :class="(this.$data.sortType == 'asc' || this.$data.sortType == 'ASC') && this.$data.sortBy == 'category_name'  ? 'sorting_asc' : (this.$data.sortType == 'desc' || this.$data.sortType == 'DESC') && this.$data.sortBy == 'category_name' ? 'sorting_desc' : 'sorting'">
-                                                            Name
+                                                                Nama
+                                                            </th>
+                                                            <th class="sorting" rowspan="1" colspan="1">
+                                                                Harga
                                                             </th>
                                                             <th class="no-sort sorting_disabled" rowspan="1" colspan="1">
-                                                                Description
+                                                                Deskripsi
                                                             </th>
                                                             <th class="no-sort sorting_disabled" rowspan="1" colspan="1">
                                                                 Slug
                                                             </th>
                                                             <th v-if="$parent.permissions.includes('product-category-manage')" class="no-sort sorting_disabled" rowspan="1" colspan="1" aria-label="Action" >
-                                                                Action
+                                                                Aksi
                                                             </th>
                                                         </tr>
                                                     </thead>
@@ -80,6 +83,9 @@
                                                             </td>
                                                             <td>
                                                                 {{ category.detail[0] ? category.detail[0].name : '' }}
+                                                            </td>
+                                                            <td>
+                                                                {{ category.last_price ? currencyFormat(category.last_price.price) : 0 }}
                                                             </td>
                                                             <td>
                                                                 {{ category.detail[0] ? category.detail[0].description : '' }}
@@ -115,7 +121,7 @@
 
     <div class="offcanvas offcanvas-right kt-color-panel p-5 kt_notes_panel" v-if="display_form" :class="display_form ? 'offcanvas-on' : ''">
         <div class="offcanvas-header d-flex align-items-center justify-content-between pb-3">
-            <h4 class="font-size-h4 font-weight-bold m-0">Add category</h4>
+            <h4 class="font-size-h4 font-weight-bold m-0">Tambah Kategori</h4>
             <a href="#" class="btn btn-sm btn-icon btn-light btn-hover-primary kt_notes_panel_close" v-on:click="clearForm()">
                 <svg width="20px" height="20px" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                     <path fill-rule="evenodd" d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"></path>
@@ -125,14 +131,16 @@
         <form id="myform">
             <div class="row">
                 <div class="col-12">
+                    <!--
                     <div class="tabslang">
                         <div v-for="language in languages" class="tablang" :class="language.id == selectedLanguage ?'active':''" @click="setSelectedLanguage(language.id)">
                             {{ language.language_name }}
                         </div>
                     </div>
                     <br />
+                    -->
                     <div class="form-group " v-for="(language,index) in languages" v-if="language.id == selectedLanguage">
-                        <label class="text-dark">Name ( {{ language.language_name }} ) </label>
+                        <label class="text-dark">Nama Kategori <!-- ( {{ language.language_name }} ) --> </label>
                         <input type="text" :name="'name'+index" v-model="category.name[index]" class="form-control" />
                         <small class="form-text text-danger" v-if="errors.has('category_name.'+index)" v-text="errors.get('category_name.'+index)"></small>
                         <small class="form-text text-danger" v-if="errors.has('category_name')" v-text="errors.get('category_name')"></small>
@@ -140,17 +148,17 @@
 
                     <br />
                     <div class="form-group " v-for="(language,index) in languages" v-if="language.id == selectedLanguage">
-                        <label class="text-dark">Description ( {{ language.language_name }} ) </label>
+                        <label class="text-dark">Deskripsi <!-- ( {{ language.language_name }} ) --> </label>
                         <vue-editor v-model="category.desc[index]"></vue-editor>
                         <small class="form-text text-danger" v-if="errors.has('description.'+index)" v-text="errors.get('description.'+index)"></small>
                         <small class="form-text text-danger" v-if="errors.has('description')" v-text="errors.get('description')"></small>
                     </div>
 
                     <div class="form-group ">
-                        <label>Parent Category</label>
+                        <label>Kategori Induk</label>
                         <fieldset class="form-group mb-3">
                             <select class="js-example-basic-single js-states form-control bg-transparent" v-model='category.parent' >
-                                <option value="">Select Category</option>
+                                <option value="">Pilih Kategori</option>
                                 <option 
                                 v-for='parent in allcategories' :value='parent.id'
                                 v-bind:selected="category.parent == parent.id"
@@ -166,24 +174,39 @@
                         <input type="text" :name="category.category_slug" v-model="category.category_slug" class="form-control" />
                         <small class="form-text text-danger" v-if="errors.has('category_slug')" v-text="errors.get('category_slug')"></small>
                     </div>
+
+                    <!-- Atur Harga -->
                     <div class="form-group">
-                        <button type="button" class="btn btn-primary" @click="toggleImageSelect()">Upload Category Media</button>
-                        <small id="textHelp" class="form-text text-muted">Select Image file from gallary.</small>
+                        <label class="text-dark">Harga</label>
+                        <input
+                            type="number"
+                            class="form-control round bg-transparent text-dark"
+                            :name="category.price"
+                            v-on:input="setPrice($event.target.value)"
+                            v-model="category.price"
+                        />
+                        <small class="form-text text-danger" v-if="errors.has('price')" v-text="errors.get('price')"></small>
+                    </div>
+
+                    <!-- Pilih Gambar -->
+                    <div class="form-group">
+                        <button type="button" class="btn btn-primary" @click="toggleImageSelect()">Pilih Gambar Kategori</button>
+                        <small id="textHelp" class="form-text text-muted">Pilih gambar dari media.</small>
                         <small class="form-text text-danger" v-if="errors.has('gallary_id')" v-text="errors.get('gallary_id')"></small>
 
                         <img v-if="gallary_path != ''" :src="gallary_path" style="width:100px;height:100px;"/>
                     </div>
 
                     <div class="form-group">
-                        <button type="button" class="btn btn-primary" @click="toggleImageSelectIcon()">Upload Category Icon</button>
-                        <small id="textHelp" class="form-text text-muted">Select Image file from gallary.</small>
+                        <button type="button" class="btn btn-primary" @click="toggleImageSelectIcon()">Pilih Icon Kategori</button>
+                        <small id="textHelp" class="form-text text-muted">Pilih gambar dari media.</small>
                         <small class="form-text text-danger" v-if="errors.has('category_icon')" v-text="errors.get('category_icon')"></small>
 
                         <img v-if="icon_path != ''" :src="icon_path" style="width:100px;height:100px;"/>
                     </div>
                 </div>
             </div>
-            <button type="button" @click="addUpdatecategory()" class="btn btn-primary mt-3">Submit</button>
+            <button type="button" @click="addUpdatecategory()" class="btn btn-primary mt-3">SIMPAN</button>
         </form>
     </div>
     <attach-image @toggleImageSelect="toggleImageSelect" :showModal="showModal" @setImage="setImage"/>
@@ -209,6 +232,7 @@ export default {
                 id: "",
                 name:[],
                 category_slug:"",
+                price: 0,
                 desc:[],
                 parent:"",
                 gallary_id:"",
@@ -242,6 +266,12 @@ export default {
     },
 
     methods: {
+        currencyFormat(nominal) {
+            return new Intl.NumberFormat('id-ID', {
+                style: 'currency',
+                currency: 'IDR'
+            }).format(nominal)
+        },
         fetchLanguages() {
             this.$parent.loading = true;
             var token = localStorage.getItem('token');
@@ -355,6 +385,7 @@ export default {
                 category_name:this.category.name,
                 description:this.category.desc,
                 category_slug:this.category.category_slug,
+                price:this.category.price,
                 parent_id:this.category.parent,
                 gallary_id:this.category.gallary_id,
                 category_icon:this.category.icon,
@@ -403,18 +434,25 @@ export default {
                         this.category.name[this.category.language_id.indexOf(u.language.id)] = u.name;
                         this.category.desc[this.category.language_id.indexOf(u.language.id)] = u.description;
                     });
-                        console.log(res.data.data.gallary.gallary_name,"data data");
-                        this.gallary_path = res.data.data.gallary != null ? '/gallary/'+res.data.data.gallary.gallary_name: "" ;
-                        this.icon_path = res.data.data.icon != null ? '/gallary/'+res.data.data.icon.gallary_name:"";
-                        this.category.gallary_id = res.data.data.gallary != null ? res.data.data.gallary.id:"";
-                        this.category.icon = res.data.data.icon != null ? res.data.data.icon.id:"";
 
-                    this.category.parent = res.data.data.parent_id;
-                    this.category = Object.assign({}, this.category, { category_slug: res.data.data.slug })
-
+                    // console.log(res.data.data.gallary.gallary_name,"data data");
                     
-                }
+                    this.gallary_path = res.data.data.gallary != null ? '/gallary/'+res.data.data.gallary.gallary_name: "" ;
+                    this.icon_path = res.data.data.icon != null ? '/gallary/'+res.data.data.icon.gallary_name:"";
 
+                    this.category.gallary_id = res.data.data.gallary != null ? res.data.data.gallary.id:"";
+                    this.category.icon = res.data.data.icon != null ? res.data.data.icon.id:"";
+                    this.category.parent = res.data.data.parent_id;
+                    
+                    this.category = Object.assign(
+                        {},
+                        this.category,
+                        {
+                            category_slug: res.data.data.slug,
+                            price: res.data.data.last_price ? res.data.data.last_price.price : 0
+                        }
+                    )
+                }
             })
             .catch(err => console.log(err));
             
@@ -425,6 +463,7 @@ export default {
             this.display_form = 0;
             this.edit = false;
             this.category.category_slug = "";
+            this.category.price = 0;
             this.category.parent = "";
             this.category.desc = [];
             this.category.id = null;

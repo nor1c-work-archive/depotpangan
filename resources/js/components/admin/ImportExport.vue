@@ -118,7 +118,7 @@
                             <div id="imagePreview" class="rounded">
                               <img
                                 :src="url"
-                                style="height: 194px; width: 100%"
+                                style="width: 100%"
                               />
                             </div>
                           </div>

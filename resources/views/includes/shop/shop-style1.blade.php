@@ -37,7 +37,7 @@
                                     <label>{{ trans('lables.shop-category') }}</label>
                                     <div class="select-control">
                                         <select class="form-control category-filter" name="category">
-                                            <option value="">choose</option>
+                                            <option value="">pilih</option>
                                             @foreach ($data['category'] as $category)
                                                 @if (isset($_GET['category']) && $_GET['category'] == $category->id)
                                                     <option selected value="{{ $category->id }}">
@@ -58,7 +58,7 @@
                                     <label>{{ trans('lables.shop-price') }}</label>
                                     <div class="select-control">
                                         <select class="form-control price-filter" name="price">
-                                            <option value="">choose</option>
+                                            <option value="">pilih</option>
                                             @foreach ($data['price_range'] as $price_range)
                                                 @if (isset($_GET['price']) && $_GET['price'] == $price_range)
                                                     <option selected value="{{ $price_range }}">{{ $price_range }}
@@ -81,7 +81,7 @@
                                             <select class="form-control variaion-filter" name="variation[]"
                                                 data-attribute-id="{{ $attribute->id }}"
                                                 data-attribute-name="{{ $attribute->attribute_detail[0]->name }}">
-                                                <option value="">choose</option>
+                                                <option value="">pilih</option>
                                                 @foreach ($attribute->variation as $variation)
                                                     @if (isset($_GET['variation_id']) && in_array($variation->variation_detail[0]->variation_id, explode(',', $_GET['variation_id'])))
                                                         <option selected
@@ -112,7 +112,7 @@
                                     <label>{{ trans('lables.shop-sort-by') }}</label>
                                     <div class="select-control">
                                         <select class="form-control sortBy" >
-                                            <option value="">choose</option>
+                                            <option value="">pilih</option>
                                             <option disabled><b>Price</b></option>
                                             <option value="low-high" data-sort-by="price" data-sort-type="asc">Low To High</option>
                                             <option value="high-to" data-sort-by="price" data-sort-type="desc">High To Low</option>

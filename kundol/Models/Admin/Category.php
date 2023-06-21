@@ -39,6 +39,7 @@ class Category extends Model
             $q->where('language_id', $languageId);
         }]);
     }
+
     public function scopeGetCategoryDetailByLanguageId($query, $languageId, $sortBy, $sortType)
     {
         return $query->orderBy(CategoryDetail::select($sortBy)
@@ -68,5 +69,13 @@ class Category extends Model
     public function CategoryDetail()
     {
         return $this->hasMany(CategoryDetail::class);
+    }
+
+    public function prices() {
+        return $this->hasMany(CategoryPrice::class)->orderBy('id', 'desc');
+    }
+
+    public function lastPrice() {
+        return $this->hasOne(CategoryPrice::class)->latest();
     }
 }

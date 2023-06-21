@@ -158,7 +158,7 @@
                                                 <label>{{ trans('lables.shop-sort-by') }} </label>
                                                 <div class="select-control">
                                                     <select class="form-control sortBy" >
-                                                        <option value="">choose</option>
+                                                        <option value="">pilih</option>
                                                         <option disabled><b>Price</b></option>
                                                         <option value="low-high" data-sort-by="price" data-sort-type="asc">Low To High</option>
                                                         <option value="high-to" data-sort-by="price" data-sort-type="desc">High To Low</option>

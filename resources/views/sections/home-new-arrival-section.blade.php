@@ -13,7 +13,7 @@
         </div>
         @include(isset(getSetting()['card_style']) ?
               'includes.cart.product_card_'.getSetting()['card_style'] : "includes.cart.product_card_style1")
-        <div class="new-arrival row">                          
+        <div class="new-arrival row row-col-6">                          
 
         </div>
       </div>

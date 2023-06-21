@@ -54,7 +54,7 @@
                   </button>
                 </span>
               </div>
-              <button type="button" class="btn btn-secondary btn-lg swipe-to-top add-to-cart">Add to Cart</button>
+              <button type="button" class="btn btn-secondary btn-lg swipe-to-top add-to-cart">Tambah ke Keranjang</button>
 
 
             </div>

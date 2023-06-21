@@ -106,9 +106,9 @@
                             // clone.querySelector(".single-text-chat-li").classList.add("bg-blue-100");
                             clone.querySelector(".div-class").classList.add('col-12');
                             if (shopStyle.split('style')[1] == 1)
-                                clone.querySelector(".div-class").classList.add('col-lg-3');
+                                clone.querySelector(".div-class").classList.add('col-lg-2');
                             else
-                                clone.querySelector(".div-class").classList.add('col-lg-4');
+                                clone.querySelector(".div-class").classList.add('col-lg-6');
                             clone.querySelector(".div-class").classList.add('col-md-6');
                             clone.querySelector(".div-class").classList.add('griding');
                             clone.querySelector(".wishlist-icon").setAttribute('data-id', data.data[i]
@@ -200,7 +200,7 @@
                                     .product_id);
                                 clone.querySelector(".product-card-link").setAttribute('data-type', data.data[i]
                                     .product_type);
-                                clone.querySelector(".product-card-link").innerHTML = 'Add To Cart';
+                                clone.querySelector(".product-card-link").innerHTML = 'Tambah ke Keranjang';
                                 clone.querySelector(".product-card-link").setAttribute('data-field', i);
 
                                 clone.querySelector(".add-to-card-bag").setAttribute('onclick',

@@ -27,6 +27,7 @@ class Category extends JsonResource
                 'slug' => $this->category_slug,
                 'parent' => $this->parent_id,
                 'parent_name' => isset($this->parent->detail[0]->category_name) ? $this->parent->detail[0]->category_name : '',
+                'last_price' => $this->lastPrice,
             ];
         } else {
             return [
@@ -38,6 +39,7 @@ class Category extends JsonResource
                 'sort_order' => $this->sort_order,
                 'detail' => CategoryDetailResource::collection($this->whenLoaded('detail')),
                 'parent_name' => isset($this->parent->detail[0]->category_name) ? $this->parent->detail[0]->category_name : '',
+                'last_price' => $this->lastPrice,
             ];
         }
     }

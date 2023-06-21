@@ -65,7 +65,7 @@
     
                         </div>
                         <a href="javascript:void(0)" class="btn btn-secondary swipe-to-top wishlist-product-btn">
-                            ADD TO CART
+                            TAMBAH KE KERANJANG
                         </a>
                     </div>
                 </div>
@@ -192,7 +192,7 @@
                             clone.querySelector(".wishlist-product-btn").setAttribute('onclick', "addToCart(this)");
                             clone.querySelector(".wishlist-product-btn").setAttribute('data-id', data.data[i].products.product_id);
                             clone.querySelector(".wishlist-product-btn").setAttribute('data-type', data.data[i].products.product_type);
-                            clone.querySelector(".wishlist-product-btn").innerHTML = 'Add To Cart';
+                            clone.querySelector(".wishlist-product-btn").innerHTML = 'Tambah ke Keranjang';
                             clone.querySelector(".wishlist-product-btn").setAttribute('data-field', i);
 
                         } else {

@@ -45,7 +45,7 @@
                     </div>
                     <a class="btn  btn-secondary d-g-none listing-none swipe-to-top product-card-link"
                         href="product-page1.html" data-toggle="tooltip" data-placement="bottom" title=""
-                        data-original-title="Add to cart">Add To Cart</a>
+                        data-original-title="Tambah ke Keranjang">Tambah ke Keranjang</a>
 
 
                 </div>

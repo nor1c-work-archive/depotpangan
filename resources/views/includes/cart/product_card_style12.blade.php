@@ -30,7 +30,7 @@
       </div>  
    
       <a class="btn-secondary btn icon swipe-to-top product-card-link" onclick="notificationCart();">
-          <i class="fas fa-shopping-bag"></i> Add to Cart
+          <i class="fas fa-shopping-bag"></i> Tambah ke Keranjang
           </a> 
     </div>                 
  

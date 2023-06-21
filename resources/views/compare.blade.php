@@ -182,7 +182,7 @@
                                 clone.querySelector(".product-card-link").setAttribute('data-type', data.data[i]
                                     .products
                                     .product_type);
-                                clone.querySelector(".product-card-link").innerHTML = 'Add To Cart';
+                                clone.querySelector(".product-card-link").innerHTML = 'Tambah ke Keranjang';
                             } else {
                                 clone.querySelector(".product-card-link").setAttribute('href', '/product/' +
                                     data

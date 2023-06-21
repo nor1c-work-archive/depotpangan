@@ -54,7 +54,7 @@
                         </button>
                     </span>
                 </div>
-                <a href="javascript:void(0)" class="btn btn-secondary btn-lg swipe-to-top quick-view-add-to-cart">Add to Cart</a>
+                <a href="javascript:void(0)" class="btn btn-secondary btn-lg swipe-to-top quick-view-add-to-cart">Tambah ke Keranjang</a>
 
             </div>
 

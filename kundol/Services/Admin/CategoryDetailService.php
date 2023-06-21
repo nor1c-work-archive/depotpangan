@@ -33,8 +33,8 @@ class CategoryDetailService
     public function updateValidate($parms)
     {
         foreach ($parms['language_id'] as $i => $data) {
-            if (!isset($parms['language_id'][$i]) || !isset($parms['description'][$i]) || !isset($parms['category_name'][$i])) {
-                return $this->errorResponse('language_id, description and  category_name is required!', 401);
+            if (!isset($parms['language_id'][$i]) || !isset($parms['description'][$i]) || !isset($parms['category_name'][$i]) || !isset($parms['price'])) {
+                return $this->errorResponse('language_id, description, price and category_name is required!', 401);
             }
         }
         return 1;
@@ -43,8 +43,8 @@ class CategoryDetailService
     public function storeValidate($parms)
     {
         foreach ($parms['language_id'] as $i => $data) {
-            if (!isset($parms['language_id'][$i]) || !isset($parms['description'][$i]) || !isset($parms['category_name'][$i])) {
-                return $this->errorResponse('language_id, description and category_name is required!', 401);
+            if (!isset($parms['language_id'][$i]) || !isset($parms['description'][$i]) || !isset($parms['category_name'][$i]) || !isset($parms['price'])) {
+                return $this->errorResponse('language_id, description, price and category_name is required!', 401);
             }
         }
         return 1;

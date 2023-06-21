@@ -77,6 +77,8 @@
                     if (data.status == 'Success') {
                         const templ = document.getElementById("product-card-template");
 
+                        console.log('PRODUK:', data.data);
+
                         for (i = 0; i < data.data.length; i++) {
                             const clone = templ.content.cloneNode(true);
                             // clone.querySelector(".single-text-chat-li").classList.add("bg-blue-100");
@@ -213,7 +215,7 @@
                                 clone.querySelector(".product-card-link").setAttribute('data-field', i);
                                 clone.querySelector(".product-card-link").setAttribute('data-type', data.data[i]
                                     .product_type);
-                                clone.querySelector(".product-card-link").innerHTML = 'Add To Cart';
+                                clone.querySelector(".product-card-link").innerHTML = 'Tambah ke Keranjang';
 
                                 clone.querySelector(".add-to-card-bag").setAttribute('onclick', "addToCart(this)");
                                 clone.querySelector(".add-to-card-bag").setAttribute('data-id', data.data[i].product_id);
@@ -236,7 +238,7 @@
                             $("." + appendTo).append(clone);
                             
                             if (appendTo == 'new-arrival' || appendTo == 'weekly-sale') {
-                                $(".div-class").addClass('col-12 col-sm-6 col-lg-3');
+                                $(".div-class").addClass('col-12 col-sm-6 col-lg-2');
                             }
                         }
 
@@ -304,7 +306,7 @@
                                 .product_type+' onclick="addCompare(this)" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="Add to Compare"><i class="fas fa-align-right"></i>Add to Compare</button></div></div></div>';
                             htmlToRender +='<picture><div class="product-hover">';
                             if (data.data[0].product_type == 'simple') {
-                                htmlToRender +='<button type="button" data-id="'+data.data[0].product_id+'" data-field="'+0+'" data-type="'+data.data[0].product_type+'" onclick="addToCart(this)" class="btn btn-block btn-secondary cart swipe-to-top" >Add to Cart</button>';
+                                htmlToRender +='<button type="button" data-id="'+data.data[0].product_id+'" data-field="'+0+'" data-type="'+data.data[0].product_type+'" onclick="addToCart(this)" class="btn btn-block btn-secondary cart swipe-to-top" >Tambah ke Keranjang</button>';
 
                             } else {
                                 

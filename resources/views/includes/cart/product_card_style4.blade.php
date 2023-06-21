@@ -43,7 +43,7 @@
  
 
       <div class="mobile-buttons d-lg-none d-xl-none">
-              {{-- <a href="javascript:void(0)" class="btn btn-secondary  product-card-link">Add to Cart</a> --}}
+              {{-- <a href="javascript:void(0)" class="btn btn-secondary  product-card-link">Tambah ke Keranjang</a> --}}
               <a href="javascript:void(0)" class="btn btn-primary  product-card-link">View Detail</a>
 
         </div>

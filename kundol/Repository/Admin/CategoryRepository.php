@@ -8,6 +8,7 @@ use App\Models\Admin\Category;
 use App\Models\Admin\Language;
 use App\Models\Admin\Product;
 use App\Services\Admin\CategoryDetailService;
+use App\Services\Admin\CategoryPriceService;
 use App\Traits\ApiResponser;
 use DB;
 use Illuminate\Support\Collection;
@@ -24,6 +25,9 @@ class CategoryRepository implements CategoryInterface
             if (isset($_GET['getGallary']) && $_GET['getGallary'] == '1') {
                 $category = $category->with('gallary')->with('icon');
             }
+
+            $category = $category->with('lastPrice');
+
             if (isset($_GET['limit']) && is_numeric($_GET['limit']) && $_GET['limit'] > 0) {
                 $numOfResult = $_GET['limit'];
             } else {
@@ -41,29 +45,35 @@ class CategoryRepository implements CategoryInterface
                 } else {
                     $languageId = Language::defaultLanguage()->value('id');
                 }
+
                 $category = $category->getCategoryByLanguageId($languageId);
             }
 
             $sortBy = ['id'];
             $sortType = ['ASC', 'DESC', 'asc', 'desc'];
+
             if (isset($_GET['sortBy']) && $_GET['sortBy'] != '' && isset($_GET['sortType']) && $_GET['sortType'] != '' && in_array($_GET['sortBy'], $sortBy) && in_array($_GET['sortType'], $sortType)) {
                 $category = $category->orderBy($_GET['sortBy'], $_GET['sortType']);
             }
-            $sortBy = ['category_name'];
-            if (isset($_GET['getDetail']) && $_GET['getDetail'] == '1') {
 
+            $sortBy = ['category_name'];
+
+            if (isset($_GET['getDetail']) && $_GET['getDetail'] == '1') {
                 $languageId = Language::defaultLanguage()->value('id');
                 if (isset($_GET['language_id']) && $_GET['language_id'] != '') {
                     $language = Language::languageId($_GET['language_id'])->firstOrFail();
                     $languageId = $language->id;
                 }
+
                 $categorySortType = $categorySortBy = '';
                 if (isset($_GET['sortBy']) && $_GET['sortBy'] != '' && isset($_GET['sortType']) && $_GET['sortType'] != '' && in_array($_GET['sortBy'], $sortBy) && in_array($_GET['sortType'], $sortType)) {
                     $categorySortType = $_GET['sortType'];
                     $categorySortBy = $_GET['sortBy'];
                 }
+
                 if ($categorySortType && $categorySortBy)
                     $category = $category->getCategoryDetailByLanguageId($languageId, $categorySortBy, $categorySortType);
+
                 $category = $category->getCategoryByLanguageId($languageId);
 
                 $category = $category->getCategoryParentByLanguageId($languageId);
@@ -105,15 +115,22 @@ class CategoryRepository implements CategoryInterface
     public function store(array $parms)
     {
         DB::beginTransaction();
+
         try {
             $parms['created_by'] = \Auth::id();
-
             $sql = Category::create($parms);
         } catch (Exception $e) {
             DB::rollback();
             return $this->errorResponse();
         }
+
+        // save price to product_category_prices
         if ($sql) {
+            $categoryPriceService = new CategoryPriceService;
+            $savePrice = $categoryPriceService->store($parms, $sql->id);
+        }
+
+        if ($savePrice) {
             $categoryDetailService = new CategoryDetailService;
             $result = $categoryDetailService->store($parms, $sql->id);
         }
@@ -139,6 +156,11 @@ class CategoryRepository implements CategoryInterface
         }
 
         if ($category) {
+            $categoryPriceService = new CategoryPriceService;
+            $savePrice = $categoryPriceService->store($parms, $category->id);
+        }
+
+        if ($savePrice) {
             $categoryDetailService = new CategoryDetailService;
             $sql = $categoryDetailService->update($parms, $category->id);
         }
