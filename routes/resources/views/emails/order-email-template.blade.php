@@ -1,1 +1,0 @@
-{!! $order_email_template_with_data !!}

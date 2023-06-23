@@ -209,6 +209,10 @@ class Product extends Model
         return $this->hasOne(ConsolidationStock::class);
     }
 
+    public function warehouseStock() {
+        return $this->hasOne(WarehouseStock::class);
+    }
+
     public function priceHistory() {
         return $this->hasMany(ProductPrice::class)->orderBy('id', 'desc');
     }

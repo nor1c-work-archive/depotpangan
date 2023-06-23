@@ -1,1 +1,0 @@
-{!! $contact_us_template_with_data !!}

@@ -176,7 +176,7 @@
                                 // variableWidth: true,
                                 //rtl:true,
                                 speed: 300,
-                                slidesToShow: item || 6,
+                                slidesToShow: item || (className === 'category-slider-show' ? 8 : 6),
                                 slidesToScroll: item || 1,
                                 adaptiveHeight: true,
                                 responsive: [{

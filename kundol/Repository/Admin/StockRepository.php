@@ -28,12 +28,18 @@ class StockRepository implements StockInterface
                 $language = Language::languageId($_GET['language_id'])->firstOrFail();
                 $languageId = $language->id;
             }
+
             if (isset($_GET['getProduct']) && $_GET['getProduct'] == '1') {
                 $stock = $stock->with('product.detail');
                 $stock = $stock->with('product.detail', function ($querys) use ($languageId) {
                     $querys->where('language_id', $languageId);
                 });
-                // return $stock->toSql();
+            }
+
+            // jika user adalah mitra maka filter stock berdasar gudang mereka
+            if (\Auth::user()->role->id != 1 && \Auth::user()->role->id != 2) {
+                $user = \Auth::user();
+                $stock = $stock->whereIn('warehouse_id', $user->warehouses->pluck('id'));
             }
 
             if (isset($_GET['limit']) && is_numeric($_GET['limit']) && $_GET['limit'] > 0) {

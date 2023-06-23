@@ -39,6 +39,10 @@ class ProductRepository implements ProductInterface
             }
 
             $product = $product->with('consolidationStock');
+            
+            if (\Auth::user() && \Auth::user()->role->id != 1 && \Auth::user()->role->id != 2) {
+                $product = $product->with('warehouseStock');
+            }
 
             if (isset($_GET['getAllData']) && $_GET['getAllData'] == '1') {
                 $product = $product->getProductDetailByLanguageId($languageId);

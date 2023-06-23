@@ -101,6 +101,7 @@ class Product extends JsonResource
                 'product_rating' => $this->avg_rating,
                 'stock' => $this->stock,
                 'consolidation_stock' => $this->consolidationStock,
+                'warehouse_stock' => $this->warehouseStock,
                 'price' => $this->price,
                 'previous_price' => $this->previousPrice,
                 'category' => ProductCategoryResource::collection($this->whenLoaded('category')),
@@ -156,6 +157,7 @@ class Product extends JsonResource
                 'product_rating' => $this->avg_rating,
                 'stock' => $this->stock,
                 'consolidation_stock' => $this->consolidationStock,
+                'warehouse_stock' => $this->warehouseStock,
                 'price' => $this->price,
                 'previous_price' => $this->previousPrice,
                 'category' => ProductCategoryResource::collection($this->whenLoaded('category')),
@@ -210,6 +212,7 @@ class Product extends JsonResource
             'comments' => CommentResource::collection($this->comment),
             'stock' => $this->stock,
             'consolidation_stock' => $this->consolidationStock,
+            'warehouse_stock' => $this->warehouseStock,
             'price' => $this->price,
             'previous_price' => $this->previousPrice,
         ];

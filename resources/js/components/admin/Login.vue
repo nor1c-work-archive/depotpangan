@@ -120,6 +120,7 @@ import ErrorHandling from './../../ErrorHandling'
 						localStorage.setItem('loggedIn', 1);
 						localStorage.setItem('email',res.data.user.email);
 						localStorage.setItem('user_id',res.data.user.id);
+						localStorage.setItem('role_id', res.data.user.role_id);
 
 						localStorage.setItem('name',res.data.user.name);
 						localStorage.setItem('permissions',res.data.user_permisions);

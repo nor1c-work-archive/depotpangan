@@ -282,6 +282,7 @@
                                 </th>
                                 
                                 <th
+                                  v-if="roleId == 1 || roleId == 2"
                                   class="sorting"
                                   tabindex="0"
                                   rowspan="1"
@@ -303,6 +304,31 @@
                                   "
                                 >
                                   Stok Konsolidasi
+                                </th>
+                                
+                                <th
+                                  v-if="roleId != 1 && roleId != 2"
+                                  class="sorting"
+                                  tabindex="0"
+                                  rowspan="1"
+                                  colspan="1"
+                                  aria-sort="ascending"
+                                  aria-label="ID: activate to sort column descending"
+                                  style="width: 31.25px"
+                                  @click="sorting('stock')"
+                                  :class="
+                                    (this.$data.sortType == 'asc' ||
+                                      this.$data.sortType == 'ASC') &&
+                                    this.$data.sortBy == 'stock'
+                                      ? 'sorting_asc'
+                                      : (this.$data.sortType == 'desc' ||
+                                          this.$data.sortType == 'DESC') &&
+                                        this.$data.sortBy == 'stock'
+                                      ? 'sorting_desc'
+                                      : 'sorting'
+                                  "
+                                >
+                                  Stok Gudang
                                 </th>
 
                                 <th
@@ -420,8 +446,11 @@
                                 <td>
                                   {{ product.product_discount_price }}
                                 </td>
-                                <td>
+                                <td v-if="roleId == 1 || roleId == 2">
                                   {{ product.consolidation_stock ? product.consolidation_stock.current_stock : 0 }}
+                                </td>
+                                <td v-if="roleId != 1 && roleId != 2">
+                                  {{ product.warehouse_stock ? product.warehouse_stock.current_stock : 0 }}
                                 </td>
                                 <td>
                                   <span class="svg-icon nav-icon">
@@ -640,6 +669,7 @@ import ErrorHandling from "./../../ErrorHandling";
 export default {
   data() {
     return {
+      roleId: 0,
       display_form: 0,
       products: [],
       searchParameter: "",
@@ -758,6 +788,7 @@ export default {
   },
   mounted() {
     var token = localStorage.getItem("token");
+    this.roleId = localStorage.getItem('role_id');
     this.token = {
       headers: {
         Authorization: `Bearer ${token}`,
