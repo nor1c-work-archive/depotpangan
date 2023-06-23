@@ -155,12 +155,13 @@ class CategoryRepository implements CategoryInterface
             return $this->errorResponse();
         }
 
-        if ($category) {
-            $categoryPriceService = new CategoryPriceService;
-            $savePrice = $categoryPriceService->store($parms, $category->id);
-        }
+        // // save price history of the product category
+        // if ($category) {
+        //     $categoryPriceService = new CategoryPriceService;
+        //     $savePrice = $categoryPriceService->store($parms, $category->id);
+        // }
 
-        if ($savePrice) {
+        if ($category) {
             $categoryDetailService = new CategoryDetailService;
             $sql = $categoryDetailService->update($parms, $category->id);
         }

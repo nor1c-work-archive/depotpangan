@@ -28,8 +28,9 @@
             </div>
 
             <div class="pro-infos">
-              <div class="pro-single-info"><b>Product ID :</b><span class="product-detail-section-product-id"></span></div>
-              <div class="pro-single-info"><b>Categroy :</b><a href="javascript:void(0)" class="product-detail-section-cateogory-link"></a></div>
+              <div class="pro-single-info"><b>Product ID: </b><span class="product-detail-section-product-id"></span></div>
+              <div class="pro-single-info"><b>Stock: </b><span class="product-detail-section-stock"></span></div>
+              <div class="pro-single-info"><b>Categroy: </b><a href="javascript:void(0)" class="product-detail-section-cateogory-link"></a></div>
               <input type="hidden" id="product_combination_id" />
             </div>
 

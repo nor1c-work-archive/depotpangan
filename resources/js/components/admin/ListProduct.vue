@@ -280,6 +280,54 @@
                                 >
                                   Discount Price
                                 </th>
+                                
+                                <th
+                                  class="sorting"
+                                  tabindex="0"
+                                  rowspan="1"
+                                  colspan="1"
+                                  aria-sort="ascending"
+                                  aria-label="ID: activate to sort column descending"
+                                  style="width: 31.25px"
+                                  @click="sorting('stock')"
+                                  :class="
+                                    (this.$data.sortType == 'asc' ||
+                                      this.$data.sortType == 'ASC') &&
+                                    this.$data.sortBy == 'stock'
+                                      ? 'sorting_asc'
+                                      : (this.$data.sortType == 'desc' ||
+                                          this.$data.sortType == 'DESC') &&
+                                        this.$data.sortBy == 'stock'
+                                      ? 'sorting_desc'
+                                      : 'sorting'
+                                  "
+                                >
+                                  Stok Konsolidasi
+                                </th>
+
+                                <th
+                                  class="sorting"
+                                  tabindex="0"
+                                  rowspan="1"
+                                  colspan="1"
+                                  aria-sort="ascending"
+                                  aria-label="ID: activate to sort column descending"
+                                  style="width: 31.25px"
+                                  @click="sorting('is_b2b')"
+                                  :class="
+                                    (this.$data.sortType == 'asc' ||
+                                      this.$data.sortType == 'ASC') &&
+                                    this.$data.sortBy == 'is_b2b'
+                                      ? 'sorting_asc'
+                                      : (this.$data.sortType == 'desc' ||
+                                          this.$data.sortType == 'DESC') &&
+                                        this.$data.sortBy == 'is_b2b'
+                                      ? 'sorting_desc'
+                                      : 'sorting'
+                                  "
+                                >
+                                  Is B2B
+                                </th>
                                 <th
                                   class="sorting"
                                   tabindex="0"
@@ -372,7 +420,15 @@
                                 <td>
                                   {{ product.product_discount_price }}
                                 </td>
-                                
+                                <td>
+                                  {{ product.consolidation_stock ? product.consolidation_stock.current_stock : 0 }}
+                                </td>
+                                <td>
+                                  <span class="svg-icon nav-icon">
+                                    <i v-if="product.is_b2c" class="fas fa-circle-xmark font-size-h4" style="color:red"></i>
+                                    <i v-else class="fas fa-circle-check font-size-h4" style="color:green"></i>
+                                  </span>
+                                </td>
                                 <td>
                                   {{ product.product_status }}
                                 </td>

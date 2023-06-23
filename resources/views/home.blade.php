@@ -83,39 +83,27 @@
                             const clone = templ.content.cloneNode(true);
                             // clone.querySelector(".single-text-chat-li").classList.add("bg-blue-100");
                             
-                            clone.querySelector(".wishlist-icon").setAttribute('data-id', data.data[i]
-                                .product_id);
+                            clone.querySelector(".wishlist-icon").setAttribute('data-id', data.data[i].product_id);
                             clone.querySelector(".wishlist-icon").setAttribute('onclick', 'addWishlist(this)');
                             
-                            clone.querySelector(".wishlist-icon").setAttribute('data-type', data.data[i]
-                                .product_type);
+                            clone.querySelector(".wishlist-icon").setAttribute('data-type', data.data[i].product_type);
 
-                            clone.querySelector(".wishlist-icon-2").setAttribute('data-id', data.data[i]
-                                .product_id);
+                            clone.querySelector(".wishlist-icon-2").setAttribute('data-id', data.data[i].product_id);
                             clone.querySelector(".wishlist-icon-2").setAttribute('onclick', 'addWishlist(this)');
                             
-                            clone.querySelector(".wishlist-icon-2").setAttribute('data-type', data.data[i]
-                                .product_type);
+                            clone.querySelector(".wishlist-icon-2").setAttribute('data-type', data.data[i].product_type);
                                 
-                            clone.querySelector(".compare-icon").setAttribute('data-id', data.data[i]
-                                .product_id);
-                            clone.querySelector(".compare-icon").setAttribute('data-type', data.data[i]
-                                .product_type);
+                            clone.querySelector(".compare-icon").setAttribute('data-id', data.data[i].product_id);
+                            clone.querySelector(".compare-icon").setAttribute('data-type', data.data[i].product_type);
                             clone.querySelector(".compare-icon").setAttribute('onclick', 'addCompare(this)');
-                            clone.querySelector(".quick-view-icon").setAttribute('data-id', data.data[i]
-                                .product_id);
-                            clone.querySelector(".quick-view-icon").setAttribute('data-type', data.data[i]
-                                .product_type);
-                            clone.querySelector(".quick-view-icon").setAttribute('onclick',
-                                'quiclViewData(this)');
-
+                            clone.querySelector(".quick-view-icon").setAttribute('data-id', data.data[i].product_id);
+                            clone.querySelector(".quick-view-icon").setAttribute('data-type', data.data[i].product_type);
+                            clone.querySelector(".quick-view-icon").setAttribute('onclick', 'quiclViewData(this)');
 
                             clone.querySelector(".quantity-right-plus").setAttribute('data-field', i);
                             clone.querySelector(".quantity-left-minus").setAttribute('data-field', i);
                             clone.querySelector(".qty-input").setAttribute('id', 'quantity'+i);
                             clone.querySelector(".item-quantity").classList.add('itemqty'+i);
-
-                            
 
                             var bages = '';
                             if(data.data[i].discount_percentage > 0)
@@ -190,19 +178,14 @@
                             }
 
                             if (data.data[i].product_type == 'simple') {
-                                if (data.data[i].product_discount_price == '' || data.data[i]
-                                    .product_discount_price == null || data.data[i].product_discount_price ==
-                                    'null') {
-                                    clone.querySelector(".product-card-price").innerHTML = data.data[i]
-                                        .product_price_symbol;
+                                if (data.data[i].product_discount_price == '' || data.data[i].product_discount_price == null || data.data[i].product_discount_price == 'null') {
+                                    clone.querySelector(".product-card-price").innerHTML = (data.data[i].previous_price ? (data.data[i].price > data.data[i].previous_price.price ? '<i class="fas fa-circle-arrow-up" style="color:red;font-size:16px;"></i>&nbsp;' : '<i class="fas fa-circle-arrow-down" style="color:green;font-size:16px;"></i>&nbsp;') : '') + data.data[i].product_price_symbol;
                                 } else {
-                                    clone.querySelector(".product-card-price").innerHTML =
-                                    data.data[i]
-                                        .product_discount_price_symbol + '<span>' +data.data[i].product_price_symbol + '</span>';
+                                    clone.querySelector(".product-card-price").innerHTML = (data.data[i].previous_price ? (data.data[i].price > data.data[i].previous_price.price ? '<i class="fas fa-circle-arrow-up" style="color:red;font-size:16px;"></i>&nbsp;' : '<i class="fas fa-circle-arrow-down" style="color:green;font-size:16px;"></i>&nbsp;') : '') + data.data[i].product_discount_price_symbol + '<span>' +data.data[i].product_price_symbol + '</span>';
                                 }
                             } else {
-                                console.log(data.data[i].product_variable_price_symbol,"variable price");
-                                    clone.querySelector(".product-card-price").innerHTML = data.data[i].product_variable_price_symbol;
+                                // console.log(data.data[i].product_variable_price_symbol,"variable price");
+                                clone.querySelector(".product-card-price").innerHTML = (data.data[i].previous_price ? (data.data[i].price > data.data[i].previous_price.price ? '<i class="fas fa-circle-arrow-up" style="color:red;font-size:16px;"></i>&nbsp;' : '<i class="fas fa-circle-arrow-down" style="color:green;font-size:16px;"></i>&nbsp;') : '') + data.data[i].product_variable_price_symbol;
                             }
 
 

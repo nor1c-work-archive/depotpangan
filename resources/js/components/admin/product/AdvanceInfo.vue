@@ -87,6 +87,51 @@
                 v-text="errors.get('product_status')"
               ></small>
             </div>
+
+            <div class="col-md-6">
+              <label>&nbsp;</label>
+              <div
+                class="
+                  switch-h
+                  d-flex
+                  justify-content-between
+                  align-items-center
+                  border
+                  p-2
+                  mb-3
+                "
+              >
+                <h4 class="font-size-h4 text-dark mb-0">Is B2C</h4>
+                <div
+                  class="
+                    custom-control
+                    switch
+                    custom-switch-info custom-switch custom-control-inline
+                    mr-0
+                  "
+                >
+                  <input
+                    type="checkbox"
+                    class="custom-control-input"
+                    id="customSwitchcolor666"
+                    :value="is_b2c"
+                    v-model="is_b2c"
+                    v-on:input="setIsB2c($event.target.value)"
+                  />
+                  <label
+                    class="custom-control-label mr-1"
+                    for="customSwitchcolor666"
+                  >
+                  </label>
+                </div>
+              </div>
+              <small
+                class="form-text text-danger"
+                v-if="errors.has('is_b2c')"
+                v-text="errors.get('is_b2c')"
+              ></small>
+            </div>
+            
             <div class="col-md-6">
               <label>&nbsp;</label>
               <div
@@ -130,6 +175,7 @@
                 v-text="errors.get('is_points')"
               ></small>
             </div>
+            
             <div class="col-md-6">
               <label>&nbsp;</label>
               <div
@@ -582,6 +628,7 @@ export default {
       product_status: true,
       is_featured: true,
       is_points: true,
+      is_b2c: false,
       product_unit: "",
       product_weight: "",
       brand_id: "",
@@ -706,7 +753,9 @@ export default {
     setIsPoints(value) {
       this.$emit("setIsPointsInChild", value);
     },
-
+    setIsB2c(value) {
+      this.$emit("setIsB2cInChild", value);
+    },
     setAttributes(value) {
       this.$emit("setAttributesInChild", value);
     },
@@ -1029,10 +1078,9 @@ export default {
       this.sku = newVal.sku;
 
       this.product_status = newVal.product_status == "inactive" ? 0 : 1;
-      this.is_featured =
-        newVal.is_featured == true || newVal.is_featured == "true" ? 1 : 0;
-      this.is_points =
-        newVal.is_points == true || newVal.is_points == "true" ? 1 : 0;
+      this.is_featured = newVal.is_featured == true || newVal.is_featured == "true" ? 1 : 0;
+      this.is_points = newVal.is_points == true || newVal.is_points == "true" ? 1 : 0;
+      this.is_b2c = newVal.is_b2c == true || newVal.is_b2c == "true" ? 1 : 0;
       this.product_unit = newVal.product_unit;
       this.brand_id = newVal.brand_id;
       this.price = parseFloat(newVal.price);

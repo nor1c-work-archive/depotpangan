@@ -8,7 +8,7 @@ use App\Models\Admin\UserWarehouse;
 use App\Models\Admin\Warehouse;
 use App\Traits\ApiResponser;
 use App\Services\Admin\DeleteValidatorService;
-
+use Exception;
 
 class WarehouseRepository implements WarehouseInterface
 {
@@ -23,13 +23,16 @@ class WarehouseRepository implements WarehouseInterface
                 $numOfResult = 100;
             }
             $warehouse = new Warehouse;
-            if(\Auth::user()->role->id != 1 ){
-                $userWareHouses = UserWarehouse::where('user_id',\Auth::id())->pluck('warehouse_id');
+            
+            if(\Auth::user()->role->id != 1 || \Auth::user()->role()->id != 2) {
+                $userWareHouses = UserWarehouse::where('user_id', \Auth::id())->pluck('warehouse_id');
                 $warehouse = $warehouse->whereIn('id',$userWareHouses);
             }
+
             if (isset($_GET['getAllData']) && $_GET['getAllData'] == '1') {
                 return $this->successResponse(WarehouseResource::collection($warehouse->get()), 'WareHouse Data Get Successfully!');
             }
+
             if (isset($_GET['searchParameter']) && $_GET['searchParameter'] != '') {
                 $warehouse = $warehouse->searchParameter($_GET['searchParameter']);
             }
@@ -67,6 +70,20 @@ class WarehouseRepository implements WarehouseInterface
         }
 
         if ($sql) {
+            try {
+                $data = [
+                    'user_id' => \Auth::id(),
+                    'warehouse_id' => $sql->id
+                ];
+    
+                $userWarehouse = new UserWarehouse;
+                $userWarehouse = $userWarehouse->create($data);
+            } catch (Exception $e) {
+                return $this->errorResponse();
+            }
+        }
+
+        if ($userWarehouse) {
             return $this->successResponse(new WarehouseResource($sql), 'Warehouse Save Successfully!');
         } else {
             return $this->errorResponse();

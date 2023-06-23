@@ -109,8 +109,8 @@
                         clone.querySelector(".compare-icon").setAttribute('data-id', data.data.product_id);
                         clone.querySelector(".compare-icon").setAttribute('data-type', data.data.product_type);
                         clone.querySelector(".compare-icon").setAttribute('onclick', 'addCompare(this)');
-                        clone.querySelector(".product-detail-section-product-id").innerHTML = data.data
-                            .product_id;
+                        clone.querySelector(".product-detail-section-product-id").innerHTML = data.data.product_id;
+                        clone.querySelector(".product-detail-section-stock").innerHTML = data.data.consolidation_stock ? data.data.consolidation_stock.current_stock : 0;
 
                         clone.querySelector(".add-to-cart").setAttribute('onclick', 'addToCart(this)');
                         clone.querySelector(".add-to-cart").setAttribute('data-id', data.data.product_id);

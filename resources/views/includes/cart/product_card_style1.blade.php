@@ -40,13 +40,16 @@
                 </div>
 
                 <div class="content  content-relative">
-                    <span class="tag product-card-category">
-
-                    </span>
-                    <h5 class="title text-center"><a href="javascript:void(0)" class="product-card-name"></a></h5>
+                    <span class="tag product-card-category"></span>
+                    
+                    <h5 class="title text-center">
+                        <a href="javascript:void(0)" class="product-card-name"></a>
+                    </h5>
+                    
                     <p class="para product-card-desc"></p>
-                    <div class="price product-card-price">
-                    </div>
+                    
+                    <div class="price product-card-price"></div>
+
                     <div class=" btn-hover new-design">
                         <a class="btn  btn-secondary  swipe-to-top product-card-link" href="javascript:void(0)"
                             data-toggle="tooltip" data-placement="bottom" title=""

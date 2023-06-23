@@ -15,7 +15,7 @@ class Warehouse extends Model
      * @var array
      */
     protected $fillable = [
-        'code','country_id','state_id','name', 'address', 'phone', 'email', 'status', 'created_by', 'updated_by',
+        'code','country_id','state_id','name', 'address', 'phone', 'email', 'status', 'created_by', 'updated_by', 'user_id'
     ];
 
     public function scopeSearchParameter($query, $parameter)

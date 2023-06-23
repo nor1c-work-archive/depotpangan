@@ -62,9 +62,9 @@
                                                             <th class="sorting" tabindex="0"  rowspan="1" colspan="1" aria-label="category: activate to sort column ascending"  @click="sorting('category_name')" :class="(this.$data.sortType == 'asc' || this.$data.sortType == 'ASC') && this.$data.sortBy == 'category_name'  ? 'sorting_asc' : (this.$data.sortType == 'desc' || this.$data.sortType == 'DESC') && this.$data.sortBy == 'category_name' ? 'sorting_desc' : 'sorting'">
                                                                 Nama
                                                             </th>
-                                                            <th class="sorting" rowspan="1" colspan="1">
+                                                            <!-- <th class="sorting" rowspan="1" colspan="1">
                                                                 Harga
-                                                            </th>
+                                                            </th> -->
                                                             <th class="no-sort sorting_disabled" rowspan="1" colspan="1">
                                                                 Deskripsi
                                                             </th>
@@ -84,9 +84,9 @@
                                                             <td>
                                                                 {{ category.detail[0] ? category.detail[0].name : '' }}
                                                             </td>
-                                                            <td>
+                                                            <!-- <td>
                                                                 {{ category.last_price ? currencyFormat(category.last_price.price) : 0 }}
-                                                            </td>
+                                                            </td> -->
                                                             <td>
                                                                 {{ category.detail[0] ? category.detail[0].description : '' }}
                                                             </td>
@@ -176,7 +176,7 @@
                     </div>
 
                     <!-- Atur Harga -->
-                    <div class="form-group">
+                    <!-- <div class="form-group">
                         <label class="text-dark">Harga</label>
                         <input
                             type="number"
@@ -186,7 +186,7 @@
                             v-model="category.price"
                         />
                         <small class="form-text text-danger" v-if="errors.has('price')" v-text="errors.get('price')"></small>
-                    </div>
+                    </div> -->
 
                     <!-- Pilih Gambar -->
                     <div class="form-group">
@@ -232,7 +232,7 @@ export default {
                 id: "",
                 name:[],
                 category_slug:"",
-                price: 0,
+                // price: 0,
                 desc:[],
                 parent:"",
                 gallary_id:"",
@@ -385,7 +385,7 @@ export default {
                 category_name:this.category.name,
                 description:this.category.desc,
                 category_slug:this.category.category_slug,
-                price:this.category.price,
+                // price:this.category.price,
                 parent_id:this.category.parent,
                 gallary_id:this.category.gallary_id,
                 category_icon:this.category.icon,
@@ -449,7 +449,7 @@ export default {
                         this.category,
                         {
                             category_slug: res.data.data.slug,
-                            price: res.data.data.last_price ? res.data.data.last_price.price : 0
+                            // price: res.data.data.last_price ? res.data.data.last_price.price : 0
                         }
                     )
                 }
@@ -463,7 +463,7 @@ export default {
             this.display_form = 0;
             this.edit = false;
             this.category.category_slug = "";
-            this.category.price = 0;
+            // this.category.price = 0;
             this.category.parent = "";
             this.category.desc = [];
             this.category.id = null;

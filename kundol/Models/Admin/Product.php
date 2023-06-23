@@ -17,7 +17,7 @@ class Product extends Model
      * @var array
      */
     protected $fillable = [
-        'product_type', 'product_slug', 'video_url', 'gallary_id', 'price', 'discount_price', 'product_unit', 'product_weight', 'product_status', 'brand_id', 'tax_id', 'product_view', 'is_featured', 'product_min_order', 'product_max_order', 'seo_meta_tag', 'seo_desc', 'user_id', 'digital_file', 'created_by', 'updated_by', 'is_points','sku'
+        'product_type', 'product_slug', 'video_url', 'gallary_id', 'price', 'discount_price', 'product_unit', 'product_weight', 'product_status', 'brand_id', 'tax_id', 'product_view', 'is_featured', 'product_min_order', 'product_max_order', 'seo_meta_tag', 'seo_desc', 'user_id', 'digital_file', 'created_by', 'updated_by', 'is_points','sku', 'is_b2c'
     ];
 
     public function scopeProductId($query, $id)
@@ -196,7 +196,24 @@ class Product extends Model
 
     public function stock()
     {
-        $warehouse_id = Setting::type('pos', 'default_warehouse')->value('value');
-        return $this->hasOne(AvailableQty::class, 'product_id', 'id')->where('warehouse_id', $warehouse_id);
+        // $warehouse_id = Setting::type('pos', 'default_warehouse')->value('value');
+        return $this->hasOne(AvailableQty::class, 'product_id', 'id');
+        // ->where('warehouse_id', $warehouse_id);
+    }
+
+    public function inventory() {
+        return $this->hasMany(Inventory::class);
+    }
+
+    public function consolidationStock() {
+        return $this->hasOne(ConsolidationStock::class);
+    }
+
+    public function priceHistory() {
+        return $this->hasMany(ProductPrice::class)->orderBy('id', 'desc');
+    }
+
+    public function previousPrice() {
+        return $this->hasOne(ProductPrice::class)->latest();
     }
 }

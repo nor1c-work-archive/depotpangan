@@ -12,6 +12,7 @@ use App\Models\Admin\ProductReview;
 use App\Services\Admin\AccountService;
 use App\Services\Admin\DeleteValidatorService;
 use App\Services\Admin\PointService;
+use App\Services\Admin\ProductPriceService;
 use App\Services\Admin\ProductService;
 use App\Traits\ApiResponser;
 use Illuminate\Support\Collection;
@@ -37,6 +38,8 @@ class ProductRepository implements ProductInterface
                 $languageId = $language->id;
             }
 
+            $product = $product->with('consolidationStock');
+
             if (isset($_GET['getAllData']) && $_GET['getAllData'] == '1') {
                 $product = $product->getProductDetailByLanguageId($languageId);
                 return $this->successResponse(ProductResource::collection($product->select('id')->get()), 'Data Get Successfully!');
@@ -50,6 +53,10 @@ class ProductRepository implements ProductInterface
                 $product = $product->getCategoryDetailByLanguageId($languageId);
             }
 
+            // if (\Auth::user()->role->id == 3) {
+            //     $product = $product->where('is_b2c', 0);
+            // }
+
             if (isset($_GET['productType']) && $_GET['productType'] != '') {
                 $productType = explode(',', $_GET['productType']);
                 $product = $product->whereIn('product_type', $productType);
@@ -59,6 +66,8 @@ class ProductRepository implements ProductInterface
                 $brandId = explode(',', $_GET['brandId']);
                 $product = $product->whereIn('brand_id', $brandId);
             }
+
+            $product = $product->with('previousPrice');
 
             if (isset($_GET['stock']) && $_GET['stock'] == '1') {
                 $product = $product->with('stock');
@@ -309,8 +318,10 @@ class ProductRepository implements ProductInterface
 
     public function update(array $parms, $product)
     {
-        // return $parms['gallary_detail_id'];
-        
+        $product_id = $product->id;
+        $previous_product_price = Product::find($product_id)->price;
+        $is_b2b = $parms['is_b2c'] == 0;
+
         if ($parms['product_type'] == 'digital') {
             if (isset($parms['digital_file']) && $parms['digital_file'] != '') {
                 $destinationPath = public_path('/digital');
@@ -397,6 +408,12 @@ class ProductRepository implements ProductInterface
                     return $this->errorResponse();
                 }
             }
+        }
+
+        // record previous price as history
+        if ($result && $is_b2b) {
+            $productPriceService = new ProductPriceService;
+            $recordPriceHistorty = $productPriceService->store($previous_product_price, $product_id);
         }
 
         if ($result) {

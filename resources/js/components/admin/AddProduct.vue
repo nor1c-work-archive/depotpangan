@@ -60,7 +60,7 @@
                         <BasicInfo @setCategoryInChild="setCategory" @setTitleInChild="setTitle" @setDescInChild="setDesc" @setGallaryIdInChild="setGallaryId"  @setActiveInChild="setActiveFromChild" @isActiveInChild="isActiveFromChild" @setVideoUrlInChild="setVideoUrl" :errors="errors" :product="product" :edit="edit"></BasicInfo>
                         </div>
                         <div class="tab-pane fade" :class="{ 'active show': isActive('ad-info-tab') }">
-                        <AdvanceInfo @setUnitInChild="setUnit" @setProductWeightInChild="setProductWeight" @setBrandInChild="setBrand" @setProductMaxOrderInChild="setProductMaxOrder" @setProductMinOrderInChild="setProductMinOrder" @setPriceInChild="setPrice" @setDiscountPriceInChild="setDiscountPrice" @setProductTypeInChild="setProductType" @setProductStatusInChild="setProductStatus" @setIsFeaturedInChild="setIsFeatured" @setIsPointsInChild="setIsPoints" :errors="errors" @addProductInChild="addProduct"  @setActiveInChild="setActiveFromChild" @isActiveInChild="isActiveFromChild" @setAttributesInChild="setAttributes" @setVariationsInChild="setVariations" @setCombinationPriceInChild="setCombinationPrice" @setCombinationGalleryInChild="setCombinationGallery" @setCombinationSkuInChild="setCombinationSku" :product="product" :edit="edit" @setProductskuInChild="setSku" />
+                        <AdvanceInfo @setUnitInChild="setUnit" @setProductWeightInChild="setProductWeight" @setBrandInChild="setBrand" @setProductMaxOrderInChild="setProductMaxOrder" @setProductMinOrderInChild="setProductMinOrder" @setPriceInChild="setPrice" @setDiscountPriceInChild="setDiscountPrice" @setProductTypeInChild="setProductType" @setProductStatusInChild="setProductStatus" @setIsFeaturedInChild="setIsFeatured" @setIsPointsInChild="setIsPoints" @setIsB2cInChild="setIsB2c" :errors="errors" @addProductInChild="addProduct"  @setActiveInChild="setActiveFromChild" @isActiveInChild="isActiveFromChild" @setAttributesInChild="setAttributes" @setVariationsInChild="setVariations" @setCombinationPriceInChild="setCombinationPrice" @setCombinationGalleryInChild="setCombinationGallery" @setCombinationSkuInChild="setCombinationSku" :product="product" :edit="edit" @setProductskuInChild="setSku" />
                         </div>
                         <div class="tab-pane fade" :class="{ 'active show': isActive('seo-tab') }">
                         <Seo :product="product" :edit="edit" :errors="errors" @setSeoMetaTagInChild="setSeoMetaTag" @setSeoDescInChild="setSeoDesc" @setActiveInChild="setActiveFromChild" @isActiveInChild="isActiveFromChild" @addProductInChild="addProduct" />
@@ -110,6 +110,7 @@ export default {
                 'product_status':'active',
                 'is_featured':1,
                 'is_points':1,
+                'is_b2c':0,
                 'seo_meta_tag':'',
                 'seo_desc':'',
                 'attributes':[],
@@ -208,6 +209,9 @@ export default {
         setIsPoints(value){
            this.product.is_points = value == true || value == 'true' ? 0 : 1;
         },
+        setIsB2c(value){
+           this.product.is_b2c = value == true || value == 'true' ? 0 : 1;
+        },
         setAttributes(value){
            if(this.product.attributes.indexOf(value) < 0){
               this.product.attributes.push(value);
@@ -297,6 +301,7 @@ export default {
                this.product.seo_desc = res.data.data.seo_desc;
                this.product.sku = res.data.data.product_sku;
                this.product.is_points = res.data.data.is_points == '' || res.data.data.is_points == null ? 0 : 1;
+               this.product.is_b2c = res.data.data.is_b2c == '' || res.data.data.is_b2c == null ? 0 : 1;
                this.product.video_url = res.data.data.product_video_url;
                this.product.product_unit = res.data.data.product_unit == null ? '' : res.data.data.product_unit.id;
                this.product.product_weight = res.data.data.product_weight;
