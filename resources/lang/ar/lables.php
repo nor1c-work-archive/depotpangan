@@ -205,6 +205,7 @@ return [
     'login-first-name' => 'الاسم الاول',
     'login-last-name' => 'الكنية',
     'login-confirm-password' => 'تأكيد كلمة المرور',
+    'login-account-type' => 'Tipe Akun',
     'login-create-account' => '
     انشئ حساب',
     'login-access-account' => 'الوصول إلى حسابك من خلال شبكات التواصل الاجتماعي الخاصة بك',

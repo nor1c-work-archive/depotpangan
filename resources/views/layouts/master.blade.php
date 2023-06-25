@@ -166,8 +166,6 @@
                                 item = jQuery(this).data('item'),
                                 itemmobile = jQuery(this).data('itemmobile');
 
-
-
                             thisCarousel.slick({
                                 lazyLoad: 'progressive',
                                 dots: false,

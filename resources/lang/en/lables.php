@@ -224,6 +224,7 @@ return [
     'login-first-name' => 'Nama Depan',
     'login-last-name' => 'Nama Belakang',
     'login-confirm-password' => 'Konfirmasi Password',
+    'login-account-type' => 'Tipe Akun',
     'login-create-account' => 'Buat Akun',
     'login-access-account' => 'Akses Akunmu melalui Social Network',
     'login-forget-password' =>'Lupa Password',

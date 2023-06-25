@@ -7,7 +7,6 @@ use App\Http\Resources\Admin\Product as ProductResource;
 use App\Models\Admin\AvailableQty;
 use App\Models\Admin\Language;
 use App\Models\Admin\Product;
-use App\Models\Admin\ProductGallaryDetail;
 use App\Models\Admin\ProductReview;
 use App\Services\Admin\AccountService;
 use App\Services\Admin\DeleteValidatorService;
@@ -15,16 +14,15 @@ use App\Services\Admin\PointService;
 use App\Services\Admin\ProductPriceService;
 use App\Services\Admin\ProductService;
 use App\Traits\ApiResponser;
+use Auth;
 use Illuminate\Support\Collection;
 
-class ProductRepository implements ProductInterface
-{
+class ProductRepository implements ProductInterface {
     use ApiResponser;
     /**
      * @return Collection
      */
-    public function all()
-    {
+    public function all() {
         $product = Product::type();
         try {
             if (isset($_GET['limit']) && is_numeric($_GET['limit']) && $_GET['limit'] > 0) {
@@ -39,8 +37,8 @@ class ProductRepository implements ProductInterface
             }
 
             $product = $product->with('consolidationStock');
-            
-            if (\Auth::user() && \Auth::user()->role->id != 1 && \Auth::user()->role->id != 2) {
+
+            if (Auth::user() && Auth::user()->role && Auth::user()->role->id != 1 && Auth::user()->role->id != 2) {
                 $product = $product->with('warehouseStock');
             }
 
@@ -57,7 +55,7 @@ class ProductRepository implements ProductInterface
                 $product = $product->getCategoryDetailByLanguageId($languageId);
             }
 
-            // if (\Auth::user()->role->id == 3) {
+            // if (Auth::user()->role->id == 3) {
             //     $product = $product->where('is_b2c', 0);
             // }
 
@@ -69,6 +67,15 @@ class ProductRepository implements ProductInterface
             if (isset($_GET['brandId']) && $_GET['brandId'] != '') {
                 $brandId = explode(',', $_GET['brandId']);
                 $product = $product->whereIn('brand_id', $brandId);
+            }
+
+            // filter for b2b and b2c customers
+            if (Auth::check() && !Auth::user()->role && Auth::user()->account_type) {
+                if (Auth::user()->account_type == 'b2b') {
+                    $product = $product->where('is_b2c', 0);
+                } else {
+                    $product = $product->where('is_b2c', 1);
+                }
             }
 
             $product = $product->with('previousPrice');
@@ -94,8 +101,8 @@ class ProductRepository implements ProductInterface
                 $sku = $_GET['sku'];
                 $product = $product->where(function ($query) use ($sku) {
                     $query->whereHas('product_combination', function ($query1) use ($sku) {
-                        $query1->where('product_combination.sku', 'like', '%' . $sku. '%');
-                    })->orWhere('sku', 'like', '%' . $sku. '%');
+                        $query1->where('product_combination.sku', 'like', '%' . $sku . '%');
+                    })->orWhere('sku', 'like', '%' . $sku . '%');
                 });
 
                 // $product = $product->where(function ($query) use ($sku) {
@@ -166,8 +173,7 @@ class ProductRepository implements ProductInterface
         }
     }
 
-    public function show($singleProduct)
-    {
+    public function show($singleProduct) {
         $product = Product::type()->with('product_attribute.attribute.attribute_detail');
         try {
             $languageId = Language::defaultLanguage()->value('id');
@@ -229,8 +235,7 @@ class ProductRepository implements ProductInterface
         }
     }
 
-    public function store(array $parms)
-    {
+    public function store(array $parms) {
 
         if ($parms['product_type'] == 'digital') {
             if (!isset($parms['digital_file']) || $parms['digital_file'] == '') {
@@ -246,7 +251,7 @@ class ProductRepository implements ProductInterface
                 }
                 $parms['digital_file'] = $result['name'];
                 \DB::beginTransaction();
-                $parms['user_id'] = \Auth::id();
+                $parms['user_id'] = Auth::id();
                 $parms['product_slug'] = str_replace(" ", "-", $parms['title'][0]);
                 $product_slug = Product::slug($parms['product_slug'])->first();
                 // if ($product_slug) {
@@ -264,7 +269,7 @@ class ProductRepository implements ProductInterface
                     }
                 }
                 $sql = new Product;
-                $parms['created_by'] = \Auth::id();
+                $parms['created_by'] = Auth::id();
                 $sql = $sql->create($parms);
             } catch (Exception $e) {
                 \DB::rollback();
@@ -277,17 +282,17 @@ class ProductRepository implements ProductInterface
             \DB::beginTransaction();
             try {
                 $parms['digital_file'] = '';
-                $parms['user_id'] = \Auth::id();
+                $parms['user_id'] = Auth::id();
                 $parms['product_slug'] = str_replace(" ", "-", $parms['title'][0]);
                 $sql = new Product;
                 $parms['product_slug'] = $parms['sku'];
-                $parms['created_by'] = \Auth::id();
+                $parms['created_by'] = Auth::id();
 
                 $sql = $sql->create($parms);
                 if ($parms['product_type'] == 'simple') {
-                    \Log::info("i am reaching hare simple account ".$parms['title'][0].' '.$sql->id);
+                    \Log::info("i am reaching hare simple account " . $parms['title'][0] . ' ' . $sql->id);
                     $accounts = new AccountService;
-                    $accounts->createAccount('SUPPLIES', $parms['title'][0], $sql->id,'simple_product');
+                    $accounts->createAccount('SUPPLIES', $parms['title'][0], $sql->id, 'simple_product');
                 }
             } catch (Exception $e) {
                 \DB::rollback();
@@ -297,7 +302,7 @@ class ProductRepository implements ProductInterface
             $product_result = $productService->simpleProductDetailData($parms, $sql->id, 'store');
 
             if ($parms['product_type'] == 'variable' && $sql) {
-                
+
                 $variable_result = $productService->variableProductDetailData($parms, $sql->id, 'store');
                 if ($variable_result) {
                     $productService->saveProductGallaryImage($sql->id, $parms['gallary_detail_id']);
@@ -320,8 +325,7 @@ class ProductRepository implements ProductInterface
         }
     }
 
-    public function update(array $parms, $product)
-    {
+    public function update(array $parms, $product) {
         $product_id = $product->id;
         $previous_product_price = Product::find($product_id)->price;
         $is_b2b = $parms['is_b2c'] == 0;
@@ -341,7 +345,7 @@ class ProductRepository implements ProductInterface
 
             try {
                 \DB::beginTransaction();
-                $parms['user_id'] = \Auth::id();
+                $parms['user_id'] = Auth::id();
                 $parms['product_slug'] = str_replace(" ", "-", $parms['title'][0]);
                 $product_slug = Product::slug($parms['product_slug'])->NotProductId($product->id)->first();
                 // if ($product_slug) {
@@ -359,7 +363,7 @@ class ProductRepository implements ProductInterface
                     }
                 }
 
-                $parms['updated_by'] = \Auth::id();
+                $parms['updated_by'] = Auth::id();
                 $product->update($parms);
             } catch (Exception $e) {
                 \DB::rollback();
@@ -372,7 +376,7 @@ class ProductRepository implements ProductInterface
             \DB::beginTransaction();
             try {
                 $parms['digital_file'] = '';
-                $parms['user_id'] = \Auth::id();
+                $parms['user_id'] = Auth::id();
                 // $parms['product_slug'] = str_replace(" ", "-", $parms['title'][0]);
                 // $product_slug = Product::slug($parms['product_slug'])->NotProductId($product->id)->first();
                 // // if ($product_slug) {
@@ -391,7 +395,7 @@ class ProductRepository implements ProductInterface
                 //     }
                 // }
                 $parms['product_slug'] = $parms['sku'];
-                $parms['updated_by'] = \Auth::id();
+                $parms['updated_by'] = Auth::id();
                 $product->update($parms);
             } catch (Exception $e) {
                 \DB::rollback();
@@ -430,8 +434,7 @@ class ProductRepository implements ProductInterface
         }
     }
 
-    public function destroy($product)
-    {
+    public function destroy($product) {
         $deleteValidatorService = new DeleteValidatorService;
         $isExistedInOtherTable = $deleteValidatorService->deleteValidate('product_id', $product);
 
@@ -452,8 +455,7 @@ class ProductRepository implements ProductInterface
         }
     }
 
-    public function priceRange()
-    {
+    public function priceRange() {
         try {
             $sql = AvailableQty::selectRaw("min(price) AS min_price , max(price) AS max_price")->first();
             // $sql->delete();
@@ -468,8 +470,7 @@ class ProductRepository implements ProductInterface
         }
     }
 
-    public function sku($params)
-    {
+    public function sku($params) {
 
         try {
             $productSku = Product::where('product_type', 'simple')->orderBy('id', 'DESC')->limit(1)->value('sku');
