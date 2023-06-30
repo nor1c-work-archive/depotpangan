@@ -14,17 +14,17 @@ class MenuBuilderTableSeeder extends Seeder
      */
     public function run()
     {
-        //
-        
         MenuBuilder::where('id', '>', '0')->delete();
         MenuBuilder::insertOrIgnore([
-                'menu' => '[
+            'menu' => '[
                     {
                         "id": 1628672836150,
                         "link": "",
                         "name": [
                             "Home",
-                            "الصفحة الرئيسية"
+                            "Beranda",
+                            "الصفحة الرئيسية",
+                            "Home"
                         ],
                         "page": "/",
                         "type": "page",
@@ -35,7 +35,9 @@ class MenuBuilderTableSeeder extends Seeder
                         "contentpage": "",
                         "language_id": [
                             1,
-                            2
+                            2,
+                            3,
+                            4,
                         ]
                     },
                     {
@@ -43,7 +45,9 @@ class MenuBuilderTableSeeder extends Seeder
                         "link": "",
                         "name": [
                             "Shop",
-                            "محل"
+                            "Belanja",
+                            "محل",
+                            "Shop"
                         ],
                         "page": "/shop",
                         "type": "page",
@@ -54,7 +58,9 @@ class MenuBuilderTableSeeder extends Seeder
                         "contentpage": "",
                         "language_id": [
                             1,
-                            2
+                            2,
+                            3,
+                            4
                         ]
                     },
                     {
@@ -62,7 +68,9 @@ class MenuBuilderTableSeeder extends Seeder
                         "link": "",
                         "name": [
                             "Blog",
-                            "مقالات"
+                            "Blog",
+                            "مقالات",
+                            "Blog"
                         ],
                         "page": "/blog",
                         "type": "page",
@@ -73,7 +81,9 @@ class MenuBuilderTableSeeder extends Seeder
                         "contentpage": "",
                         "language_id": [
                             1,
-                            2
+                            2,
+                            3,
+                            4
                         ]
                     },
                     {
@@ -81,7 +91,9 @@ class MenuBuilderTableSeeder extends Seeder
                         "link": "",
                         "name": [
                             "Contact Us",
-                            "اتصل بنا"
+                            "Hubungi Kami",
+                            "اتصل بنا",
+                            "Contact Us"
                         ],
                         "page": "/contact-us",
                         "type": "page",
@@ -92,14 +104,12 @@ class MenuBuilderTableSeeder extends Seeder
                         "contentpage": "",
                         "language_id": [
                             1,
-                            2
+                            2,
+                            3,
+                            4
                         ]
-                    }
-                    
-            ]'
-            
+                    }     
+            ]',
         ]);
-        
-        
     }
 }

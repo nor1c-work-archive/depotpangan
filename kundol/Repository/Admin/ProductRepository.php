@@ -70,6 +70,18 @@ class ProductRepository implements ProductInterface {
             }
 
             // filter for b2b and b2c customers
+            if (
+                // Auth::user()->role->id != 1 && Auth::user()->role->id != 2 && 
+                !Auth::check() && 
+                isset($_GET['accType']
+            )) {
+                if ($_GET['accType'] == 'b2b') {
+                    $product = $product->where('is_b2c', 0);
+                } else {
+                    $product = $product->where('is_b2c', 1);
+                }
+            }
+
             if (Auth::check() && !Auth::user()->role && Auth::user()->account_type) {
                 if (Auth::user()->account_type == 'b2b') {
                     $product = $product->where('is_b2c', 0);

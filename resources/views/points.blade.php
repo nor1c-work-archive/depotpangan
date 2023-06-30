@@ -8,7 +8,7 @@
                 <div class="col-12 col-lg-3">
                     <div class="heading">
                         <h2>
-                            My Account
+                            {{ trans('lables.profile-my-account') }}
                         </h2>
                         <hr>
                     </div>

@@ -19,7 +19,7 @@
           <div class="col-12 col-lg-3  d-none d-lg-block d-xl-block"> 
               <div class="heading">
                   <h2>
-                      My Account
+                    {{ trans('lables.profile-my-account') }}
                   </h2>
                   <hr >
                 </div>
@@ -27,7 +27,7 @@
                   <li class="list-group-item">
                       <a class="nav-link" href="profile.html">
                           <i class="fas fa-user"></i>
-                        Profile          
+                          {{ trans('profile-side-menue-profile') }}
                       </a>
                   </li>
                   <li class="list-group-item">

@@ -107,7 +107,6 @@
 
         customerToken = $.trim(localStorage.getItem("customerToken"));
 
-
         languageId = localStorage.getItem("languageId");
         languageName = localStorage.getItem("languageName");
 
@@ -725,6 +724,7 @@
                         localStorage.removeItem("customerEmail", '');
                         localStorage.removeItem("customerFname", '');
                         localStorage.removeItem("customerLname", '');
+                        localStorage.removeItem("customerAccountType", '');
                         location.reload();
                         
                     }
@@ -740,6 +740,7 @@
                         localStorage.removeItem("customerEmail", '');
                         localStorage.removeItem("customerFname", '');
                         localStorage.removeItem("customerLname", '');
+                        localStorage.removeItem("customerAccountType", '');
                         location.reload();
                 },
             });

@@ -155,6 +155,7 @@ class OrderProcess implements ShouldQueue
             $this->parms['customer_id'] = $customer_id;
             $this->parms['currency_id'] = $currency->id;
             $this->parms['currency_value'] = $currency->exchange_rate;
+            dd($this->parms);
             $sql = Order::create($this->parms);
             OrderHistory::create([
                 'order_id'=>$sql->id,

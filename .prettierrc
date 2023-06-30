@@ -1,0 +1,10 @@
+{
+  "singleQuote": true,
+  "trailingComma": "all",
+  "noUnusedLocals": true,
+  "noImplicitReturns": true,
+  "endOfLine": "auto",
+  "semi": true,
+  "noTrailingWhitespace": true,
+  "noMultipleEmptyLines": true
+}

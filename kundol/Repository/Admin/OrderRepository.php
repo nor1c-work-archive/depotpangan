@@ -92,8 +92,6 @@ class OrderRepository implements OrderInterface
                 $order = $order->orderBy($_GET['sortBy'], $_GET['sortType']);
             }
 
-            dd(Auth::check());
-
             if (\Request::route()->getName() == 'order.index') {
                 $order = $order->getCustomerOrders(Auth::id());
             }

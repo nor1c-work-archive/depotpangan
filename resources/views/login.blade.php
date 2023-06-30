@@ -47,6 +47,7 @@
         localStorage.setItem("customerEmail", data.data.email);
         localStorage.setItem("customerFname", data.data.first_name);
         localStorage.setItem("customerLname", data.data.last_name);
+        localStorage.setItem("customerAccountType", data.data.account_type);
         localStorage.setItem("customerLoggedin", '1');
         localStorage.setItem("cartSession", '');
         window.location.href = "/";
@@ -174,6 +175,7 @@
           localStorage.setItem("customerEmail", data.data.email);
           localStorage.setItem("customerFname", data.data.first_name);
           localStorage.setItem("customerLname", data.data.last_name);
+          localStorage.setItem("customerAccountType", data.data.account_type);
           localStorage.setItem("cartSession", '');
           window.location.href = '/';
         }

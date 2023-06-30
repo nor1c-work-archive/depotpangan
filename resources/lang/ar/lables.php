@@ -300,7 +300,17 @@ return [
     'wishlist-add-success' => 'تمت إضافة المنتج إلى قائمة الرغبات!',
     'wishlist-remove' => 'Pتمت إضافة المنتج إلى قائمة الرغبات!',
 
-
+    // new
+    'product-detail-new-label' => 'new',
+    'product-detail-category' => 'Category',
+    'product-detail-stock' => 'Stock',
+    'product-detail-id' => 'Product ID',
+    'product-detail-review-count' => 'reviews',
+    'product-detail-add-to-cart' => 'Add to Cart',
+    'product-detail-add-to-wishlist' => 'Add to Wishlist',
+    'product-detail-add-to-compare' => 'Add to Compare',
+    'product-detail-tab-description' => 'Description',
+    'product-detail-tab-reviews' => 'Reviews',
 
 
 

@@ -84,6 +84,7 @@ class PointService
 
     public function productSharePoints($hash, $ref_id)
     {
+        dd($hash);
         if (isset($hash) && $hash != '') {
             $id = Customer::hash($hash)->value('id');
             if ($id) {

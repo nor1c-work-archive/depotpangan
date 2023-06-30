@@ -131,8 +131,9 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:user-api', 'scopes:use
         Route::get('out-of-stock', 'API\Admin\ReportController@outOfStock');
         Route::get('purchase-report', 'API\Admin\ReportController@purchaseReport');
         Route::get('expense-report', 'API\Admin\ReportController@expenseReport');
-
+        Route::get('adv-order-report', 'API\Admin\ReportController@advOrderReport');
     });
+    Route::resource('auction', 'API\Admin\AuctionController', ['names' => ['index' => 'admin.auction.index', 'store' => 'admin.auction.store', 'update' => 'admin.auction.update', 'destroy' => 'admin.auction.delete']])->except(['edit', 'create']);
 });
 
 // Route::get('paywithpaypal', array('as' => 'paywithpaypal','uses' => 'API\Web\PaypalController@payWithPaypal',));
@@ -148,6 +149,11 @@ Route::group(['prefix' => 'client'], function () {
     Route::post('/reset_password', 'API\Web\CustomerAuthController@resetPassword');
 
     Route::put('order_status_by_delivery_boy/{order}', 'API\Web\OrderController@update');
+
+    // RajaOngkir
+    Route::get('/get-rajaongkir-province', 'API\Web\RajaOngkirController@getProvince');
+    Route::get('/get-rajaongkir-cities', 'API\Web\RajaOngkirController@getCities');
+    Route::get('/get-rajaongkir-cost', 'API\Web\RajaOngkirController@getCost');
 });
 
 Route::group(['prefix' => 'client', 'middleware' => ['auth:customer-api', 'scopes:customer']], function () {
@@ -169,7 +175,6 @@ Route::group(['prefix' => 'client', 'middleware' => ['auth:customer-api', 'scope
     Route::resource('cart', 'API\Web\CartController', ['names' => ['index' => 'client.cart.index', 'store' => 'client.cart.store', 'destroy' => 'client.cart.delete']])->except(['edit', 'create', 'update']);
     Route::delete('cart/delete', 'API\Web\CartController@destroy');
     Route::resource('customer_address_book', 'API\Web\CustomerAddressBookController', ['names' => ['index' => 'admin.customer_address_book.index', 'store' => 'admin.customer_address_book.store', 'update' => 'admin.customer_address_book.update', 'destroy' => 'admin.customer_address_book.delete']])->except(['edit', 'create']);
-    Route::resource('products', 'API\Admin\ProductController')->only(['index', 'show']);
     Route::resource('customer/order', 'API\Admin\OrderController')->only(['index', 'show']);
     Route::resource('profile', 'API\Web\CustomerController')->only(['show', 'update']);
     Route::resource('coupon', 'API\Web\CouponController')->except(['edit', 'show', 'create', 'update', 'destroy']);
@@ -187,6 +192,7 @@ Route::group(['prefix' => 'client', 'middleware' => ['checkClientCredentials']],
     Route::delete('cart/guest/delete', 'API\Web\CartController@destroy');
     Route::resource('country', 'API\Admin\CountryController', ['names' => ['index' => 'client.country.index']])->only(['index', 'show']);
     Route::resource('state', 'API\Admin\StateController', ['names' => ['index' => 'client.state.index']])->only(['index', 'show']);
+    Route::resource('products', 'API\Admin\ProductController')->only(['index', 'show']);
     Route::post('products/price-range', 'API\Admin\ProductController@priceRange');
     Route::resource('category', 'API\Admin\CategoryController', ['names' => ['index' => 'client.category.index', 'show' => 'client.category.show']])->except(['store', 'update', 'destroy', 'edit', 'create']);
     Route::resource('brand', 'API\Admin\BrandController', ['names' => ['index' => 'client.brand.index', 'show' => 'client.banner.show']])->except(['store', 'update', 'destroy', 'edit', 'create']);

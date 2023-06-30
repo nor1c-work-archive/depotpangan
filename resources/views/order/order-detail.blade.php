@@ -27,7 +27,7 @@
                 <div class="col-12 col-lg-3 ">
                     <div class="heading">
                         <h2>
-                            My Account
+                            {{ trans('lables.profile-my-account') }}
                         </h2>
                         <hr>
                     </div>
@@ -36,37 +36,37 @@
                         <li class="list-group-item">
                             <a class="nav-link" href="profile.html">
                                 <i class="fas fa-user"></i>
-                                Profile
+                                {{ trans('profile-side-menue-profile') }}
                             </a>
                         </li>
                         <li class="list-group-item">
                             <a class="nav-link" href="wishlist.html">
                                 <i class="fas fa-heart"></i>
-                                Wishlist
+                                {{ trans('profile-side-menue-wishlist') }}
                             </a>
                         </li>
                         <li class="list-group-item">
                             <a class="nav-link" href="orders.html">
                                 <i class="fas fa-shopping-cart"></i>
-                                Orders
+                                {{ trans('profile-side-menue-orders') }}
                             </a>
                         </li>
                         <li class="list-group-item">
                             <a class="nav-link" href="shipping-address.html">
                                 <i class="fas fa-map-marker-alt"></i>
-                                Shipping Address
+                                {{ trans('profile-side-menue-shipping-address') }}
                             </a>
                         </li>
                         <li class="list-group-item">
                             <a class="nav-link" href="javascript:void(0)">
                                 <i class="fas fa-power-off"></i>
-                                Logout
+                                {{ trans('profile-side-menue-logout') }}
                             </a>
                         </li>
                         <li class="list-group-item">
                             <a class="nav-link" href="change-password.html">
                                 <i class="fas fa-unlock-alt"></i>
-                                Change Password
+                                {{ trans('profile-side-menue-change-password') }}
                             </a>
                         </li>
                     </ul>

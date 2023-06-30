@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Contract\Admin\AccountInterface;
 use App\Contract\Web\CustomerInterface as WebCustomerInterface;
 use App\Contract\Admin\AttributeInterface;
+use App\Contract\Admin\AuctionInterface;
 use App\Contract\Admin\PageInterface;
 use App\Contract\Admin\AuthInterface;
 use App\Contract\Admin\AvailableQtyInterface;
@@ -81,6 +82,7 @@ use App\Contract\Admin\SupplierInterface;
 
 use App\Repository\Admin\AccountRepository;
 use App\Repository\Admin\AttributeRepository;
+use App\Repository\Admin\AuctionRepository;
 use App\Repository\Admin\PageRepository;
 use App\Repository\Admin\AuthRepository;
 use App\Repository\Admin\AvailableQtyRepository;
@@ -243,8 +245,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(WebCustomerInterface::class, WebCustomerRepository::class);
         $this->app->bind(DeliveryBoyInterface::class, DeliveryBoyRepository::class);
         $this->app->bind(SupplierInterface::class, SupplierRepository::class);
-
-
+        $this->app->bind(AuctionInterface::class, AuctionRepository::class);
     }
 
 }

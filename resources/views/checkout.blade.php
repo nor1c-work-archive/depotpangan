@@ -305,6 +305,11 @@
                                     <input type="hidden" id="delivery_country_hidden" />
                                     <input type="hidden" id="billing_state_hidden" />
                                     <input type="hidden" id="billing_country_hidden" />
+                                    <input type="hidden" id="shipping_cost_province_hidden" />
+                                    <input type="hidden" id="shipping_cost_cities_hidden" />
+                                    <input type="hidden" id="shipping_cost_courier_hidden" />
+                                    <input type="hidden" id="shipping_cost_courier_service_hidden" />
+
                                     <div class="tab-pane fade" id="pills-order" role="tabpanel"
                                         aria-labelledby="pills-order-tab">
                                         <table class="table top-table" id="cartItem-product-show">
@@ -322,8 +327,55 @@
                                                     <textarea class="form-control" id="order_notes" rows="3"></textarea>
                                                 </div>
                                             </div>
-
                                         </div>
+
+                                        <div class="col-12 col-sm-12">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <h4>Pilih Kurir</h4>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <div class="form-row">
+                                                        <div class="from-group col-md-6 mb-3">
+                                                            <label for="">Provinsi</label>
+                                                            <div class="input-group select-control">
+                                                                <select class="form-control" id="shipping_cost_province" onchange="provinceChanged()">
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                
+                                                        <div class="from-group col-md-6 mb-3">
+                                                            <label for="">Kota</label>
+                                                            <div class="input-group select-control">
+                                                                <select class="form-control" id="shipping_cost_cities" onchange="cityChanged()">
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="from-group col-md-6 mb-3">
+                                                            <label for="">Pilih Kurir</label>
+                                                            <div class="input-group select-control">
+                                                                <select class="form-control" id="shipping_cost_courier" onchange="courierChanged()">
+                                                                    <option value="jne" selected>JNE</option>
+                                                                    <option value="tiki" selected>TIKI</option>
+                                                                    <option value="pos" selected>Post Indonesia</option>
+                                                                </select>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="from-group col-md-6 mb-3">
+                                                            <label for="">Pilih Service</label>
+                                                            <div class="input-group select-control">
+                                                                <select class="form-control" id="shipping_cost_courier_service" onchange="courierServiceChanged()"></select>
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div id="delivery_cost"></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                         <div class="col-12 col-sm-12 ">
                                             <div class="row">
                                                 <div class="col-md-12">
@@ -720,6 +772,7 @@
 
         });
 
+        let weight = 0;
 
         function cartItem(cartSession) {
             if (loggedIn == '1') {
@@ -747,10 +800,11 @@
                         total_weight = 0;
 
                         for (i = 0; i < data.data.length; i++) {
+                            // TODO: convert weight to gram
+                            weight += (parseInt(data.data[i].qty) * parseInt(data.data[i].product_weight));
+
                             const clone = templ.content.cloneNode(true);
                             // clone.querySelector(".single-text-chat-li").classList.add("bg-blue-100");
-
-
 
                             if (data.data[i].product_type == 'variable') {
                                 for (k = 0; k < data.data[i].combination.length; k++) {
@@ -1725,32 +1779,25 @@
                             total_tax = 0;
                             subtotal = $(".caritem_subtotal").attr('price');
                             for (i = 0; i < data.data.length; i++) {
-                                
-                                
                                 total_tax += (subtotal / 100) * data.data[i].tax_amount;
                                 
                                 tax_Desctiption = 'Tax';
-                                if (data.data[i].tax != null && data.data[i].tax != 'null' && data.data[i]
-                                    .tax != '') {
+                                if (data.data[i].tax != null && data.data[i].tax != 'null' && data.data[i].tax != '') {
                                     tax_Desctiption = data.data[i].tax.tax_description + ' Tax';
                                 }
+
                                 if ($.trim($(".caritem_subtotal").attr('currency_position')) == 'left') {
                                     html += '<tr class="tax-rows"><th scope="row">' + tax_Desctiption +
                                     '</th><td align="right" class="caritem_tax" price="' + total_tax + '">' +  $(".caritem_subtotal").attr('currency_code') + '' +
                                         total_tax.toFixed(2) + '</td></tr>';
-                                   
                                 } else {
                                     html += '<tr><th scope="row">' + tax_Desctiption +
                                     '</th><td align="right" class="caritem_tax" price="' + total_tax + '">' +  total_tax.toFixed(2)+''+$(".caritem_subtotal").attr('currency_code') + '</td></tr>';
                                 }
-                                
                             }
                             
-                            
-                                $('.tax-rows').remove();
-                                $(html).insertBefore("#test");        
-                            
-
+                            $('.tax-rows').remove();
+                            $(html).insertBefore("#test");        
                             
                             caritemGrandtotal();
                         }
@@ -1763,13 +1810,10 @@
                         shipping_price = $(".shipping_tax").attr('data_price');
                         total = +price + +couponCart + +shipping_price;
                         if ($.trim($(".caritem_subtotal").attr('currency_position')) == 'left') {
-                            $(".caritem_grandtotal").html($(".caritem_subtotal").attr('currency_code') + '' +
-                                total.toFixed(2));
+                            $(".caritem_grandtotal").html($(".caritem_subtotal").attr('currency_code') + '' + total.toFixed(2));
                         } else {
-                            $(".caritem_grandtotal").html(total.toFixed(2) + '' + $(".caritem_subtotal").attr(
-                                'currency_code'));
+                            $(".caritem_grandtotal").html(total.toFixed(2) + '' + $(".caritem_subtotal").attr('currency_code'));
                         }
-                        // toastr.error(data.message);
                     }
                 },
                 error: function(data) {
@@ -2099,6 +2143,122 @@
             });
         }
 
+        // RAJAONGKIR
+        // get province
+        $.ajax({
+            type: 'GET',
+            url: "{{ url('') }}" + '/api/client/get-rajaongkir-province',
+            success: function (data) {
+                const province = JSON.parse(data).rajaongkir.results
+
+                if (province) {
+                    html = '<option value="">Select</option>';
+
+                    for (i = 0; i < province.length; i++) {
+                        selected = '';
+
+                        if ($.trim($("#shipping_cost_province_hidden").val()) != '' && $.trim($("#shipping_cost_province_hidden").val()) == province[i].province_id) {
+                            selected = 'selected';
+                            $("#shipping_cost_province_hidden").val('');
+                        }
+
+                        html += '<option value="' + province[i].province_id + '" ' + selected + '>' + province[i].province + '</option>';
+                    }
+
+                    $("#shipping_cost_province").html(html);
+
+                    if ($.trim($("#billing_state_hidden").val()) != '') {
+                        $("#shipping_cost_province").trigger('change');
+                    }
+                } else if (data.status == 'Error') {
+                    toastr.error('{{ trans('response.some_thing_went_wrong') }}');
+                }
+            }
+        })
+
+        function provinceChanged() {
+            let provinceId = $("#shipping_cost_province").val();
+
+            $.ajax({
+                type: 'GET',
+                url: "{{ url('') }}" + '/api/client/get-rajaongkir-cities?province_id=' + provinceId,
+                success: function (data) {
+                    const cities = JSON.parse(data).rajaongkir.results
+                
+                    if (cities) {
+                        html = '<option value="">Select</option>';
+
+                        for (i = 0; i < cities.length; i++) {
+                            if (cities[i].type === 'Kota') {
+                                selected = '';
+
+                                if ($.trim($("#shipping_cost_cities_hidden").val()) != '' && $.trim($("#shipping_cost_cities_hidden").val()) == cities[i].city_id) {
+                                    selected = 'selected';
+                                    $("#shipping_cost_cities_hidden").val('');
+                                }
+
+                                html += '<option value="' + cities[i].city_id + '" ' + selected + '>' + cities[i].city_name + '</option>';
+                            }
+                        }
+
+                        $("#shipping_cost_cities").html(html);
+
+                        if ($.trim($("#billing_state_hidden").val()) != '') {
+                            $("#shipping_cost_cities").trigger('change');
+                        }
+                    } else if (data.status == 'Error') {
+                        toastr.error('{{ trans('response.some_thing_went_wrong') }}');
+                    }
+                }
+            })
+        }
+
+        function courierChanged() {
+            let provinceId = $("#shipping_cost_province").val();
+            let cityId = $('#shipping_cost_cities').val();
+            let courierKey = $('#shipping_cost_courier').val();
+
+            $.ajax({
+                type: 'GET',
+                url: "{{ url('') }}" + '/api/client/get-rajaongkir-cost?city_id=' + cityId + '&courier=' + courierKey + '&weight=' + weight + '&courier=' + courierKey,
+                success: function (data) {
+                    const courierServices = JSON.parse(data).rajaongkir.results[0].costs
+                
+                    if (courierServices) {
+                        html = '<option value="">Select</option>';
+
+                        for (i = 0; i < courierServices.length; i++) {
+                            selected = '';
+
+                            if ($.trim($("#shipping_cost_courier_service_hidden").val()) != '' && $.trim($("#shipping_cost_courier_service_hidden").val()) == courierServices[i].city_id) {
+                                selected = 'selected';
+                                $("#shipping_cost_courier_service_hidden").val('');
+                            }
+
+                            html += `<option value="${courierServices[i].service}-${courierServices[i].cost[0].value}">${courierServices[i].service} (${courierServices[i].cost[0].value} - ${courierServices[i].cost[0].etd} days)</option>`;
+                        }
+
+                        $("#shipping_cost_courier_service").html(html);
+
+                        if ($.trim($("#shipping_cost_courier_service_hidden").val()) != '') {
+                            $("#shipping_cost_courier_service").trigger('change');
+                        }
+                    } else if (data.status == 'Error') {
+                        toastr.error('{{ trans('response.some_thing_went_wrong') }}');
+                    }
+                }
+            })
+        }
+
+        function courierServiceChanged() {
+            let selectedCourierService = $('#shipping_cost_courier_service').val()
+
+            shipping_price = selectedCourierService.split('-')[1];
+            $(".shipping_tax").attr('data_price', shipping_price);
+            $(".shipping_tax").html($(".caritem_subtotal").attr('currency_code') + '' + shipping_price);
+
+            tax()
+        }
 
         var url = "{{ url('') }}" + '/api/client/get-braintree-auth-token';
         var braintree_token = null;
@@ -2323,49 +2483,7 @@
 
             }
         });
-        // alert(braintree_token);
-
-
-        // If Default payment method is braintree
-
-        // $('.paytm-button').click(function(e){
-        //     e.preventDefault();
-        //     var name = $('#paytm-name').val();
-        //     var mobile = $('#paytm-mobile').val();
-        //     var address = $('#paytm-address').val();
-
-        //     if(name=="" || mobile =="" || address == ""){
-        //         alert("Name , Mobile And Address Fields are Required");
-        //     }
-
-
-
-
-        //     var url = "{{ url('') }}" + '/api/client/paytm-payment';
-        //     $.ajax({
-        //         type: 'post',
-        //         url: url,
-        //         data:{
-        //             name,
-        //             mobile,
-        //             address
-        //         },
-        //         headers: {
-        //             'Authorization': 'Bearer ' + customerToken,
-        //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-        //             clientid: "{{ isset(getSetting()['client_id']) ? getSetting()['client_id'] : '' }}",
-        //             clientsecret: "{{ isset(getSetting()['client_secret']) ? getSetting()['client_secret'] : '' }}",
-        //         },
-        //         beforeSend: function() {},
-        //         success: function(data) {
-        //             if (data.status == 'Success') {
-
-        //             }
-
-        //         }
-        //     });
-
-        // })
+        
         $('#paytm-form').submit(function(e) {
             // do validation here
             var orderAmount = $(".caritem_grandtotal").html();

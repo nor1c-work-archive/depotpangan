@@ -64,6 +64,9 @@ let routes = [
             { path: '/admin/media', component: require('./components/admin/Media.vue').default, name: 'manage-media', meta: { auth: true } },
             { path: '/admin/media/:id', component: require('./components/admin/MediaDetail.vue').default, name: 'manage-media', meta: { auth: true } },
 
+            { path: '/admin/auctions', component: require('./components/admin/ListAuction.vue').default, name: 'auction-list', meta: { auth: true } },
+            { path: '/admin/add-auction', component: require('./components/admin/AddAuction.vue').default, name: 'auction-manage', meta: { auth: true } },
+
             { path: '/admin/purchases', component: require('./components/admin/ListPurchase.vue').default, name: 'purchase-list', meta: { auth: true } },
             { path: '/admin/add-purchase', component: require('./components/admin/AddPurchase.vue').default, name: 'purchase-manage', meta: { auth: true } },
             { path: '/admin/purchase-detail/:id', component: require('./components/admin/PurchaseDetail.vue').default, name: 'purchase-list', meta: { auth: true } },
@@ -139,6 +142,7 @@ let routes = [
             { path: '/admin/stock-history-report', component: require('./components/admin/InventoryReport.vue').default, name: 'manage-reports', meta: { auth: true } },
             { path: '/admin/expense-report', component: require('./components/admin/ExpenseReport.vue').default, name: 'manage-reports', meta: { auth: true } },
             { path: '/admin/profit-loss-report', component: require('./components/admin/ProfitLossReport.vue').default, name: 'manage-reports', meta: { auth: true } },
+            { path: '/admin/adv-order-report', component: require('./components/admin/AdvOrderReport.vue').default, name: 'manage-reports', meta: { auth: true } },
         ]
     },
 

@@ -16,7 +16,9 @@
       <div class="col-12 col-lg-6">
         <div class="row">
           <div class="col-12 col-md-12">
-            <span class="pre-tag new-tag">new</span>
+            <span class="pre-tag new-tag">
+              {{ trans('lables.product-detail-new-label') }}
+            </span>
             <h5 class="pro-title"></h5>
 
             <div class="price product-card-price">
@@ -28,9 +30,9 @@
             </div>
 
             <div class="pro-infos">
-              <div class="pro-single-info"><b>Product ID: </b><span class="product-detail-section-product-id"></span></div>
-              <div class="pro-single-info"><b>Stock: </b><span class="product-detail-section-stock"></span></div>
-              <div class="pro-single-info"><b>Categroy: </b><a href="javascript:void(0)" class="product-detail-section-cateogory-link"></a></div>
+              <div class="pro-single-info"><b>{{ trans('lables.product-detail-id') }}: </b><span class="product-detail-section-product-id"></span></div>
+              <div class="pro-single-info"><b>{{ trans('lables.product-detail-stock') }}: </b><span class="product-detail-section-stock"></span></div>
+              <div class="pro-single-info"><b>{{ trans('lables.product-detail-category') }}: </b><a href="javascript:void(0)" class="product-detail-section-cateogory-link"></a></div>
               <input type="hidden" id="product_combination_id" />
             </div>
 
@@ -55,14 +57,16 @@
                   </button>
                 </span>
               </div>
-              <button type="button" class="btn btn-secondary btn-lg swipe-to-top add-to-cart">Tambah ke Keranjang</button>
+              <button type="button" class="btn btn-secondary btn-lg swipe-to-top add-to-cart">
+                {{ trans('lables.product-detail-add-to-cart') }}
+              </button>
 
 
             </div>
             <div class="pro-sub-buttons">
               <div class="buttons">
-                <button type="button" class="btn  btn-link wishlist-icon" style="padding-left: 0;"><i class="fas fa-heart"></i>Add to Wishlist</button>
-                <button type="button" class="btn btn-link compare-icon"><i class="fas fa-align-right"></i>Add to Compare</button>
+                <button type="button" class="btn  btn-link wishlist-icon" style="padding-left: 0;"><i class="fas fa-heart"></i>{{ trans('lables.product-detail-add-to-wishlist') }}</button>
+                <button type="button" class="btn btn-link compare-icon"><i class="fas fa-align-right"></i>{{ trans('lables.product-detail-add-to-compare') }}</button>
               </div>
               <!-- AddToAny BEGIN -->
               <div class="a2a_kit a2a_kit_size_32 a2a_default_style">
@@ -81,9 +85,9 @@
         <div class="row">
           <div class="col-12 col-md-12">
             <div class="nav nav-pills" role="tablist">
-              <a class="nav-link nav-item  active" href="#description" id="description-tab" data-toggle="pill" role="tab">Description</a>
+              <a class="nav-link nav-item  active" href="#description" id="description-tab" data-toggle="pill" role="tab">{{ trans('lables.product-detail-tab-description') }}</a>
               {{-- <a class="nav-link nav-item " href="#additionalInfo" id="additional-info-tab" data-toggle="pill" role="tab">Additional information</a> --}}
-              <a class="nav-link nav-item" href="#review" id="review-tab" data-toggle="pill" role="tab">Reviews</a>
+              <a class="nav-link nav-item" href="#review" id="review-tab" data-toggle="pill" role="tab">{{ trans('lables.product-detail-tab-reviews') }}</a>
             </div>
             <div class="tab-content">
               <div role="tabpanel" class="tab-pane fade active show description" id="description" aria-labelledby="description-tab">
@@ -129,7 +133,8 @@
                     <h2>Write a Review</h2>
                     <div class="write-review-box">
                       <div class="from-group row mb-3">
-                        <div class="col-12"> <label for="inlineFormInputGroup2">Rating</label></div>
+                        <div class="col-12"> <label for="inlineFormInputGroup2">Rating</label>
+                        </div>
                         <div class="pro-rating col-12">
 
                           <fieldset class="ratings">
@@ -153,7 +158,7 @@
                                 </li>
                               </ul>
                             </div>
-                            
+
                           </fieldset>
                           <input type="hidden" id="selected_rating" />
                         </div>

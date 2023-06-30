@@ -27,6 +27,7 @@ class Product extends JsonResource
 
     public function toArray($request)
     {
+        $current_user_hash = \Auth::check() ? \Auth::user()->hash : 0;
 
         if (isset($_GET['getAllData']) && $_GET['getAllData'] == '1') {
             return [
@@ -114,6 +115,7 @@ class Product extends JsonResource
                 !isset($currency->symbol_position) ? $variableMinPrice * $this->exchange_rate .'-'.$variableMaxPrice * $this->exchange_rate: 
                 ($currency->symbol_position == 'right' 
                 ? '('.($variableMinPrice * $this->exchange_rate) . ' ' . $currency->code .'-'.($variableMaxPrice * $this->exchange_rate) . ' ' . $currency->code.')' : '('.$currency->code . ' ' . ($variableMinPrice * $this->exchange_rate).'-'.$currency->code . ' ' . ($variableMaxPrice * $this->exchange_rate).')'),
+                'user_hash' => $current_user_hash,
             ];
         }
         if (\Request::route()->getName() == 'products.show'  || \Request::route()->getName() == 'client.wishlist.index' || \Request::route()->getName() == 'compare.index') {
@@ -166,6 +168,7 @@ class Product extends JsonResource
                 'product_combination' => ProductCombinationResource::collection($this->when($this->product_type == 'variable', $this->product_combination)),
                 'reviews' => ReviewResource::collection($this->review),
                 'comments' => CommentResource::collection($this->comment),
+                'user_hash' => $current_user_hash,
             ];
         }
         // dd($this->productGallaryDetail()->gallary_detail);
@@ -215,6 +218,7 @@ class Product extends JsonResource
             'warehouse_stock' => $this->warehouseStock,
             'price' => $this->price,
             'previous_price' => $this->previousPrice,
+            'user_hash' => $current_user_hash,
         ];
     }
 }

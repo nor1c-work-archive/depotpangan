@@ -16,26 +16,27 @@
 @section('script')
 <script>
   customerToken = $.trim(localStorage.getItem("customerToken"));
+  accountType = $.trim(localStorage.getItem("customerAccountType"));
 
   $(document).ready(function() {
     var url = "{{ url('') }}" +
-      '/api/client/products?limit=10&getCategory=1&getDetail=1&language_id=' + languageId +
+      '/api/client/products?accType='+accountType+'&limit=10&getCategory=1&getDetail=1&language_id=' + languageId +
       '&isFeatured=1&currency=' + localStorage.getItem("currency");
     appendTo = 'tab_top_sales';
     fetchProduct(url, appendTo);
 
-    var url = "{{ url('') }}" + '/api/client/products?limit=10&getDetail=1&language_id=' +
+    var url = "{{ url('') }}" + '/api/client/products?accType='+accountType+'&limit=10&getDetail=1&language_id=' +
       languageId + '&currency=' + localStorage.getItem("currency");
     appendTo = 'tab_special_products';
     fetchProduct(url, appendTo);
 
-    var url = "{{ url('') }}" + '/api/client/products?limit=10&getDetail=1&language_id=' +
+    var url = "{{ url('') }}" + '/api/client/products?accType='+accountType+'&limit=10&getDetail=1&language_id=' +
       languageId + '&currency=' + localStorage.getItem("currency");
     appendTo = 'tab_most_liked';
     fetchProduct(url, appendTo);
 
     var url = "{{ url('') }}" +
-      '/api/client/products?limit=12&getCategory=1&getDetail=1&language_id=' + languageId +
+      '/api/client/products?accType='+accountType+'&limit=12&getCategory=1&getDetail=1&language_id=' + languageId +
       '&sortBy=id&sortType=DESC&currency=' + localStorage.getItem("currency");
     appendTo = 'new-arrival';
     fetchProduct(url, appendTo);
@@ -166,9 +167,8 @@
               clone.querySelector(".product-card-name").innerHTML = data.data[i].detail[0]
                 .title;
               clone.querySelector(".product-card-name").setAttribute('href', '/product/' +
-                data
-                .data[i].product_id + '/' + data
-                .data[i].product_slug);
+                data.data[i].product_id + '/' + 
+                data.data[i].product_slug + '?hash=' + data.data[i].user_hash);
               var desc = data.data[i].detail[0].desc;
               clone.querySelector(".product-card-desc").innerHTML = desc.substring(0, 50);
             }
