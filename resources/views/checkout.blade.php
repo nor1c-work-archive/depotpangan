@@ -1497,6 +1497,14 @@
             order_notes = $("#order_notes").val();
             coupon_code = $.trim(localStorage.getItem("couponCart"));
 
+            shipping_ro_method = $("#shipping_cost_courier").val()
+            shipping_ro_service = $("#shipping_cost_courier_service").val().split('_')[0]
+            
+            shipping_ro_province_id = $("#shipping_cost_province").val(),
+            shipping_ro_province = $("#shipping_cost_province option:selected").text(),
+            shipping_ro_city_id = $("#shipping_cost_cities").val(),
+            shipping_ro_city = $("#shipping_cost_cities option:selected").text(),
+
             payment_method = $(".payment_method:checked").val();
             cc_number = $("#cc_number").val();
             cc_expiry_month = $("#cc_expiry_month").val();
@@ -1566,7 +1574,14 @@
                                     cc_expiry_year: cc_expiry_year,
                                     cc_cvc: cc_cvc,
                                     razor_pay_transaction_id: response.razorpay_payment_id,
-                                    total_by_weight: total_by_weight
+                                    total_by_weight: total_by_weight,
+                                    shipping_ro_province_id,
+                                    shipping_ro_province,
+                                    shipping_ro_city_id,
+                                    shipping_ro_city,
+                                    shipping_ro_method,
+                                    shipping_ro_service,
+                                    shipping_price
                                 },
                                 headers: {
                                     'Authorization': 'Bearer ' + customerToken,
@@ -1602,18 +1617,6 @@
                                         toastr.error('{{ trans('response.out_of_stock') }}');
                                         document.getElementById('cartItem-product-show').rows.item(str1).style.color = "red";
                                     }
-                                    // $("#pills-shipping-tab").addClass('active');
-                                    // $("#pills-shipping").addClass('show active');
-
-                                    // $("#pills-billing-tab").removeClass('active');
-                                    // $("#pills-billing").removeClass('show active');
-
-                                    // $("#pills-method-tab").removeClass('active');
-                                    // $("#pills-method").removeClass('show active');
-
-                                    // $("#pills-order-tab").removeClass('active');
-                                    // $("#pills-order").removeClass('show active');
-
                                 },
                             });
                         },
@@ -1666,7 +1669,14 @@
                             payment_method_nonce: payment_method_nonce,
                             authorize_net_data_value: $('data-value').val(),
                             authorize_net_data_descriptor: $('data-descriptor').val(),
-                            total_by_weight: total_by_weight
+                            total_by_weight: total_by_weight,
+                            shipping_ro_province_id,
+                            shipping_ro_province,
+                            shipping_ro_city_id,
+                            shipping_ro_city,
+                            shipping_ro_method,
+                            shipping_ro_service,
+                            shipping_price
                         },
                         headers: {
                             'Authorization': 'Bearer ' + customerToken,
@@ -1934,7 +1944,7 @@
         }
 
         function caritemGrandtotal() {
-            freeShippingPrice(); 
+            // freeShippingPrice(); 
             couponCart = $(".caritem_discount_coupon").attr('price');
             if (couponCart == null || couponCart == '') {
                 couponCart = 0;
@@ -2235,7 +2245,7 @@
                                 $("#shipping_cost_courier_service_hidden").val('');
                             }
 
-                            html += `<option value="${courierServices[i].service}-${courierServices[i].cost[0].value}">${courierServices[i].service} (${courierServices[i].cost[0].value} - ${courierServices[i].cost[0].etd} days)</option>`;
+                            html += `<option value="${courierServices[i].service}_${courierServices[i].cost[0].value}">${courierServices[i].service} (${courierServices[i].cost[0].value} - ${courierServices[i].cost[0].etd} days)</option>`;
                         }
 
                         $("#shipping_cost_courier_service").html(html);
@@ -2253,7 +2263,7 @@
         function courierServiceChanged() {
             let selectedCourierService = $('#shipping_cost_courier_service').val()
 
-            shipping_price = selectedCourierService.split('-')[1];
+            shipping_price = selectedCourierService.split('_')[1];
             $(".shipping_tax").attr('data_price', shipping_price);
             $(".shipping_tax").html($(".caritem_subtotal").attr('currency_code') + '' + shipping_price);
 

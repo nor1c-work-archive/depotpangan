@@ -439,7 +439,7 @@
                         $(".order-tax").html(data.data.currency_id.code+''+data.data.total_tax);
                         $(".order-shipping").html(data.data.currency_id.code+''+data.data.shipping_cost);
                         $(".order-discount").html('-'+data.data.currency_id.code+''+total_discount);
-                        $(".order-total").html(data.data.currency_id.code+''+data.data.order_price);
+                        $(".order-total").html(data.data.currency_id.code+' '+(data.data.order_price+data.data.shipping_cost));
                         $(".coupon-amount").html('-'+data.data.currency_id.code+''+coupon_amount);
                     } else {
                         $(".order-amount").html(data.data.order_price+''+data.data.currency_id.code);
@@ -447,7 +447,7 @@
                         $(".order-tax").html(data.data.total_tax+''+data.data.currency_id.code);
                         $(".order-shipping").html(data.data.shipping_cost+''+data.data.currency_id.code);
                         $(".order-discount").html('-'+total_discount+''+data.data.currency_id.code);
-                        $(".order-total").html(data.data.order_price+''+data.data.currency_id.code);
+                        $(".order-total").html((data.data.order_price+data.data.shipping_cost)+' '+data.data.currency_id.code);
                         $(".coupon-amount").html('-'+coupon_amount+''+data.data.currency_id.code);
                     }
                     // clone.querySelector(".shipping-address-listing-delete-btn").setAttribute('data-id', data.data[i].id);

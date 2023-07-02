@@ -111,19 +111,16 @@ class OrderProcess implements ShouldQueue
             }
             $subtotal = $this->parms['order_price'];
             $total = $total * floatVal($currency->exchange_rate);
+
+            // RajaOngkir Integration
             $shippingMethodPrice = ShippingMethod::where('is_default', '1')->first();
             $shipping_method_price = 0;
             
             if (isset($this->parms['ispos']) && !empty($this->parms['ispos']) || isset($this->parms['is_add_sale']) && !empty($this->parms['is_add_sale'])) {
-                
                 $shipping_method_price = 0;
-            
             } else if ($subtotal > $normalizdSetting['free_shipping_order_price']) {
-                
                 $shipping_method_price = 0;
-                            
             } else {
-                
                 if($shippingMethodPrice){
                     if ($shippingMethodPrice->methods_type_link == 'shippingByWeight')
                     {
@@ -150,12 +147,12 @@ class OrderProcess implements ShouldQueue
             $this->parms['warehouse_id'] = $warehouse_id;
             $this->parms['shipping_method'] = $shippingMethodPrice->methods_type_link;
             $this->parms['total_tax'] = $total;
-            $this->parms['shipping_cost'] = $shipping_method_price;
+            // $this->parms['shipping_cost'] = $shipping_method_price;
+            $this->parms['shipping_cost'] = $this->parms['shipping_price'];
             $this->parms['order_price'] = $this->parms['order_price'] + $total + $shipping_method_price;
             $this->parms['customer_id'] = $customer_id;
             $this->parms['currency_id'] = $currency->id;
             $this->parms['currency_value'] = $currency->exchange_rate;
-            dd($this->parms);
             $sql = Order::create($this->parms);
             OrderHistory::create([
                 'order_id'=>$sql->id,

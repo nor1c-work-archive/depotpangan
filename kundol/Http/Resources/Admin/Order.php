@@ -75,11 +75,15 @@ class Order extends JsonResource
             'order_history' => $this->order_history,
             'order_notes' => $this->ordernotes,
             'order_comments' => CommentResource::collection($this->ordercomments),
-            'latlong' => $this->latlong
+            'latlong' => $this->latlong,
 
-
-            
-
+            'shipping_ro_method' => \Str::upper($this->shipping_ro_method),
+            'shipping_ro_service' => $this->shipping_ro_service,
+            'shipping_ro_province_id' => $this->shipping_ro_province_id,
+            'shipping_ro_province' => $this->shipping_ro_province,
+            'shipping_ro_city_id' => $this->shipping_ro_city_id,
+            'shipping_ro_city' => $this->shipping_ro_city,
+            'shipping_ro_resi_number' => $this->shipping_ro_resi_number ?? '-',
         ];
     }
 }

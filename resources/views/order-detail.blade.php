@@ -140,7 +140,26 @@
                                 </tr>
                             </tbody>
                         </table>
+                    </div>
 
+                    <div class="col-12 col-md-6">
+                        <div class="heading">
+                            <h2>
+                                <small>KURIR</small>
+                            </h2>
+                            <hr>
+                        </div>
+
+                        <table class="table order-id">
+                            <tbody>
+                                <tr class="d-flex">
+                                    <td class="address col-12 col-md-6 order-courier"></td>
+                                </tr>
+                                <tr class="d-flex">
+                                    <td class="address col-12 col-md-12 order-courier-resi-number"></td>
+                                </tr>
+                            </tbody>
+                        </table>
                     </div>
                     
                 </div>
@@ -304,6 +323,9 @@
                     
                     $(".order-delivery-detail").html(detail_address);
 
+                    // kurir
+                    $(".order-courier").html(data.data.shipping_ro_method + ' - ' + data.data.shipping_ro_service)
+                    $(".order-courier-resi-number").html(data.data.shipping_ro_resi_number)
 
                     $(".order-billing-address").html(data.data.billing_street_aadress);
                     city = state = postcode = country =  '';
@@ -415,7 +437,7 @@
                         $(".order-tax").html(data.data.currency_id.code+''+data.data.total_tax);
                         $(".order-shipping").html(data.data.currency_id.code+''+data.data.shipping_cost);
                         $(".order-discount").html('-'+data.data.currency_id.code+''+total_discount);
-                        $(".order-total").html(data.data.currency_id.code+''+data.data.order_price);
+                        $(".order-total").html(data.data.currency_id.code+' '+(data.data.order_price+data.data.shipping_cost));
                         $(".coupon-amount").html('-'+data.data.currency_id.code+''+coupon_amount);
                     } else {
                         $(".order-amount").html(data.data.order_price+''+data.data.currency_id.code);
@@ -423,7 +445,7 @@
                         $(".order-tax").html(data.data.total_tax+''+data.data.currency_id.code);
                         $(".order-shipping").html(data.data.shipping_cost+''+data.data.currency_id.code);
                         $(".order-discount").html('-'+total_discount+''+data.data.currency_id.code);
-                        $(".order-total").html(data.data.order_price+''+data.data.currency_id.code);
+                        $(".order-total").html((data.data.order_price+data.data.shipping_cost)+' '+data.data.currency_id.code);
                         $(".coupon-amount").html('-'+coupon_amount+''+data.data.currency_id.code);
                     }
                     // clone.querySelector(".shipping-address-listing-delete-btn").setAttribute('data-id', data.data[i].id);
