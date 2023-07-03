@@ -170,6 +170,7 @@ Route::group(['prefix' => 'client', 'middleware' => ['auth:customer-api', 'scope
     Route::resource('compare', 'API\Web\CompareController')->except(['edit', 'create', 'update']);
     Route::post('order', 'API\Web\OrderController@store');
     Route::put('order/{order}', 'API\Web\OrderController@update');
+    Route::post('order/get-snap-token', 'API\Web\OrderController@getSnapToken');
     Route::post('review', 'API\Web\ReviewController@store');
     Route::post('comment', 'API\Web\CommentController@store');
     Route::resource('cart', 'API\Web\CartController', ['names' => ['index' => 'client.cart.index', 'store' => 'client.cart.store', 'destroy' => 'client.cart.delete']])->except(['edit', 'create', 'update']);

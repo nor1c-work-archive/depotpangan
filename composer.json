@@ -22,6 +22,7 @@
         "laravel/socialite": "^5.2",
         "laravel/tinker": "^2.5",
         "league/omnipay": "^3.2",
+        "midtrans/midtrans-php": "^2.5",
         "milon/barcode": "^8.0",
         "mollie/laravel-mollie": "^2.0",
         "omnipay/authorizenet": "3.x@dev",

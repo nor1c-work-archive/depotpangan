@@ -332,12 +332,12 @@
                                         <div class="col-12 col-sm-12">
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <h4>Pilih Kurir</h4>
+                                                    <h4>{{ trans('lables.order-courier-select') }}</h4>
                                                 </div>
                                                 <div class="col-md-12">
                                                     <div class="form-row">
                                                         <div class="from-group col-md-6 mb-3">
-                                                            <label for="">Provinsi</label>
+                                                            <label for="">{{ trans('lables.order-courier-province') }}</label>
                                                             <div class="input-group select-control">
                                                                 <select class="form-control" id="shipping_cost_province" onchange="provinceChanged()">
                                                                 </select>
@@ -345,7 +345,7 @@
                                                         </div>
                                 
                                                         <div class="from-group col-md-6 mb-3">
-                                                            <label for="">Kota</label>
+                                                            <label for="">{{ trans('lables.order-courier-city') }}</label>
                                                             <div class="input-group select-control">
                                                                 <select class="form-control" id="shipping_cost_cities" onchange="cityChanged()">
                                                                 </select>
@@ -353,7 +353,7 @@
                                                         </div>
                                                         
                                                         <div class="from-group col-md-6 mb-3">
-                                                            <label for="">Pilih Kurir</label>
+                                                            <label for="">{{ trans('lables.order-courier-choice') }}</label>
                                                             <div class="input-group select-control">
                                                                 <select class="form-control" id="shipping_cost_courier" onchange="courierChanged()">
                                                                     <option value="jne" selected>JNE</option>
@@ -364,7 +364,7 @@
                                                         </div>
 
                                                         <div class="from-group col-md-6 mb-3">
-                                                            <label for="">Pilih Service</label>
+                                                            <label for="">{{ trans('lables.order-courier-service') }}</label>
                                                             <div class="input-group select-control">
                                                                 <select class="form-control" id="shipping_cost_courier_service" onchange="courierServiceChanged()"></select>
                                                             </div>
@@ -376,7 +376,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="col-12 col-sm-12 ">
+                                        {{-- <div class="col-12 col-sm-12 ">
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <h4>{{ trans('lables.checkout-payment-method-title') }}</h4>
@@ -384,7 +384,6 @@
                                                 <div class="col-md-12">
                                                     <form id="paymentForm" class="d-block">
 
-                                                        {{-- <label for="exampleFormControlTextarea1" style="width:100%; margin-bottom:30px;">{{ trans('lables.checkout-payment-method-description') }}</label> --}}
                                                         @foreach ($payment_method as $payment_methods)
                                                             <div class="form-group">
                                                                 <input class="form-check-input payment_method "
@@ -400,8 +399,9 @@
                                                     </form>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-12 bank_transfer d-none">
+                                        </div> --}}
+
+                                        {{-- <div class="col-md-12 bank_transfer d-none">
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <table class="table table-striped">
@@ -416,7 +416,7 @@
                                                     </table>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div> --}}
                                         <div class="col-md-12 stripe_payment d-none">
                                             <div class="row">
                                                 <div class="col-md-3">
@@ -568,7 +568,7 @@
                                                 <a data-toggle="pill" href="#pills-method"
                                                     class="btn btn-light swipe-to-top cta">{{ trans('lables.checkout-back') }}</a>
                                                 <button type="submit"
-                                                    class="btn btn-secondary swipe-to-top createOrder">{{ trans('lables.checkout-continue') }}</button>
+                                                    class="btn btn-secondary swipe-to-top createOrder">{{ trans('lables.checkout-pay') }}</button>
                                             </div>
                                         </div>
                                         <div class="col-12 col-sm-12">
@@ -716,6 +716,8 @@
 
 @endsection
 @section('script')
+    <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="{{ config('midtrans.client_key') }}"></script>
+
     <script type="text/javascript" src="https://jstest.authorize.net/v1/Accept.js" charset="utf-8"></script>
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script>
@@ -773,6 +775,7 @@
         });
 
         let weight = 0;
+        let midtransCartItems = [];
 
         function cartItem(cartSession) {
             if (loggedIn == '1') {
@@ -946,6 +949,15 @@
                             couponCartItem();
                         }
 
+                        // removed unused properties to be used for midtrans 
+                        midtransCartItems = data.data.map(function (item) {
+                            return {
+                                id: item.product_id,
+                                price: item.price,
+                                quantity: item.qty,
+                                name: item.product_detail[0].title
+                            }
+                        })
                     } else {
                         toastr.error('{{ trans('response.some_thing_went_wrong') }}');
                     }
@@ -1404,7 +1416,6 @@
             if (payment_method == 'stripe' ||
                 payment_method == 'paypal' ||
                 payment_method == 'authorize_net' ||
-
                 payment_method == 'sagepay' ||
                 payment_method == 'openpay') {
                 $(".stripe_payment").removeClass('d-none');
@@ -1414,7 +1425,6 @@
                 $('.paytm').addClass('d-none');
                 return;
             }
-
 
             if (payment_method == 'paytm') {
                 $(".braintree_payment").addClass('d-none');
@@ -1431,14 +1441,15 @@
                 $(".createOrder").addClass('d-none');
                 $('.paytm').addClass('d-none');
             }
+
             if (payment_method == 'banktransfer') {
                 $(".bank_transfer").removeClass('d-none');
                 $(".stripe_payment").addClass('d-none');
                 $(".braintree_payment").addClass('d-none');
                 $(".createOrder").removeClass('d-none')
                 $('.paytm').addClass('d-none');
-
             }
+
             if (payment_method == 'cod') {
                 $(".stripe_payment").addClass('d-none');
                 $(".braintree_payment").addClass('d-none');
@@ -1446,6 +1457,7 @@
                 $(".createOrder").removeClass('d-none');
                 $('.paytm').addClass('d-none');
             }
+
             if (payment_method == 'razorpay') {
                 $(".stripe_payment").addClass('d-none');
                 $(".braintree_payment").addClass('d-none');
@@ -1453,6 +1465,7 @@
                 $(".createOrder").removeClass('d-none');
                 $('.paytm').addClass('d-none');
             }
+
             if (payment_method == 'mollie') {
                 $(".stripe_payment").addClass('d-none');
                 $(".braintree_payment").addClass('d-none');
@@ -1468,13 +1481,14 @@
                 $(".createOrder").removeClass('d-none');
                 $('.paytm').addClass('d-none');
             }
-
         });
 
-        
-
+        let orderData = {}
+        let snapToken = ''
+        let midtransOrderId = ''
         $(".createOrder").click(function(e) {
             e.preventDefault();
+
             $('.invalid-feedback').css('display', 'none');
             locations = $("#latlong").val();
             billing_first_name = $("#billing_first_name").val();
@@ -1505,7 +1519,8 @@
             shipping_ro_city_id = $("#shipping_cost_cities").val(),
             shipping_ro_city = $("#shipping_cost_cities option:selected").text(),
 
-            payment_method = $(".payment_method:checked").val();
+            // payment_method = $(".payment_method:checked").val();
+            payment_method = 'midtrans';
             cc_number = $("#cc_number").val();
             cc_expiry_month = $("#cc_expiry_month").val();
             cc_expiry_year = $("#cc_expiry_year").val();
@@ -1519,251 +1534,303 @@
 
             total_by_weight = $("#total_by_weight").val();
 
-            if (orderAmount < minimum_order_total)
-            {
-                
+            if (orderAmount < minimum_order_total) {
                 $('.minimum_order').css('display', 'block');
-
             } else {
-
                 $('.minimum_order').css('display', 'none');
 
-                if (payment_method == 'razorpay') {
-                    var amount = $('.caritem_grandtotal').html();
-                    var KeyId = "{{ isset(PaymentMethods('kEY_ID')->value) ? PaymentMethods('kEY_ID')->value : "" }}";
-                    var total_amount = parseInt(orderAmount[1]) * 100;
-                    var options = {
-                        "key": KeyId, // Enter the Key ID generated from the Dashboard
-                        "amount": total_amount, // Amount is in currency subunits. Default currency is INR. Hence, 10 refers to 1000 paise
-                        "currency": "USD",
-                        "name": "{{ isset(getSetting()['site_name']) ? getSetting()['site_name'] : '' }}",
-                        "description": "Order Transaction",
-                        "image": "{{isset(getSetting()['site_logo']) ? getSetting()['site_logo'] : asset('01-logo.png') }}",
-                        "order_id": "", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
-                        "handler": function(response) {
+                // if (payment_method == 'razorpay') {
+                    // var amount = $('.caritem_grandtotal').html();
+                    // var KeyId = "{{ isset(PaymentMethods('kEY_ID')->value) ? PaymentMethods('kEY_ID')->value : "" }}";
+                    // var total_amount = parseInt(orderAmount[1]) * 100;
+                    // var options = {
+                    //     "key": KeyId, // Enter the Key ID generated from the Dashboard
+                    //     "amount": total_amount, // Amount is in currency subunits. Default currency is INR. Hence, 10 refers to 1000 paise
+                    //     "currency": "USD",
+                    //     "name": "{{ isset(getSetting()['site_name']) ? getSetting()['site_name'] : '' }}",
+                    //     "description": "Order Transaction",
+                    //     "image": "{{isset(getSetting()['site_logo']) ? getSetting()['site_logo'] : asset('01-logo.png') }}",
+                    //     "order_id": "", //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                    //     "handler": function(response) {
 
-                            url = '/api/client/order';
-                            $.ajax({
-                                type: 'post',
-                                url: "{{ url('') }}" + url,
-                                data: {
-                                    is_web:"1",
-                                    billing_first_name: billing_first_name,
-                                    billing_last_name: billing_last_name,
-                                    billing_street_aadress: billing_street_aadress,
-                                    billing_country: billing_country,
-                                    billing_state: billing_state,
-                                    billing_city: billing_city,
-                                    billing_postcode: billing_postcode,
-                                    billing_phone: billing_phone,
-                                    delivery_first_name: delivery_first_name,
-                                    delivery_last_name: delivery_last_name,
-                                    delivery_street_aadress: delivery_street_aadress,
-                                    delivery_country: delivery_country,
-                                    delivery_state: delivery_state,
-                                    delivery_city: delivery_city,
-                                    delivery_postcode: delivery_postcode,
-                                    delivery_phone: delivery_phone,
-                                    order_notes: order_notes,
-                                    coupon_code: coupon_code,
-                                    latlong: locations,
-                                    currency_id: localStorage.getItem("currency"),
-                                    payment_method: payment_method,
-                                    cc_number: cc_number,
-                                    cc_expiry_month: cc_expiry_month,
-                                    cc_expiry_year: cc_expiry_year,
-                                    cc_cvc: cc_cvc,
-                                    razor_pay_transaction_id: response.razorpay_payment_id,
-                                    total_by_weight: total_by_weight,
-                                    shipping_ro_province_id,
-                                    shipping_ro_province,
-                                    shipping_ro_city_id,
-                                    shipping_ro_city,
-                                    shipping_ro_method,
-                                    shipping_ro_service,
-                                    shipping_price
-                                },
-                                headers: {
-                                    'Authorization': 'Bearer ' + customerToken,
-                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
-                                    clientid: "{{ isset(getSetting()['client_id']) ? getSetting()['client_id'] : '' }}",
-                                    clientsecret: "{{ isset(getSetting()['client_secret']) ? getSetting()['client_secret'] : '' }}",
-                                },
-                                beforeSend: function() {},
-                                success: function(data) {
-                                    if (data.status == 'Success') {
-                                        window.location.href = "{{ url('/thankyou') }}";
-                                    } else if (data.status == 'Error') {
-                                        toastr.error(
-                                            '{{ trans('response.some_thing_went_wrong') }}');
-                                        $("#pills-shipping-tab").addClass('active');
-                                        $("#pills-shipping").addClass('show active');
-                                    }
-                                },
-                                error: function(data) {
-                                    console.log();
-                                    if (data.status == 422) {
-                                        jQuery.each(data.responseJSON.errors, function(index,
-                                            item) {
-                                            $("#" + index).parent().find(
-                                                '.invalid-feedback').css('display',
-                                                'block');
-                                            $("#" + index).parent().find(
-                                                '.invalid-feedback').html(item);
-                                        });
-                                    } else {
-                                        var  str1 = data.message; 
-                                        str1 = parseInt(str1.replace ( /[^\d.]/g, '' ))-1; 
-                                        toastr.error('{{ trans('response.out_of_stock') }}');
-                                        document.getElementById('cartItem-product-show').rows.item(str1).style.color = "red";
-                                    }
-                                },
-                            });
-                        },
-                        "prefill": {
-                            "name": billing_first_name,
-                            "email":localStorage.getItem("customerEmail"),
-                            "contact": billing_phone
-                        },
-                        "notes": {
-                            "address": billing_street_aadress
-                        },
-                        "theme": {
-                            "color": "isset(getSetting()['razorpay_theme_color']) ? getSetting()['razorpay_theme_color'] : '#F37254'"
+                    //         url = '/api/client/order';
+                    //         $.ajax({
+                    //             type: 'post',
+                    //             url: "{{ url('') }}" + url,
+                    //             data: {
+                    //                 is_web:"1",
+                    //                 billing_first_name: billing_first_name,
+                    //                 billing_last_name: billing_last_name,
+                    //                 billing_street_aadress: billing_street_aadress,
+                    //                 billing_country: billing_country,
+                    //                 billing_state: billing_state,
+                    //                 billing_city: billing_city,
+                    //                 billing_postcode: billing_postcode,
+                    //                 billing_phone: billing_phone,
+                    //                 delivery_first_name: delivery_first_name,
+                    //                 delivery_last_name: delivery_last_name,
+                    //                 delivery_street_aadress: delivery_street_aadress,
+                    //                 delivery_country: delivery_country,
+                    //                 delivery_state: delivery_state,
+                    //                 delivery_city: delivery_city,
+                    //                 delivery_postcode: delivery_postcode,
+                    //                 delivery_phone: delivery_phone,
+                    //                 order_notes: order_notes,
+                    //                 coupon_code: coupon_code,
+                    //                 latlong: locations,
+                    //                 currency_id: localStorage.getItem("currency"),
+                    //                 payment_method: payment_method,
+                    //                 cc_number: cc_number,
+                    //                 cc_expiry_month: cc_expiry_month,
+                    //                 cc_expiry_year: cc_expiry_year,
+                    //                 cc_cvc: cc_cvc,
+                    //                 razor_pay_transaction_id: response.razorpay_payment_id,
+                    //                 total_by_weight: total_by_weight,
+                    //                 shipping_ro_province_id,
+                    //                 shipping_ro_province,
+                    //                 shipping_ro_city_id,
+                    //                 shipping_ro_city,
+                    //                 shipping_ro_method,
+                    //                 shipping_ro_service,
+                    //                 shipping_price
+                    //             },
+                    //             headers: {
+                    //                 'Authorization': 'Bearer ' + customerToken,
+                    //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    //                 clientid: "{{ isset(getSetting()['client_id']) ? getSetting()['client_id'] : '' }}",
+                    //                 clientsecret: "{{ isset(getSetting()['client_secret']) ? getSetting()['client_secret'] : '' }}",
+                    //             },
+                    //             beforeSend: function() {},
+                    //             success: function(data) {
+                    //                 if (data.status == 'Success') {
+                    //                     window.location.href = "{{ url('/thankyou') }}";
+                    //                 } else if (data.status == 'Error') {
+                    //                     toastr.error(
+                    //                         '{{ trans('response.some_thing_went_wrong') }}');
+                    //                     $("#pills-shipping-tab").addClass('active');
+                    //                     $("#pills-shipping").addClass('show active');
+                    //                 }
+                    //             },
+                    //             error: function(data) {
+                    //                 console.log();
+                    //                 if (data.status == 422) {
+                    //                     jQuery.each(data.responseJSON.errors, function(index,
+                    //                         item) {
+                    //                         $("#" + index).parent().find(
+                    //                             '.invalid-feedback').css('display',
+                    //                             'block');
+                    //                         $("#" + index).parent().find(
+                    //                             '.invalid-feedback').html(item);
+                    //                     });
+                    //                 } else {
+                    //                     var  str1 = data.message; 
+                    //                     str1 = parseInt(str1.replace ( /[^\d.]/g, '' ))-1; 
+                    //                     toastr.error('{{ trans('response.out_of_stock') }}');
+                    //                     document.getElementById('cartItem-product-show').rows.item(str1).style.color = "red";
+                    //                 }
+                    //             },
+                    //         });
+                    //     },
+                    //     "prefill": {
+                    //         "name": billing_first_name,
+                    //         "email":localStorage.getItem("customerEmail"),
+                    //         "contact": billing_phone
+                    //     },
+                    //     "notes": {
+                    //         "address": billing_street_aadress
+                    //     },
+                    //     "theme": {
+                    //         "color": "isset(getSetting()['razorpay_theme_color']) ? getSetting()['razorpay_theme_color'] : '#F37254'"
+                    //     }
+                    // };
+                    // var rzp1 = new Razorpay(options);
+                    // rzp1.open();
+                // } else {
+                    // Step 1: Generate snap token
+                    orderData = {
+                        is_web:"1",
+                        billing_first_name: billing_first_name,
+                        billing_last_name: billing_last_name,
+                        billing_street_aadress: billing_street_aadress,
+                        billing_country: billing_country,
+                        billing_state: billing_state,
+                        billing_city: billing_city,
+                        billing_postcode: billing_postcode,
+                        billing_phone: billing_phone,
+                        delivery_first_name: delivery_first_name,
+                        delivery_last_name: delivery_last_name,
+                        delivery_street_aadress: delivery_street_aadress,
+                        delivery_country: delivery_country,
+                        delivery_state: delivery_state,
+                        delivery_city: delivery_city,
+                        delivery_postcode: delivery_postcode,
+                        delivery_phone: delivery_phone,
+                        order_notes: order_notes,
+                        coupon_code: coupon_code,
+                        latlong: locations,
+                        currency_id: localStorage.getItem("currency"),
+                        payment_method,
+                        cc_number: cc_number,
+                        cc_expiry_month: cc_expiry_month,
+                        cc_expiry_year: cc_expiry_year,
+                        cc_cvc: cc_cvc,
+                        payment_method_nonce: payment_method_nonce,
+                        authorize_net_data_value: $('data-value').val(),
+                        authorize_net_data_descriptor: $('data-descriptor').val(),
+                        total_by_weight: total_by_weight,
+                        shipping_ro_province_id,
+                        shipping_ro_province,
+                        shipping_ro_city_id,
+                        shipping_ro_city,
+                        shipping_ro_method,
+                        shipping_ro_service,
+                        shipping_price
+                    }
+
+                    midtransOrderId = Date.now() + (Math.floor(Math.random() * 900) + 100) + localStorage.getItem("customerId")
+
+                    midtransCartItems.push({
+                        id: 0,
+                        price: shipping_price,
+                        quantity: 1,
+                        name: `${shipping_ro_method.toUpperCase()} - ${shipping_ro_service}`
+                    })
+
+                    const snapTokenData = {
+                        order_id: midtransOrderId,
+                        gross_amount: parseInt(orderAmount),
+                        items: midtransCartItems,
+                        customer: {
+                            name: `${billing_first_name} ${billing_last_name}`,
+                            email: localStorage.getItem("customerEmail"),
+                            phone: billing_phone
                         }
-                    };
-                    var rzp1 = new Razorpay(options);
-                    rzp1.open();
-                } else {
-                    url = '/api/client/order';
+                    }
+
+                    const generateSnapTokenUrl = '/api/client/order/get-snap-token'
                     $.ajax({
                         type: 'post',
-                        url: "{{ url('') }}" + url,
-                        data: {
-                            is_web:"1",
-                            billing_first_name: billing_first_name,
-                            billing_last_name: billing_last_name,
-                            billing_street_aadress: billing_street_aadress,
-                            billing_country: billing_country,
-                            billing_state: billing_state,
-                            billing_city: billing_city,
-                            billing_postcode: billing_postcode,
-                            billing_phone: billing_phone,
-                            delivery_first_name: delivery_first_name,
-                            delivery_last_name: delivery_last_name,
-                            delivery_street_aadress: delivery_street_aadress,
-                            delivery_country: delivery_country,
-                            delivery_state: delivery_state,
-                            delivery_city: delivery_city,
-                            delivery_postcode: delivery_postcode,
-                            delivery_phone: delivery_phone,
-                            order_notes: order_notes,
-                            coupon_code: coupon_code,
-                            latlong: locations,
-                            currency_id: localStorage.getItem("currency"),
-                            payment_method: payment_method,
-                            cc_number: cc_number,
-                            cc_expiry_month: cc_expiry_month,
-                            cc_expiry_year: cc_expiry_year,
-                            cc_cvc: cc_cvc,
-                            payment_method_nonce: payment_method_nonce,
-                            authorize_net_data_value: $('data-value').val(),
-                            authorize_net_data_descriptor: $('data-descriptor').val(),
-                            total_by_weight: total_by_weight,
-                            shipping_ro_province_id,
-                            shipping_ro_province,
-                            shipping_ro_city_id,
-                            shipping_ro_city,
-                            shipping_ro_method,
-                            shipping_ro_service,
-                            shipping_price
-                        },
+                        url: generateSnapTokenUrl,
+                        data: snapTokenData,
                         headers: {
                             'Authorization': 'Bearer ' + customerToken,
                             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
                             clientid: "{{ isset(getSetting()['client_id']) ? getSetting()['client_id'] : '' }}",
                             clientsecret: "{{ isset(getSetting()['client_secret']) ? getSetting()['client_secret'] : '' }}",
                         },
-                        beforeSend: function() {},
-                        success: function(data) {
-                            if (data.status == 'Success') {
-                                if (payment_method == "mollie") {
-                                    window.location.href = "{{ url('/mollie-payment/') }}" + "/" + data
-                                        .data.order_id;
+                        success: function (generatedSnapToken) {
+                            snapToken = generatedSnapToken
+
+                            snap.pay(snapToken, {
+                                onSuccess: function(result) {
+                                    console.log('[MIDTRANS SUCCESS]:', result)
+
+                                    saveOrder()
+                                },
+                                onPending: function(result) {
+                                    console.log('[MIDTRANS PENDING]:', result)
+
+                                    toastr.error("{{ trans('lables.order-pay-canceled') }}");
+                                },
+                                onError: function(result) {
+                                    console.log('[MIDTRANS ERROR]:', result)
+
+                                    toastr.error('Payment failed, please try again later or contact us!');
                                 }
-                                if (payment_method == "paystack") {
-                                    url = '/api/client/paystack-authorization';
-                                    $.ajax({
-                                        type: 'post',
-                                        url: "{{ url('') }}" + url,
-                                        data: {
-                                            order_id: data.data.order_id,
-                                        },
-                                        headers: {
-                                            'Authorization': 'Bearer ' + customerToken,
-                                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                                                'content'),
-                                            clientid: "{{ isset(getSetting()['client_id']) ? getSetting()['client_id'] : '' }}",
-                                            clientsecret: "{{ isset(getSetting()['client_secret']) ? getSetting()['client_secret'] : '' }}",
-                                        },
-                                        beforeSend: function() {},
-                                        success: function(data) {
-                                            if (data.status == 'Success') {
-                                                window.location.href = data.data;
-                                            } else if (data.status == 'Error') {
-                                                toastr.error(
-                                                    '{{ trans('response.some_thing_went_wrong') }}'
-                                                    );
-                                            }
-                                        },
-                                        error: function(data) {
-                                            toastr.error(
-                                                    '{{ trans('response.some_thing_went_wrong') }}'
-                                                    );
-
-                                        },
-                                    });
-                                } else
-                                    window.location.href = "{{ url('/thankyou') }}";
-
-                            } else if (data.status == 'Error') {
-                                        var  str1 = data.message; 
-                                        str1 = parseInt(str1.replace ( /[^\d.]/g, '' ))-1; 
-                                        toastr.error('{{ trans('response.out_of_stock') }}');
-                                        document.getElementById('cartItem-product-show').rows.item(str1).style.color = "red";
-                                //$("#pills-shipping-tab").addClass('active');
-                                //$("#pills-shipping").addClass('show active');
-                            }
-                        },
-                        error: function(data) {
-                            if (data.status == 422) {
-                                jQuery.each(data.responseJSON.errors, function(index, item) {
-                                    $("#" + index).parent().find('.invalid-feedback').css('display',
-                                        'block');
-                                    $("#" + index).parent().find('.invalid-feedback').html(item);
-                                });
-                            } else {
-                                toastr.error('{{ trans('response.some_thing_went_wrong') }}');
-                            }
-                            $("#pills-shipping-tab").addClass('active');
-                            $("#pills-shipping").addClass('show active');
-
-                            $("#pills-billing-tab").removeClass('active');
-                            $("#pills-billing").removeClass('show active');
-
-                            $("#pills-method-tab").removeClass('active');
-                            $("#pills-method").removeClass('show active');
-
-                            $("#pills-order-tab").removeClass('active');
-                            $("#pills-order").removeClass('show active');
-
-                        },
-                    });
-                }
+                            });
+                        }
+                    })
+                // }
             }    
-
-
         });
+
+        // Step 2: After the payment successful, save the order
+        function saveOrder() {
+            let url = '/api/client/order';
+
+            $.ajax({
+                type: 'post',
+                url: "{{ url('') }}" + url,
+                data: {
+                    snap_token: snapToken,
+                    midtrans_order_id: midtransOrderId,
+                    ...orderData
+                },
+                headers: {
+                    'Authorization': 'Bearer ' + customerToken,
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    clientid: "{{ isset(getSetting()['client_id']) ? getSetting()['client_id'] : '' }}",
+                    clientsecret: "{{ isset(getSetting()['client_secret']) ? getSetting()['client_secret'] : '' }}",
+                },
+                beforeSend: function() {},
+                success: function(data) {
+                    if (data.status == 'Success') {
+                        // if (payment_method == "mollie") {
+                        //     window.location.href = "{{ url('/mollie-payment/') }}" + "/" + data.data.order_id;
+                        // }
+                        // if (payment_method == "paystack") {
+                        //     url = '/api/client/paystack-authorization';
+                        //     $.ajax({
+                        //         type: 'post',
+                        //         url: "{{ url('') }}" + url,
+                        //         data: {
+                        //             order_id: data.data.order_id,
+                        //         },
+                        //         headers: {
+                        //             'Authorization': 'Bearer ' + customerToken,
+                        //             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                        //             clientid: "{{ isset(getSetting()['client_id']) ? getSetting()['client_id'] : '' }}",
+                        //             clientsecret: "{{ isset(getSetting()['client_secret']) ? getSetting()['client_secret'] : '' }}",
+                        //         },
+                        //         beforeSend: function() {},
+                        //         success: function(data) {
+                        //             if (data.status == 'Success') {
+                        //                 window.location.href = data.data;
+                        //             } else if (data.status == 'Error') {
+                        //                 toastr.error('{{ trans('response.some_thing_went_wrong') }}');
+                        //             }
+                        //         },
+                        //         error: function(data) {
+                        //             toastr.error('{{ trans('response.some_thing_went_wrong') }}');
+                        //         },
+                        //     });
+                        // } else {
+                        //    window.location.href = "{{ url('/thankyou') }}";
+                        // }
+                        
+                        window.location.href = "{{ url('/thankyou') }}";
+                    } else if (data.status == 'Error') {
+                        var  str1 = data.message; 
+                        str1 = parseInt(str1.replace ( /[^\d.]/g, '' ))-1; 
+                        toastr.error('{{ trans('response.out_of_stock') }}');
+                        document.getElementById('cartItem-product-show').rows.item(str1).style.color = "red";
+                    }
+                },
+                error: function(data) {
+                    if (data.status == 422) {
+                        jQuery.each(data.responseJSON.errors, function(index, item) {
+                            $("#" + index).parent().find('.invalid-feedback').css('display',
+                                'block');
+                            $("#" + index).parent().find('.invalid-feedback').html(item);
+                        });
+                    } else {
+                        toastr.error('{{ trans('response.some_thing_went_wrong') }}');
+                    }
+
+                    $("#pills-shipping-tab").addClass('active');
+                    $("#pills-shipping").addClass('show active');
+
+                    $("#pills-billing-tab").removeClass('active');
+                    $("#pills-billing").removeClass('show active');
+
+                    $("#pills-method-tab").removeClass('active');
+                    $("#pills-method").removeClass('show active');
+
+                    $("#pills-order-tab").removeClass('active');
+                    $("#pills-order").removeClass('show active');
+                },
+            });
+        }
 
         function tax() {
             state_id = $.trim($("#delivery_state").val());

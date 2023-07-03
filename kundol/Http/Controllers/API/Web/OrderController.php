@@ -10,6 +10,7 @@ use App\Repository\Web\OrderRepository;
 use Illuminate\Http\Request;
 use Cartalyst\Stripe\Laravel\Facades\Stripe;
 use Stripe\Error\Card;
+use App\Services\Web\Midtrans\CreateSnapTokenService;
 
 class OrderController extends Controller
 {
@@ -18,6 +19,13 @@ class OrderController extends Controller
     public function __construct(OrderInterface $OrderRepository)
     {
         $this->OrderRepository = $OrderRepository;
+    }
+
+    public function getSnapToken(Request $request) {
+        $midtrans = new CreateSnapTokenService($request->all());
+        $snap_token = $midtrans->getSnapToken();
+
+        echo $snap_token;
     }
 
     public function store(OrderRequest $request)

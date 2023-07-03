@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'laravel/laravel',
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
-        'reference' => NULL,
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '28035ebe7df9e039b84df2db840399724e19d5eb',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -494,9 +494,9 @@
             'dev_requirement' => false,
         ),
         'laravel/laravel' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
-            'reference' => NULL,
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '28035ebe7df9e039b84df2db840399724e19d5eb',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
@@ -639,6 +639,15 @@
             'replaced' => array(
                 0 => '*',
             ),
+        ),
+        'midtrans/midtrans-php' => array(
+            'pretty_version' => '2.5.2',
+            'version' => '2.5.2.0',
+            'reference' => 'a1ad0c824449ca8c68c4cf11b3417ad518311d2b',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../midtrans/midtrans-php',
+            'aliases' => array(),
+            'dev_requirement' => false,
         ),
         'milon/barcode' => array(
             'pretty_version' => '8.0.1',

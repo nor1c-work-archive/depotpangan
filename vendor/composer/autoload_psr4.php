@@ -72,6 +72,7 @@ return array(
     'Money\\' => array($vendorDir . '/moneyphp/money/src'),
     'Mollie\\Laravel\\' => array($vendorDir . '/mollie/laravel-mollie/src'),
     'Mollie\\Api\\' => array($vendorDir . '/mollie/mollie-api-php/src'),
+    'Midtrans\\' => array($vendorDir . '/midtrans/midtrans-php/Midtrans'),
     'League\\Uri\\' => array($vendorDir . '/league/uri/src', $vendorDir . '/league/uri-interfaces/src'),
     'League\\OAuth2\\Server\\' => array($vendorDir . '/league/oauth2-server/src'),
     'League\\OAuth1\\Client\\' => array($vendorDir . '/league/oauth1-client/src'),

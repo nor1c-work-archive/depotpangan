@@ -296,4 +296,12 @@ return [
     'product-detail-add-to-compare' => 'Bandingkan',
     'product-detail-tab-description' => 'Deksripsi',
     'product-detail-tab-reviews' => 'Ulasan',
+
+    'order-courier-select' => 'Pilih Ekspedisi Pengiriman',
+    'order-courier-province' => 'Provinsi Tujuan',
+    'order-courier-city' => 'Kota Tujuan',
+    'order-courier-choice' => 'Pilihan Kurir',
+    'order-courier-service' => 'Pilihan Layanan Kurir',
+    'checkout-pay' => 'Bayar',
+    'order-pay-canceled' => 'Anda telah membatalkan proses pembayaran, silahkan klik Bayar untuk mengulangi proses pembayaran',
 ];
