@@ -36,7 +36,6 @@ class OrderRepository implements OrderInterface
 
     public function update($order, array $parms)
     {
-        
         try {
             
             $order->update(['order_status'=>$parms['order_status']]);

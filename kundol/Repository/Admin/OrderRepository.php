@@ -79,9 +79,9 @@ class OrderRepository implements OrderInterface
             }
 
             if (isset($_GET['onlyComplete']) && $_GET['onlyComplete'] == '1') {
-                $order = $order->where('order_status','Complete');
+                $order = $order->where('order_status', 'Complete');
             }
-            
+
             if (isset($_GET['date_from']) && $_GET['date_from'] != '' && isset($_GET['date_to']) && $_GET['date_to'] != '') {
                 $order = $order->findOrderBydate($_GET['date_from'], $_GET['date_to']);
             }
@@ -96,14 +96,13 @@ class OrderRepository implements OrderInterface
                 $order = $order->getCustomerOrders(Auth::id());
             }
 
-            if(isset($_GET['delivery_boy_id'])){
-                $order = $order->where('delivery_boy_id',$_GET['delivery_boy_id']);
+            if (isset($_GET['delivery_boy_id'])) {
+                $order = $order->where('delivery_boy_id', $_GET['delivery_boy_id']);
                 return $this->successResponse(OrderResource::collection($order->get()), 'Data Get Successfully!');
             }
 
-            if(isset($_GET['customer_id']) && $_GET['customer_id'] != ""){
-                $order = $order->where('customer_id',$_GET['customer_id']);
-
+            if (isset($_GET['customer_id']) && $_GET['customer_id'] != "") {
+                $order = $order->where('customer_id', $_GET['customer_id']);
             }
             return $this->successResponse(OrderResource::collection($order->paginate($numOfResult)), 'Data Get Successfully!');
         } catch (Exception $e) {
@@ -113,19 +112,19 @@ class OrderRepository implements OrderInterface
 
     public function show($order)
     {
-        $order = Order::where('id',$order->id);
+        $order = Order::where('id', $order->id);
         if (isset($_GET['orderDetail']) && $_GET['orderDetail'] == '1') {
             $order = $order->with('detail');
             $order = $order->with('detail.product_combination');
         }
         $languageId = Language::defaultLanguage()->value('id');
-            if (isset($_GET['language_id']) && $_GET['language_id'] != '') {
-                $language = Language::languageId($_GET['language_id'])->firstOrFail();
-                $languageId = $language->id;
-            }
-            if (isset($_GET['productDetail']) && $_GET['productDetail'] == '1') {
-                $order = $order->getProductDetailByLanguageId($languageId);
-            }
+        if (isset($_GET['language_id']) && $_GET['language_id'] != '') {
+            $language = Language::languageId($_GET['language_id'])->firstOrFail();
+            $languageId = $language->id;
+        }
+        if (isset($_GET['productDetail']) && $_GET['productDetail'] == '1') {
+            $order = $order->getProductDetailByLanguageId($languageId);
+        }
         if (isset($_GET['customer']) && $_GET['customer'] == '1') {
             $order = $order->with('customer');
         }
@@ -153,15 +152,21 @@ class OrderRepository implements OrderInterface
 
     public function update(array $parms, $order)
     {
-        
         try {
-            $order->update(['order_status'=>$parms['order_status']]);
-            if($parms['order_status'] == 'Return' || $parms['order_status'] == 'Cancel'){
+            $data['order_status'] = $parms['order_status'];
+
+            if (isset($parms['shipping_ro_resi_number']) && $parms['shipping_ro_resi_number'] != '') {
+                $data['shipping_ro_resi_number'] = $parms['shipping_ro_resi_number'];
+            }
+
+            $order->update($data);
+
+            if ($parms['order_status'] == 'Return' || $parms['order_status'] == 'Cancel') {
                 $orderService = new OrderService;
                 $orderService = $orderService->revertOrderProductsQuantity($order);
             }
             OrderHistory::create([
-                'order_id'=>$order->id,
+                'order_id' => $order->id,
                 'order_status' => $parms['order_status']
             ]);
         } catch (Exception $e) {
@@ -177,7 +182,7 @@ class OrderRepository implements OrderInterface
 
     public function addOrderNotes(array $parms)
     {
-        $data = array('order_id'=>$parms['id'],'notes'=>$parms['notes'],'title'=>$parms['title']);
+        $data = array('order_id' => $parms['id'], 'notes' => $parms['notes'], 'title' => $parms['title']);
         try {
             $orderNotes = OrderNote::create($data);
         } catch (Exception $e) {
@@ -192,8 +197,9 @@ class OrderRepository implements OrderInterface
         }
     }
 
-    public function addOrderComments(array $parms){
-        $data = array('order_id'=>$parms['id'],'message'=>$parms['message'],'user_id' => \Auth::id());
+    public function addOrderComments(array $parms)
+    {
+        $data = array('order_id' => $parms['id'], 'message' => $parms['message'], 'user_id' => \Auth::id());
         try {
             $orderComments = OrderComment::create($data);
         } catch (Exception $e) {
@@ -207,6 +213,4 @@ class OrderRepository implements OrderInterface
             return $this->errorResponse();
         }
     }
-
-   
 }

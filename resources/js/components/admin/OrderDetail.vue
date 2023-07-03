@@ -1277,20 +1277,37 @@
                               justify-content-center
                             ">
                                 <div class="col-xl-6 col-lg-8 col-12 status-detail">
-                                  <label class="col-form-label mr-3">Assign Order To Delivery Boy</label>
-                                  <fieldset class="form-group">
+                                  <div v-if="orders.shipping_ro_method === ''">
+                                    <label class="col-form-label mr-3">Assign Order To Delivery Boy</label>
+                                    <fieldset class="form-group">
+                                      <select class="form-control" v-model="delivery_boy_id">
+                                        <option v-for="db in deliveryboys" :selected="orders.delivery_boy_id == db.id"
+                                          :value="db.id">
+                                          {{ db.first_name }} {{ db.last_name }}
+                                        </option>
+                                      </select>
+                                      <br />
 
-                                    <select class="form-control" v-model="delivery_boy_id">
-                                      <option v-for="db in deliveryboys" :selected="orders.delivery_boy_id == db.id"
-                                        :value="db.id">
-                                        {{ db.first_name }} {{ db.last_name }}
-                                      </option>
-                                    </select>
-                                    <br />
+                                      <button class="btn btn-primary" style="float:right"
+                                        @click="assignDeliveryBoy()">Submit</button>
+                                    </fieldset>
+                                  </div>
 
-                                    <button class="btn btn-primary" style="float:right"
-                                      @click="assignDeliveryBoy()">Submit</button>
-                                  </fieldset>
+                                  <!-- RajaOngkir -->
+                                  <div>
+                                    <label class="col-form-label mr-3">Pilihan Kurir</label>
+                                    <div>{{ orders.shipping_ro_method }} - {{ orders.shipping_ro_service }}</div>
+                                    <br>
+
+                                    <label class="col-form-label mr-3">Nomor Resi</label>
+                                    <fieldset class="form-group">
+                                      <input type="text" v-model="resi_number" class="form-control">
+                                      <br>
+
+                                      <button class="btn btn-primary" style="float:right"
+                                        @click="updateResiNumber()">Submit</button>
+                                    </fieldset>
+                                  </div>
                                 </div>
                               </div>
                             </div>
@@ -1566,6 +1583,7 @@ export default {
       csrf: document
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content"),
+      resi_number: '',
     };
   },
 
@@ -1604,8 +1622,7 @@ export default {
           this.total = this.orders.order_price;
           this.coupon_amount = (this.orders.coupon_amount != null && this.orders.coupon_amount != 'null' && this.orders.coupon_amount != '') ? this.orders.coupon_amount : '0.00';
           this.coupon_amount = "-" + this.coupon_amount;
-
-
+          this.resi_number = this.orders.shipping_ro_resi_number && this.orders.shipping_ro_resi_number != '-' ? this.orders.shipping_ro_resi_number : '';
         })
         .finally(() => (this.$parent.loading = false));
     },
@@ -1632,6 +1649,19 @@ export default {
         .then((res) => {
           this.fetchorders();
           this.$toaster.success("Delivery Boy Assigned");
+        })
+        .finally(() => (this.$parent.loading = false));
+    },
+    updateResiNumber() {
+      this.$parent.loading = true;
+      let vm = this;
+      var page_url = "/api/admin/order/" + this.$route.params.id;
+
+      axios
+        .put(page_url, { order_status: this.order_status, shipping_ro_resi_number: this.resi_number }, this.token)
+        .then((res) => {
+          this.fetchorders();
+          this.$toaster.success("Nomor Resi Berhasil Diperbarui");
         })
         .finally(() => (this.$parent.loading = false));
     },
