@@ -11,6 +11,7 @@ use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use App\Events\OrderProcessed;
+use App\Mail\OrderConfirmation;
 use App\Models\Admin\Account;
 use App\Models\Admin\Currency;
 use App\Models\Admin\DefaultAccount;
@@ -148,18 +149,31 @@ class OrderProcess implements ShouldQueue
             $this->parms['shipping_method'] = $shippingMethodPrice->methods_type_link;
             $this->parms['total_tax'] = $total;
             // $this->parms['shipping_cost'] = $shipping_method_price;
-            $this->parms['shipping_cost'] = $this->parms['shipping_price'];
+            $this->parms['shipping_cost'] = $this->parms['shipping_price'] ?? 0;
             $this->parms['order_price'] = $this->parms['order_price'] + $total + $shipping_method_price;
             $this->parms['customer_id'] = $customer_id;
             $this->parms['currency_id'] = $currency->id;
             $this->parms['currency_value'] = $currency->exchange_rate;
             $sql = Order::create($this->parms);
+
+            if (!$this->parms['ispos']) {
+                $mail_data = [
+                    'order_id' => $sql->id,
+                    'order_date' => date('d M Y H:i:s', time()),
+                    'customer_name' => $this->parms['customer']['name'],
+                    'customer_address' => $this->parms['billing_street_aadress'],
+                    'customer_phone' => $this->parms['customer']['phone'],
+                    'customer_email' => $this->parms['customer']['email'], // todo
+                    'items' => $this->parms['items'], // todo
+                    'grand_total' => $this->parms['gross_amount']-$this->parms['shipping_price']
+                ];
+                \Mail::to($mail_data['customer_email'])->send(new OrderConfirmation($mail_data));
+            }
+
             OrderHistory::create([
                 'order_id'=>$sql->id,
                 'order_status' =>  $this->parms['order_status']
-            ]);
-
-            
+            ]);            
         } catch (Exception $e) {
             return $this->errorResponse();
         }
