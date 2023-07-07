@@ -156,18 +156,23 @@ class OrderProcess implements ShouldQueue
             $this->parms['currency_value'] = $currency->exchange_rate;
             $sql = Order::create($this->parms);
 
-            if (!$this->parms['ispos']) {
+            if (!isset($this->parms['ispos']) || $this->parms['ispos'] = false) {
                 $mail_data = [
                     'order_id' => $sql->id,
                     'order_date' => date('d M Y H:i:s', time()),
                     'customer_name' => $this->parms['customer']['name'],
                     'customer_address' => $this->parms['billing_street_aadress'],
                     'customer_phone' => $this->parms['customer']['phone'],
-                    'customer_email' => $this->parms['customer']['email'], // todo
-                    'items' => $this->parms['items'], // todo
+                    'customer_email' => $this->parms['customer']['email'],
+                    'items' => $this->parms['items'],
                     'grand_total' => $this->parms['gross_amount']-$this->parms['shipping_price']
                 ];
-                \Mail::to($mail_data['customer_email'])->send(new OrderConfirmation($mail_data));
+                
+                try {
+                    \Mail::to($mail_data['customer_email'])->send(new OrderConfirmation($mail_data));
+                } catch (\Exception $e) {
+                    // 
+                }
             }
 
             OrderHistory::create([

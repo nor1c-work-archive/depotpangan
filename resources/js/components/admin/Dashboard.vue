@@ -1,50 +1,35 @@
 <template>
   <div>
-    <div
-      class="row"
-      style="justify-content: center; align-items: center !important"
-      v-if="!$parent.permissions.includes('dashboard')"
-    >
+    <div class="row" style="justify-content: center; align-items: center !important"
+      v-if="!$parent.permissions.includes('dashboard')">
       <div class="notfound" style="margin-top: 200px">
         <p>You Don't Have Permission To View Dashboard</p>
       </div>
     </div>
     <div class="row" v-if="$parent.permissions.includes('dashboard')">
       <div class="col-lg-6 col-xl-3">
-        <div
-          class="
+        <div class="
             card card-custom
             gutter-b
             bg-white
             border-0
             theme-circle theme-circle-primary
-          "
-        >
+          ">
           <div class="card-body">
             <h3 class="text-body font-weight-bold">Orders</h3>
             <div class="mt-3">
               <div class="d-flex align-items-center">
-                <span class="text-dark font-weight-bold font-size-h1 mr-3"
-                  ><span class="counter">
+                <span class="text-dark font-weight-bold font-size-h1 mr-3"><span class="counter">
                     {{ totalOrders }}
-                  </span></span
-                >
-                <span
-                  class="font-weight-bold font-size-h0"
-                  :class="OrderPercentage < 0 ? 'text-danger' : 'text-success'"
-                >
+                  </span></span>
+                <span class="font-weight-bold font-size-h0"
+                  :class="OrderPercentage < 0 ? 'text-danger' : 'text-success'">
                   {{ OrderPercentage }}
                 </span>
-                <span
-                  class="svg-icon"
-                  :class="OrderPercentage < 0 ? 'text-danger' : 'text-success'"
-                >
-                  <i
-                    :class="
-                      OrderPercentage < 0 ? 'fa-arrow-down' : 'fa-arrow-up'
-                    "
-                    class="fas"
-                  ></i>
+                <span class="svg-icon" :class="OrderPercentage < 0 ? 'text-danger' : 'text-success'">
+                  <i :class="
+                    OrderPercentage < 0 ? 'fa-arrow-down' : 'fa-arrow-up'
+                  " class="fas"></i>
                 </span>
               </div>
               <div class="text-black-50 mt-3">
@@ -55,44 +40,31 @@
         </div>
       </div>
       <div class="col-lg-6 col-xl-3">
-        <div
-          class="
+        <div class="
             card card-custom
             gutter-b
             bg-white
             border-0
             theme-circle theme-circle theme-circle-secondary
-          "
-        >
+          ">
           <div class="card-body">
             <h3 class="text-body font-weight-bold">Products</h3>
             <div class="mt-3">
               <div class="d-flex align-items-center">
-                <span class="text-dark font-weight-bold font-size-h1 mr-3"
-                  ><span class="counter">
+                <span class="text-dark font-weight-bold font-size-h1 mr-3"><span class="counter">
                     {{ totalProducts }}
-                  </span></span
-                >
-                <span
-                  class="font-weight-bold font-size-h0"
-                  :class="
-                    ProductPercentage < 0 ? 'text-danger' : 'text-success'
-                  "
-                >
+                  </span></span>
+                <span class="font-weight-bold font-size-h0" :class="
+                  ProductPercentage < 0 ? 'text-danger' : 'text-success'
+                ">
                   {{ ProductPercentage }}
                 </span>
-                <span
-                  class="svg-icon"
-                  :class="
-                    ProductPercentage < 0 ? 'text-danger' : 'text-success'
-                  "
-                >
-                  <i
-                    :class="
-                      ProductPercentage < 0 ? 'fa-arrow-down' : 'fa-arrow-up'
-                    "
-                    class="fas"
-                  ></i>
+                <span class="svg-icon" :class="
+                  ProductPercentage < 0 ? 'text-danger' : 'text-success'
+                ">
+                  <i :class="
+                    ProductPercentage < 0 ? 'fa-arrow-down' : 'fa-arrow-up'
+                  " class="fas"></i>
                 </span>
               </div>
               <div class="text-black-50 mt-3">
@@ -103,44 +75,31 @@
         </div>
       </div>
       <div class="col-lg-6 col-xl-3">
-        <div
-          class="
+        <div class="
             card card-custom
             gutter-b
             bg-white
             border-0
             theme-circle theme-circle-success
-          "
-        >
+          ">
           <div class="card-body">
             <h3 class="text-body font-weight-bold">Users</h3>
             <div class="mt-3">
               <div class="d-flex align-items-center">
-                <span class="text-dark font-weight-bold font-size-h1 mr-3"
-                  ><span class="counter">
+                <span class="text-dark font-weight-bold font-size-h1 mr-3"><span class="counter">
                     {{ totalCustomers }}
-                  </span></span
-                >
-                <span
-                  class="font-weight-bold font-size-h0"
-                  :class="
-                    CustomerPercentage < 0 ? 'text-danger' : 'text-success'
-                  "
-                >
+                  </span></span>
+                <span class="font-weight-bold font-size-h0" :class="
+                  CustomerPercentage < 0 ? 'text-danger' : 'text-success'
+                ">
                   {{ CustomerPercentage }}
                 </span>
-                <span
-                  class="svg-icon"
-                  :class="
-                    CustomerPercentage < 0 ? 'text-danger' : 'text-success'
-                  "
-                >
-                  <i
-                    :class="
-                      CustomerPercentage < 0 ? 'fa-arrow-down' : 'fa-arrow-up'
-                    "
-                    class="fas"
-                  ></i>
+                <span class="svg-icon" :class="
+                  CustomerPercentage < 0 ? 'text-danger' : 'text-success'
+                ">
+                  <i :class="
+                    CustomerPercentage < 0 ? 'fa-arrow-down' : 'fa-arrow-up'
+                  " class="fas"></i>
                 </span>
               </div>
               <div class="text-black-50 mt-3">
@@ -151,40 +110,28 @@
         </div>
       </div>
       <div class="col-lg-6 col-xl-3">
-        <div
-          class="
+        <div class="
             card card-custom
             gutter-b
             bg-white
             border-0
             theme-circle theme-circle-info
-          "
-        >
+          ">
           <div class="card-body">
             <h3 class="text-body font-weight-bold">Sales</h3>
             <div class="mt-3">
               <div class="d-flex align-items-center">
-                <span class="text-dark font-weight-bold font-size-h1 mr-3"
-                  >$<span class="counter">
-                    {{ totalSales }}
-                  </span></span
-                >
-                <span
-                  class="font-weight-bold font-size-h0"
-                  :class="SalePercentage < 0 ? 'text-danger' : 'text-success'"
-                >
+                <span class="text-dark font-weight-bold font-size-h1 mr-3">$<span class="counter">
+                    {{ currencyFormat(totalSales) }}
+                  </span></span>
+                <span class="font-weight-bold font-size-h0"
+                  :class="SalePercentage < 0 ? 'text-danger' : 'text-success'">
                   {{ SalePercentage }}
                 </span>
-                <span
-                  class="svg-icon"
-                  :class="SalePercentage < 0 ? 'text-danger' : 'text-success'"
-                >
-                  <i
-                    :class="
-                      SalePercentage < 0 ? 'fa-arrow-down' : 'fa-arrow-up'
-                    "
-                    class="fas"
-                  ></i>
+                <span class="svg-icon" :class="SalePercentage < 0 ? 'text-danger' : 'text-success'">
+                  <i :class="
+                    SalePercentage < 0 ? 'fa-arrow-down' : 'fa-arrow-up'
+                  " class="fas"></i>
                 </span>
               </div>
               <div class="text-black-50 mt-3">
@@ -206,12 +153,7 @@
           </div>
           <div class="card-body pt-3">
             <div id="chart">
-              <apexchart
-                type="line"
-                height="350"
-                :options="chartOptions"
-                :series="series"
-              ></apexchart>
+              <apexchart type="line" height="350" :options="chartOptions" :series="series"></apexchart>
             </div>
           </div>
         </div>
@@ -228,19 +170,16 @@
           </div>
           <div class="card-body px-0">
             <ul class="list-group scrollbar-1" style="height: 300px">
-              <li
-                class="
+              <li class="
                   list-group-item list-group-item-action
                   border-0
                   d-flex
                   align-items-center
                   justify-content-between
                   py-2
-                "
-              >
+                ">
                 <div class="list-left d-flex align-items-center">
-                  <span
-                    class="
+                  <span class="
                       d-flex
                       align-items-center
                       justify-content-center
@@ -251,44 +190,30 @@
                       bg-primary
                       text-white
                       mr-2
-                    "
-                  >
-                    <svg
-                      width="20px"
-                      height="20px"
-                      viewBox="0 0 16 16"
-                      class="bi bi-lightning-fill"
-                      fill="currentColor"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09z"
-                      />
+                    ">
+                    <svg width="20px" height="20px" viewBox="0 0 16 16" class="bi bi-lightning-fill" fill="currentColor"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd"
+                        d="M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09z" />
                     </svg>
                   </span>
                   <div class="list-content">
                     <span class="list-title text-body">Total Products</span>
-                    <small class="text-muted d-block"
-                      >{{ thisWeekProducts }} New Products</small
-                    >
+                    <small class="text-muted d-block">{{ thisWeekProducts }} New Products</small>
                   </div>
                 </div>
                 <span>{{ totalProducts }}</span>
               </li>
-              <li
-                class="
+              <li class="
                   list-group-item list-group-item-action
                   border-0
                   d-flex
                   align-items-center
                   justify-content-between
                   py-2
-                "
-              >
+                ">
                 <div class="list-left d-flex align-items-center">
-                  <span
-                    class="
+                  <span class="
                       d-flex
                       align-items-center
                       justify-content-center
@@ -299,45 +224,31 @@
                       bg-secondary
                       text-white
                       mr-2
-                    "
-                  >
-                    <svg
-                      width="20px"
-                      height="20px"
-                      viewBox="0 0 16 16"
-                      class="bi bi-bar-chart-line-fill"
-                      fill="currentColor"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2z"
-                      />
+                    ">
+                    <svg width="20px" height="20px" viewBox="0 0 16 16" class="bi bi-bar-chart-line-fill"
+                      fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd"
+                        d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2z" />
                     </svg>
                   </span>
                   <div class="list-content">
                     <span class="list-title text-body">Total Sales</span>
-                    <small class="text-muted d-block"
-                      >{{ thisWeekSales }} New Sales</small
-                    >
+                    <small class="text-muted d-block">{{ currencyFormat(thisWeekSales) }} New Sales</small>
                   </div>
                 </div>
-                <span>{{ totalSales }}</span>
+                <span>{{ currencyFormat(totalSales) }}</span>
               </li>
 
-              <li
-                class="
+              <li class="
                   list-group-item list-group-item-action
                   border-0
                   d-flex
                   align-items-center
                   justify-content-between
                   py-2
-                "
-              >
+                ">
                 <div class="list-left d-flex align-items-center">
-                  <span
-                    class="
+                  <span class="
                       d-flex
                       align-items-center
                       justify-content-center
@@ -348,45 +259,31 @@
                       bg-secondary
                       text-white
                       mr-2
-                    "
-                  >
-                    <svg
-                      width="20px"
-                      height="20px"
-                      viewBox="0 0 16 16"
-                      class="bi bi-bar-chart-line-fill"
-                      fill="currentColor"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2z"
-                      />
+                    ">
+                    <svg width="20px" height="20px" viewBox="0 0 16 16" class="bi bi-bar-chart-line-fill"
+                      fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd"
+                        d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1V2z" />
                     </svg>
                   </span>
                   <div class="list-content">
                     <span class="list-title text-body">Total Order</span>
-                    <small class="text-muted d-block"
-                      >{{ thisWeekOrders }} New Sales</small
-                    >
+                    <small class="text-muted d-block">{{ thisWeekOrders }} New Sales</small>
                   </div>
                 </div>
                 <span>{{ totalOrders }}</span>
               </li>
 
-              <li
-                class="
+              <li class="
                   list-group-item list-group-item-action
                   border-0
                   d-flex
                   align-items-center
                   justify-content-between
                   py-2
-                "
-              >
+                ">
                 <div class="list-left d-flex align-items-center">
-                  <span
-                    class="
+                  <span class="
                       d-flex
                       align-items-center
                       justify-content-center
@@ -397,27 +294,16 @@
                       bg-warning
                       text-white
                       mr-2
-                    "
-                  >
-                    <svg
-                      width="20px"
-                      height="20px"
-                      viewBox="0 0 16 16"
-                      class="bi bi-lightning-fill"
-                      fill="currentColor"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        fill-rule="evenodd"
-                        d="M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09z"
-                      />
+                    ">
+                    <svg width="20px" height="20px" viewBox="0 0 16 16" class="bi bi-lightning-fill" fill="currentColor"
+                      xmlns="http://www.w3.org/2000/svg">
+                      <path fill-rule="evenodd"
+                        d="M11.251.068a.5.5 0 0 1 .227.58L9.677 6.5H13a.5.5 0 0 1 .364.843l-8 8.5a.5.5 0 0 1-.842-.49L6.323 9.5H3a.5.5 0 0 1-.364-.843l8-8.5a.5.5 0 0 1 .615-.09z" />
                     </svg>
                   </span>
                   <div class="list-content">
                     <span class="list-title text-body">Total Users</span>
-                    <small class="text-muted d-block"
-                      >{{ thisWeekCustomer }}New Users</small
-                    >
+                    <small class="text-muted d-block">{{ thisWeekCustomer }}New Users</small>
                   </div>
                 </div>
                 <span>{{ totalCustomers }}</span>
@@ -454,12 +340,7 @@
           </div>
           <div class="card-body pt-3">
             <div id="chart">
-              <apexchart
-                type="line"
-                height="350"
-                :options="saleChartOptions"
-                :series="saleSeries"
-              ></apexchart>
+              <apexchart type="line" height="350" :options="saleChartOptions" :series="saleSeries"></apexchart>
             </div>
           </div>
         </div>

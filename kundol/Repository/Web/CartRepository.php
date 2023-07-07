@@ -19,8 +19,6 @@ class CartRepository implements CartInterface
     use ApiResponser;
     public function all($params)
     {
-        // return $params['session_id'];
-
         $sql = Cart::type()->where('is_order', '0');
         if (Auth::check()) {
             $sql = $sql->customerId(Auth::id());

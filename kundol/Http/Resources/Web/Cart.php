@@ -11,6 +11,7 @@ use App\Models\Admin\ProductCombinationDtl;
 use App\Http\Resources\Admin\ProductCombinationDtl as ProductCombinationDtlResource;
 use App\Http\Resources\Admin\ProductCombination as ProductCombinationResource;
 use App\Models\Admin\Currency;
+use App\Http\Resources\Admin\Unit as UnitResource;
 
 class Cart extends JsonResource
 {
@@ -35,6 +36,7 @@ class Cart extends JsonResource
             'session' => $this->session_id,
             'product_id' => $this->product_id,
             'product_weight' => $this->product->product_weight ? $this->product->product_weight : 0,
+            'product_unit' => new UnitResource($this->product->unit),
             'product_type' => $this->product->product_type,
             'product_combination_id' => $this->product_combination_id,
             'product_combination' => ProductCombinationDtlResource::collection(ProductCombinationDtl::where('product_combination_id', $this->product_combination_id)->get()),

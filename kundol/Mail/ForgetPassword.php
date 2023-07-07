@@ -28,8 +28,6 @@ class ForgetPassword extends Mailable
      */
     public function build()
     {
-        return $this->markdown('emails.forget-password')
-        ->with('maildata', $this->maildata);
-
+        return $this->markdown('emails.forget-password')->with('maildata', $this->maildata);
     }
 }

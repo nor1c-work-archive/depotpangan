@@ -261,12 +261,6 @@ export default {
   },
 
   methods: {
-    currencyFormat(nominal) {
-      return new Intl.NumberFormat('id-ID', {
-        style: 'currency',
-        currency: 'IDR'
-      }).format(nominal)
-    },
     fetchStockOnHand(page_url) {
       this.$parent.loading = true;
       let vm = this;

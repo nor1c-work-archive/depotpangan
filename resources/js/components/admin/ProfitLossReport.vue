@@ -7,23 +7,19 @@
           <div class="col-12">
             <div class="row">
               <div class="col-lg-12 col-xl-12">
-                <div
-                  class="
+                <div class="
                     card card-custom
                     gutter-b
                     bg-transparent
                     shadow-none
                     border-0
-                  "
-                >
-                  <div
-                    class="
+                  ">
+                  <div class="
                       card-header
                       align-items-center
                       border-bottom-dark
                       px-0
-                    "
-                  >
+                    ">
                     <div class="card-title mb-0">
                       <h3 class="card-label mb-0 font-weight-bold text-body">
                         Profit And Loss Report
@@ -44,10 +40,7 @@
                           <label>Warehouse Id</label>
                           <select class="form-control" v-model="warehouse_id">
                             <option value="">all</option>
-                            <option
-                              v-for="warehouse in warehouses"
-                              :value="warehouse.warehouse_id"
-                            >
+                            <option v-for="warehouse in warehouses" :value="warehouse.warehouse_id">
                               {{ warehouse.warehouse_name }}
                             </option>
                           </select>
@@ -59,10 +52,7 @@
 
                         <select class="form-control" v-model="category_id">
                           <option value="">all</option>
-                          <option
-                            v-for="category in product_categories"
-                            :value="category.id"
-                          >
+                          <option v-for="category in product_categories" :value="category.id">
                             {{ category.slug.replace(/[^\w\s]/gi, " ") }}
                           </option>
                         </select>
@@ -72,43 +62,25 @@
                         <label>Product Id</label>
                         <select class="form-control" v-model="product_id">
                           <option value="">all</option>
-                          <option
-                            v-for="product in products"
-                            :value="product.product_id"
-                          >
+                          <option v-for="product in products" :value="product.product_id">
                             {{ product.detail ? product.detail[0].title : "" }}
                           </option>
                         </select>
                       </div>
 
                       <div class="col-md-3">
-                        <button
-                          style="margin-top: 20px"
-                          class="btn btn-success"
-                          @click="fetchStockOnHand('')"
-                        >
+                        <button style="margin-top: 20px" class="btn btn-success" @click="fetchStockOnHand('')">
                           Filter
                         </button>
                       </div>
                     </div>
                     <div>
                       <div class="table-responsive" id="printableTable">
-                        <div
-                          id="productUnitTable_wrapper"
-                          class="dataTables_wrapper no-footer"
-                        >
-                          <div
-                            class="dataTables_length"
-                            id="productUnitTable_length"
-                          >
-                            <label
-                              >Show
-                              <select
-                                name="productUnitTable_length"
-                                class=""
-                                v-model="limit"
-                                v-on:change="fetchStockOnHand()"
-                              >
+                        <div id="productUnitTable_wrapper" class="dataTables_wrapper no-footer">
+                          <div class="dataTables_length" id="productUnitTable_length">
+                            <label>Show
+                              <select name="productUnitTable_length" class="" v-model="limit"
+                                v-on:change="fetchStockOnHand()">
                                 <option value="10">10</option>
                                 <option value="25">25</option>
                                 <option value="50">50</option>
@@ -117,164 +89,104 @@
                                 <option value="500">500</option>
                                 <option value="1000">1000</option>
                               </select>
-                              entries</label
-                            >
+                              entries</label>
                           </div>
-                          <table
-                            id="productUnitTable"
-                            class="display dataTable no-footer"
-                            role="grid"
-                          >
+                          <table id="productUnitTable" class="display dataTable no-footer" role="grid">
                             <thead class="text-body">
                               <tr role="row">
-                                <th
-                                  class="sorting"
-                                  tabindex="0"
-                                  rowspan="1"
-                                  colspan="1"
-                                  aria-sort="ascending"
-                                  aria-label="ID: activate to sort column descending"
-                                  style="width: 31.25px"
-                                  @click="sorting('id')"
-                                  :class="
+                                <th class="sorting" tabindex="0" rowspan="1" colspan="1" aria-sort="ascending"
+                                  aria-label="ID: activate to sort column descending" style="width: 31.25px"
+                                  @click="sorting('id')" :class="
                                     (this.$data.sortType == 'asc' ||
                                       this.$data.sortType == 'ASC') &&
-                                    this.$data.sortBy == 'id'
+                                      this.$data.sortBy == 'id'
                                       ? 'sorting_asc'
                                       : (this.$data.sortType == 'desc' ||
-                                          this.$data.sortType == 'DESC') &&
+                                        this.$data.sortType == 'DESC') &&
                                         this.$data.sortBy == 'id'
-                                      ? 'sorting_desc'
-                                      : 'sorting'
-                                  "
-                                >
+                                        ? 'sorting_desc'
+                                        : 'sorting'
+                                  ">
                                   Pid
                                 </th>
-                                <th
-                                  class="sorting"
-                                  tabindex="0"
-                                  rowspan="1"
-                                  colspan="1"
-                                  aria-label="stock: activate to sort column ascending"
-                                  style="width: 95.5288px"
-                                >
+                                <th class="sorting" tabindex="0" rowspan="1" colspan="1"
+                                  aria-label="stock: activate to sort column ascending" style="width: 95.5288px">
                                   Product Name
                                 </th>
-                                <th
-                                  class="sorting"
-                                  tabindex="0"
-                                  rowspan="1"
-                                  colspan="1"
-                                  aria-label="Phone No: activate to sort column ascending"
-                                  style="width: 81.8109px"
-                                >
+                                <th class="sorting" tabindex="0" rowspan="1" colspan="1"
+                                  aria-label="Phone No: activate to sort column ascending" style="width: 81.8109px">
                                   Profit
                                 </th>
-                                <th
-                                  class="no-sort sorting_disabled"
-                                  rowspan="1"
-                                  colspan="1"
-                                  aria-label="Action"
-                                  style="width: 53.1891px"
-                                >
+                                <th class="no-sort sorting_disabled" rowspan="1" colspan="1" aria-label="Action"
+                                  style="width: 53.1891px">
                                   Loss
                                 </th>
                               </tr>
                             </thead>
                             <tbody class="kt-table-tbody text-dark">
-                              <tr
-                                class="kt-table-row kt-table-row-level-0 odd"
-                                role="row"
-                                v-for="(stock, i) in stocks"
-                                v-bind:key="i"
-                              >
+                              <tr class="kt-table-row kt-table-row-level-0 odd" role="row" v-for="(stock, i) in stocks"
+                                v-bind:key="i">
                                 <td class="sorting_1">
                                   {{ stock.product_id }}
                                 </td>
                                 <td>
                                   {{
-                                    stock.product
-                                      ? stock.product.detail
-                                        ? stock.product.detail[0].title
+                                      stock.product
+                                        ? stock.product.detail
+                                          ? stock.product.detail[0].title
+                                          : ""
                                         : ""
-                                      : ""
                                   }}
                                 </td>
                                 <td>
                                   {{
-                                    stock.current_value_simple_product
-                                      ? stock.current_value_simple_product
-                                          .total_amount > 0
+                                      stock.current_value_simple_product
                                         ? stock.current_value_simple_product
-                                            .total_amount
-                                        : 0
-                                      : stock.current_value_variable_product
-                                      ? stock.current_value_variable_product
                                           .total_amount > 0
-                                        ? stock.current_value_variable_product
-                                            .total_amount
-                                        : 0
-                                      : 0
+                                          ? currencyFormat(stock.current_value_simple_product.total_amount)
+                                          : 0
+                                        : stock.current_value_variable_product
+                                          ? stock.current_value_variable_product
+                                            .total_amount > 0
+                                            ? currencyFormat(stock.current_value_variable_product.total_amount)
+                                            : 0
+                                          : 0
                                   }}
                                 </td>
 
                                 <td>
                                   {{
-                                    stock.current_value_simple_product
-                                      ? stock.current_value_simple_product
-                                          .total_amount < 0
-                                        ? -1*(stock.current_value_simple_product
-                                            .total_amount)
-                                        : 0
-                                      : stock.current_value_variable_product
-                                      ? stock.current_value_variable_product
-                                          .total_amount < 0
-                                        ? -1*(stock.current_value_variable_product
-                                            .total_amount)
-                                        : 0
-                                      : 0
-                                  }}
-                                </td>
+                                      stock.current_value_simple_product
+                                        ? stock.current_value_simple_product
+                                          .total_amount < 0 ? -1 * (stock.current_value_simple_product.total_amount) : 0 :
+                                        stock.current_value_variable_product ? stock.current_value_variable_product
+                                          .total_amount < 0 ? -1 * (stock.current_value_variable_product.total_amount) : 0 : 0
+                                  }} </td>
                               </tr>
                             </tbody>
                           </table>
                           <ul class="pagination pagination-sm m-0 float-right">
-                            <li
-                              v-bind:class="[
-                                { disabled: !pagination.prev_page_url },
-                              ]"
-                            >
-                              <button
-                                class="page-link"
-                                href="#"
-                                @click="
-                                  fetchStockOnHand(pagination.prev_page_url)
-                                "
-                              >
+                            <li v-bind:class="[
+                              { disabled: !pagination.prev_page_url },
+                            ]">
+                              <button class="page-link" href="#" @click="
+                                fetchStockOnHand(pagination.prev_page_url)
+                              ">
                                 Previous
                               </button>
                             </li>
 
                             <li class="disabled">
-                              <a class="page-link text-dark" href="#"
-                                >Page {{ pagination.current_page }} of
-                                {{ pagination.last_page }}</a
-                              >
+                              <a class="page-link text-dark" href="#">Page {{ pagination.current_page }} of
+                                {{ pagination.last_page }}</a>
                             </li>
 
-                            <li
-                              v-bind:class="[
-                                { disabled: !pagination.next_page_url },
-                              ]"
-                              class="page-item"
-                            >
-                              <button
-                                class="page-link"
-                                href="#"
-                                @click="
-                                  fetchStockOnHand(pagination.next_page_url)
-                                "
-                              >
+                            <li v-bind:class="[
+                              { disabled: !pagination.next_page_url },
+                            ]" class="page-item">
+                              <button class="page-link" href="#" @click="
+                                fetchStockOnHand(pagination.next_page_url)
+                              ">
                                 Next
                               </button>
                             </li>

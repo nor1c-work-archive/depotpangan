@@ -1,13 +1,9 @@
 <template>
-  
+
   <div>
     <div class="se-pre-con" v-if="loading">
       <div class="pre-loader">
-        <img
-          class="img-fluid"
-          src="/assets/images/loadergif.gif"
-          alt="loading"
-        />
+        <img class="img-fluid" src="/assets/images/loadergif.gif" alt="loading" />
       </div>
     </div>
     <header class="pos-header bg-white">
@@ -24,49 +20,31 @@
             </div>
           </div>
           <div class="col-xl-4 col-lg-4 col-md-6 clock-main">
-            
-              <DigitalClock />
-            
+
+            <DigitalClock />
+
           </div>
           <div class="col-xl-5 col-lg-5 col-md-6 order-lg-last order-second">
             <div class="topbar justify-content-end">
               <div class="dropdown mega-dropdown"></div>
-              <div
-                class="dropdown mega-dropdown">
+              <div class="dropdown mega-dropdown">
                 <div class="d-flex flex-column selectmain mr-3">
-                  <select
-                    class="arabic-select select-down"
-                    v-model="selectedWarehouse"
-                    @change="taxApply()"
-                  >
+                  <select class="arabic-select select-down" v-model="selectedWarehouse" @change="taxApply()">
                     <option value="">Select Warehouse</option>
-                    <option
-                      v-bind:value="{
-                        id: warehouse.warehouse_id,
-                        text: warehouse.warehouse_name,
-                      }"
-                      :selected="warehouse.warehouse_id == selectedWarehouse.id"
-                      v-for="warehouse in warehouses"
-                    >
+                    <option v-bind:value="{
+                      id: warehouse.warehouse_id,
+                      text: warehouse.warehouse_name,
+                    }" :selected="warehouse.warehouse_id == selectedWarehouse.id" v-for="warehouse in warehouses">
                       {{ warehouse.warehouse_name }}
                     </option>
                   </select>
-                  <small
-                    class="form-text text-danger"
-                    v-if="errors.has('warehouse_id')"
-                    v-text="errors.get('warehouse_id')"
-                  ></small>
+                  <small class="form-text text-danger" v-if="errors.has('warehouse_id')"
+                    v-text="errors.get('warehouse_id')"></small>
                 </div>
               </div>
               <div class="dropdown mega-dropdown">
-                <div
-                  id="id2"
-                  class="topbar-item"
-                  data-toggle="dropdown"
-                  data-display="static"
-                >
-                  <div
-                    class="
+                <div id="id2" class="topbar-item" data-toggle="dropdown" data-display="static">
+                  <div class="
                       btn btn-icon
                       w-auto
                       h-auto
@@ -75,22 +53,17 @@
                       align-items-center
                       py-0
                       mr-3
-                    "
-                  >
-                    <router-link style="padding:0.375rem 0.75rem !important;" to="/admin/dashboard" class="btn btn-dashboard btn-primary">Dashboard</router-link>
-                    <router-link style="padding:0.375rem 0.75rem !important;" to="/admin/dashboard" class="btn btn-dashboard-responsive btn-primary">D</router-link>
-                    
+                    ">
+                    <router-link style="padding:0.375rem 0.75rem !important;" to="/admin/dashboard"
+                      class="btn btn-dashboard btn-primary">Dashboard</router-link>
+                    <router-link style="padding:0.375rem 0.75rem !important;" to="/admin/dashboard"
+                      class="btn btn-dashboard-responsive btn-primary">D</router-link>
+
                   </div>
                 </div>
 
-                <div
-                  id="id2"
-                  class="topbar-item"
-                  data-toggle="dropdown"
-                  data-display="static"
-                >
-                  <div
-                    class="
+                <div id="id2" class="topbar-item" data-toggle="dropdown" data-display="static">
+                  <div class="
                       btn btn-icon
                       w-auto
                       h-auto
@@ -99,46 +72,30 @@
                       align-items-center
                       py-0
                       mr-3
-                    "
-                    @click="toggle_calculator = !toggle_calculator"
-                  >
+                    " @click="toggle_calculator = !toggle_calculator">
                     <span class="symbol symbol-35 symbol-light-success">
                       <span class="symbol-label bg-primary font-size-h5">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="20px"
-                          height="20px"
-                          fill="#fff"
-                          class="bi bi-calculator-fill"
-                          viewBox="0 0 16 16"
-                        >
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" fill="#fff"
+                          class="bi bi-calculator-fill" viewBox="0 0 16 16">
                           <path
-                            d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm2 .5v2a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 0-.5-.5h-7a.5.5 0 0 0-.5.5zm0 4v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5zM4.5 9a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1zM4 12.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5zM7.5 6a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1zM7 9.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5zm.5 2.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1zM10 6.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5zm.5 2.5a.5.5 0 0 0-.5.5v4a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 0-.5-.5h-1z"
-                          />
+                            d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2zm2 .5v2a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 0-.5-.5h-7a.5.5 0 0 0-.5.5zm0 4v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5zM4.5 9a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1zM4 12.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5zM7.5 6a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1zM7 9.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5zm.5 2.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1zM10 6.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5zm.5 2.5a.5.5 0 0 0-.5.5v4a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 0-.5-.5h-1z" />
                         </svg>
                       </span>
                     </span>
                   </div>
                 </div>
 
-                <div
-                  class="calu"
-                  v-if="toggle_calculator"
-                  style="min-width: 248px"
-                >
+                <div class="calu" v-if="toggle_calculator" style="min-width: 248px">
                   <div class="calculator">
                     <Calculator />
-                    <button
-                      @click="toggle_calculator = false"
-                      style="
+                    <button @click="toggle_calculator = false" style="
                         float: right;
                         top: 4px;
                         right: 10px;
                         position: absolute;
                         background: transparent;
                         border: none;
-                      "
-                    >
+                      ">
                       X
                     </button>
                   </div>
@@ -146,8 +103,7 @@
               </div>
 
               <div class="topbar-item folder-data">
-                <div
-                  class="
+                <div class="
                     btn btn-icon
                     w-auto
                     h-auto
@@ -156,26 +112,17 @@
                     align-items-center
                     py-0
                     mr-3
-                  "
-                  data-toggle="modal"
-                  @click="showDraftOrderModal()"
-                  data-target="#folderpop"
-                >
+                  " data-toggle="modal" @click="showDraftOrderModal()" data-target="#folderpop">
                   <span class="badge badge-pill badge-primary">{{
-                    draftOrders.length
+                      draftOrders.length
                   }}</span>
                   <span class="symbol symbol-35 symbol-light-success">
                     <span class="symbol-label bg-warning font-size-h5">
-                      <svg
-                        width="20px"
-                        height="20px"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="#ffff"
-                        viewBox="0 0 16 16"
-                      >
+                      <svg width="20px" height="20px" xmlns="http://www.w3.org/2000/svg" fill="#ffff"
+                        viewBox="0 0 16 16">
                         <path
-                          d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.826a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z"
-                        ></path>
+                          d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.826a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z">
+                        </path>
                       </svg>
                     </span>
                   </span>
@@ -183,13 +130,8 @@
               </div>
 
               <div class="dropdown">
-                <div
-                  class="topbar-item"
-                  data-toggle="dropdown"
-                  data-display="static"
-                >
-                  <div
-                    class="
+                <div class="topbar-item" data-toggle="dropdown" data-display="static">
+                  <div class="
                       btn btn-icon
                       w-auto
                       h-auto
@@ -197,46 +139,25 @@
                       d-flex
                       align-items-center
                       py-0
-                    "
-                  >
+                    ">
                     <span class="symbol symbol-35 symbol-light-success">
                       <span class="symbol-label font-size-h5">
-                        <svg
-                          width="20px"
-                          height="20px"
-                          viewBox="0 0 16 16"
-                          class="bi bi-person-fill"
-                          fill="currentColor"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"
-                          ></path>
+                        <svg width="20px" height="20px" viewBox="0 0 16 16" class="bi bi-person-fill"
+                          fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                          <path fill-rule="evenodd"
+                            d="M3 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H3zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"></path>
                         </svg>
                       </span>
                     </span>
                   </div>
                 </div>
 
-                <div
-                  class="dropdown-menu dropdown-menu-right"
-                  style="min-width: 150px"
-                >
+                <div class="dropdown-menu dropdown-menu-right" style="min-width: 150px">
                   <a href="javascript:;" class="dropdown-item" @click="logout()">
                     <span class="svg-icon svg-icon-xl svg-icon-primary mr-2">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="20px"
-                        height="20px"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                        class="feather feather-power"
-                      >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="feather feather-power">
                         <path d="M18.36 6.64a9 9 0 1 1-12.73 0"></path>
                         <line x1="12" y1="2" x2="12" y2="12"></line>
                       </svg>
@@ -258,11 +179,7 @@
               <div class="card-body">
                 <div class="d-flex justify-content-between colorfull-select">
                   <div class="selectmain">
-                    <select
-                      class="arabic-select w-150px bag-primary"
-                      v-model="select_category"
-                      @change="getProduct()"
-                    >
+                    <select class="arabic-select w-150px bag-primary" v-model="select_category" @change="getProduct()">
                       <option value="all">All</option>
                       <template v-for="category in categories">
                         <option :value="category.id">
@@ -273,76 +190,47 @@
                   </div>
                   <div class="selectmain">
                     <ul class="pagination pagination-sm m-0 float-right">
-                <li v-bind:class="[{ disabled: !pagination.prev_page_url }]">
-                  <a
-                    class="page-link"
-                    href="javascript:;"
-                    @click="getProduct(pagination.prev_page_url)"
-                    >Previous</a
-                  >
-                </li>
+                      <li v-bind:class="[{ disabled: !pagination.prev_page_url }]">
+                        <a class="page-link" href="javascript:;"
+                          @click="getProduct(pagination.prev_page_url)">Previous</a>
+                      </li>
 
-                <li class="disabled">
-                  <a class="page-link text-dark" href="javascript:;"
-                    >Page {{ pagination.current_page }} of
-                    {{ pagination.last_page }}</a
-                  >
-                </li>
+                      <li class="disabled">
+                        <a class="page-link text-dark" href="javascript:;">Page {{ pagination.current_page }} of
+                          {{ pagination.last_page }}</a>
+                      </li>
 
-                <li
-                  v-bind:class="[{ disabled: !pagination.next_page_url }]"
-                  class="page-item"
-                >
-                  <a
-                    class="page-link"
-                    href="javascript:;"
-                    @click="getProduct(pagination.next_page_url)"
-                    >Next</a
-                  >
-                </li>
-              </ul>
+                      <li v-bind:class="[{ disabled: !pagination.next_page_url }]" class="page-item">
+                        <a class="page-link" href="javascript:;" @click="getProduct(pagination.next_page_url)">Next</a>
+                      </li>
+                    </ul>
 
                   </div>
                 </div>
               </div>
               <div class="product-items">
                 <div class="row">
-                  <div
-                    class="col-xl-4 col-lg-2 col-md-3 col-sm-4 col-6"
-                    v-for="category_product in category_products"
-                  >
+                  <div class="col-xl-4 col-lg-2 col-md-3 col-sm-4 col-6" v-for="category_product in category_products">
                     <div class="productCard">
                       <div class="productThumb">
-                        <a
-                          href="javascript:;"
-                          :attr="category_product.product_combination_id"
-                          @click="
-                            addProductInList(
-                              category_product.product_id,
-                              category_product.product_combination_id,
-                              category_product.product_type
-                            )
-                          "
-                        >
-                        <img
-                          class="img-fluid"
-                          :src="'/gallary/' + category_product.image"
-                          alt="ix"
-                        />
+                        <a href="javascript:;" :attr="category_product.product_combination_id" @click="
+                          addProductInList(
+                            category_product.product_id,
+                            category_product.product_combination_id,
+                            category_product.product_type
+                          )
+                        ">
+                          <img class="img-fluid" :src="'/gallary/' + category_product.image" alt="ix" />
                         </a>
                       </div>
                       <div class="productContent">
-                        <a
-                          href="javascript:;"
-                          :attr="category_product.product_combination_id"
-                          @click="
-                            addProductInList(
-                              category_product.product_id,
-                              category_product.product_combination_id,
-                              category_product.product_type
-                            )
-                          "
-                        >
+                        <a href="javascript:;" :attr="category_product.product_combination_id" @click="
+                          addProductInList(
+                            category_product.product_id,
+                            category_product.product_combination_id,
+                            category_product.product_type
+                          )
+                        ">
                           {{ category_product.product_name }}
                         </a>
                       </div>
@@ -351,228 +239,129 @@
                 </div>
               </div>
 
-              
+
             </div>
           </div>
           <div class="col-xl-5 col-lg-8 col-md-8">
             <div class="">
-              <div
-                class="
+              <div class="
                   card card-custom
                   gutter-b
                   bg-white
                   border-0
                   table-contentpos
-                "
-              >
+                ">
                 <div class="card-body">
                   <div class="d-flex justify-content-between colorfull-select">
                     <div class="selectmain">
-                      <label class="text-dark d-flex"
-                        >Choose a Customer
-                        <span
-                          class="badge badge-secondary white rounded-circle"
-                          data-toggle="modal"
-                          data-target="#choosecustomer"
-                          @click="showCustomerModel()"
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="svg-sm"
-                            xmlns:xlink="http://www.w3.org/1999/xlink"
-                            version="1.1"
-                            id="Layer_122"
-                            x="0px"
-                            y="0px"
-                            width="512px"
-                            height="512px"
-                            viewBox="0 0 512 512"
-                            enable-background="new 0 0 512 512"
-                            xml:space="preserve"
-                          >
+                      <label class="text-dark d-flex">Choose a Customer
+                        <span class="badge badge-secondary white rounded-circle" data-toggle="modal"
+                          data-target="#choosecustomer" @click="showCustomerModel()">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="svg-sm"
+                            xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_122" x="0px" y="0px"
+                            width="512px" height="512px" viewBox="0 0 512 512" enable-background="new 0 0 512 512"
+                            xml:space="preserve">
                             <g>
-                              <rect
-                                x="234.362"
-                                y="128"
-                                width="43.263"
-                                height="256"
-                              ></rect>
-                              <rect
-                                x="128"
-                                y="234.375"
-                                width="256"
-                                height="43.25"
-                              ></rect>
+                              <rect x="234.362" y="128" width="43.263" height="256"></rect>
+                              <rect x="128" y="234.375" width="256" height="43.25"></rect>
                             </g>
                           </svg>
                         </span>
                       </label>
-                      <select
-                        class="arabic-select select-down"
-                        v-model="selectedCustomer"
-                        @change="selectCustomerAddress()"
-                      >
-                        <option
-                          v-bind:value="{
-                            id: customer.customer_id,
-                            text: customer.customer_first_name,
-                          }"
-                          v-for="customer in customers"
-                          :selected="
-                            selectedCustomer.id == customer.customer_id
-                          "
-                        >
+                      <select class="arabic-select select-down" v-model="selectedCustomer"
+                        @change="selectCustomerAddress()">
+                        <option v-bind:value="{
+                          id: customer.customer_id,
+                          text: customer.customer_first_name,
+                        }" v-for="customer in customers" :selected="
+  selectedCustomer.id == customer.customer_id
+">
                           {{ customer.customer_first_name }}
                           {{ customer.customer_last_name }}
                           {{ customer.customer_id }}
                         </option>
                       </select>
-                      <small
-                        class="form-text text-danger"
-                        v-if="errors.has('customer_id')"
-                        v-text="errors.get('customer_id')"
-                      ></small>
+                      <small class="form-text text-danger" v-if="errors.has('customer_id')"
+                        v-text="errors.get('customer_id')"></small>
                     </div>
 
                     <div class="selectmain">
-                      <label class="text-dark d-flex"
-                        >Choose a Customer Address
-                        <span
-                          class="badge badge-secondary white rounded-circle"
-                          data-toggle="modal"
-                          data-target="#choosecustomer"
-                          @click="showCustomerAddressModel()"
-                        >
-                          <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            class="svg-sm"
-                            xmlns:xlink="http://www.w3.org/1999/xlink"
-                            version="1.1"
-                            id="Layer_122"
-                            x="0px"
-                            y="0px"
-                            width="512px"
-                            height="512px"
-                            viewBox="0 0 512 512"
-                            enable-background="new 0 0 512 512"
-                            xml:space="preserve"
-                          >
+                      <label class="text-dark d-flex">Choose a Customer Address
+                        <span class="badge badge-secondary white rounded-circle" data-toggle="modal"
+                          data-target="#choosecustomer" @click="showCustomerAddressModel()">
+                          <svg xmlns="http://www.w3.org/2000/svg" class="svg-sm"
+                            xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_122" x="0px" y="0px"
+                            width="512px" height="512px" viewBox="0 0 512 512" enable-background="new 0 0 512 512"
+                            xml:space="preserve">
                             <g>
-                              <rect
-                                x="234.362"
-                                y="128"
-                                width="43.263"
-                                height="256"
-                              ></rect>
-                              <rect
-                                x="128"
-                                y="234.375"
-                                width="256"
-                                height="43.25"
-                              ></rect>
+                              <rect x="234.362" y="128" width="43.263" height="256"></rect>
+                              <rect x="128" y="234.375" width="256" height="43.25"></rect>
                             </g>
                           </svg>
                         </span>
                       </label>
                       <!--" -->
-                      <select
-                        class="arabic-select select-down"
-                        v-model="selectedCustomerAddress"
-                      >
-                        <option
-                          v-bind:value="customeraddress"
-                          v-for="customeraddress in customer_address"
-                          :selected="
-                            selectedCustomerAddress.id == customeraddress.id
-                          "
-                        >
+                      <select class="arabic-select select-down" v-model="selectedCustomerAddress">
+                        <option v-bind:value="customeraddress" v-for="customeraddress in customer_address" :selected="
+                          selectedCustomerAddress.id == customeraddress.id
+                        ">
                           {{ customeraddress.street_address }}
                         </option>
                       </select>
-                      <small
-                        class="form-text text-danger"
-                        v-if="errors.has('customer_address')"
-                        v-text="errors.get('customer_address')"
-                      ></small>
+                      <small class="form-text text-danger" v-if="errors.has('customer_address')"
+                        v-text="errors.get('customer_address')"></small>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div
-                class="
+              <div class="
                   card card-custom
                   gutter-b
                   bg-white
                   border-0
                   table-contentpos
-                "
-              >
+                ">
                 <div class="card-body">
                   <div class="form-group row mb-0">
                     <div class="col-md-12">
                       <label>Select Product</label>
                       <fieldset class="form-group mb-0 d-flex barcodeselection">
-                        <select
-                          class="form-control w-25"
-                          v-model="sortBy"
-                          id="exampleFormControlSelect1"
-                        >
+                        <select class="form-control w-25" v-model="sortBy" id="exampleFormControlSelect1">
                           <option value="name">Name</option>
                           <option value="sku">SKU</option>
                         </select>
-                        <input
-                          list="browsers"
-                          type="text"
-                          :class="sortBy == 'name' ? '' : 'd-none'"
-                          class="form-control border-dark"
-                          id="basicInput1"
-                          @input="getSearchDataDetail()"
-                          @keyup="searchProduct($event,$event.target.value)"
-                          placeholder="Type any 4 Characters and Press Enter"
-                        />
+                        <input list="browsers" type="text" :class="sortBy == 'name' ? '' : 'd-none'"
+                          class="form-control border-dark" id="basicInput1" @input="getSearchDataDetail()"
+                          @keyup="searchProduct($event, $event.target.value)"
+                          placeholder="Type any 4 Characters and Press Enter" />
                         <datalist id="browsers">
-                          <option
-                            v-for="searchFilter in searchFilters"
-                            :value="searchFilter.product_name"
-                            :product="searchFilter.product"
-                            :product_id="searchFilter.product_id"
+                          <option v-for="searchFilter in searchFilters" :value="searchFilter.product_name"
+                            :product="searchFilter.product" :product_id="searchFilter.product_id"
                             :product_combination_id="
                               searchFilter.product_combination_id
-                            "
-                          >
+                            ">
                             {{ searchFilter.product_name }}
                           </option>
                         </datalist>
 
-                        <input
-                          list="browsers1"
-                          type="text"
-                          :class="sortBy == 'name' ? 'd-none' : ''"
-                          class="form-control border-dark"
-                          id="basicInput2"
-                          @input="getSearchDataDetail()"
-                          @keyup="searchProduct($event,$event.target.value)"
-                          placeholder="Type any 4 Characters and Press Enter"
-                        />
+                        <input list="browsers1" type="text" :class="sortBy == 'name' ? 'd-none' : ''"
+                          class="form-control border-dark" id="basicInput2" @input="getSearchDataDetail()"
+                          @keyup="searchProduct($event, $event.target.value)"
+                          placeholder="Type any 4 Characters and Press Enter" />
                         <datalist id="browsers1">
-                          <option
-                            v-for="searchFilter in searchFilters"
-                            :value="
-                              searchFilter.product
-                                ? searchFilter.product.sku
-                                : ''
-                            "
-                            :product="searchFilter.product"
-                            :product_id="searchFilter.product_id"
+                          <option v-for="searchFilter in searchFilters" :value="
+                            searchFilter.product
+                              ? searchFilter.product.sku
+                              : ''
+                          " :product="searchFilter.product" :product_id="searchFilter.product_id"
                             :product_combination_id="
                               searchFilter.product_combination_id
-                            "
-                          >
+                            ">
                             {{
-                              searchFilter.product
-                                ? searchFilter.product.sku
-                                : ""
+                                searchFilter.product
+                                  ? searchFilter.product.sku
+                                  : ""
                             }}
                           </option>
                         </datalist>
@@ -594,16 +383,12 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr v-for="(add_to_cart_product,index) in add_to_cart_products">
+                        <tr v-for="(add_to_cart_product, index) in add_to_cart_products">
                           <td>{{ add_to_cart_product.product_name }}</td>
-                          <td>{{ add_to_cart_product.price }}</td>
+                          <td>{{ currencyFormat(add_to_cart_product.price) }}</td>
                           <td>
-                            <input
-                              type="number"
-                              :value="add_to_cart_product.qty"
-                              class="form-control border-dark w-100px posqty"
-                              placeholder=""
-                              :ref="'qtyRef'+index"
+                            <input type="number" :value="add_to_cart_product.qty"
+                              class="form-control border-dark w-100px posqty" placeholder="" :ref="'qtyRef' + index"
                               @change="
                                 qtyInc(
                                   index,
@@ -612,25 +397,18 @@
                                   $event.target.value,
                                   add_to_cart_product.product_type
                                 )
-                              "
-                            />
+                              " />
                           </td>
-                          <td>{{ add_to_cart_product.discount_show }}</td>
-                          <td>{{ add_to_cart_product.subtotal }}</td>
+                          <td>{{ currencyFormat(add_to_cart_product.discount_show) }}</td>
+                          <td>{{ currencyFormat(add_to_cart_product.subtotal) }}</td>
                           <td>
                             <div class="card-toolbar text-right">
-                              <a
-                                href="javascript:;"
-                                @click="
-                                  removeProduct(
-                                    add_to_cart_product.product_id,
-                                    add_to_cart_product.product_combination_id
-                                  )
-                                "
-                                class="confirm-delete"
-                                title="Delete"
-                                ><i class="fas fa-trash-alt"></i
-                              ></a>
+                              <a href="javascript:;" @click="
+                                removeProduct(
+                                  add_to_cart_product.product_id,
+                                  add_to_cart_product.product_combination_id
+                                )
+                              " class="confirm-delete" title="Delete"><i class="fas fa-trash-alt"></i></a>
                             </div>
                           </td>
                         </tr>
@@ -640,32 +418,17 @@
                 </div>
                 <div class="card-body">
                   <div class="form-group row mb-0">
-                    <div
-                      class="col-md-12 btn-submit d-flex justify-content-end"
-                    >
-                      <button
-                        type="submit"
-                        class="btn btn-danger mr-2 confirm-delete"
-                        title="Delete"
-                        @click="emptyValue()"
-                      >
+                    <div class="col-md-12 btn-submit d-flex justify-content-end">
+                      <button type="submit" class="btn btn-danger mr-2 confirm-delete" title="Delete"
+                        @click="emptyValue()">
                         <i class="fas fa-trash-alt mr-2"></i>
                         Suspand/Cancel
                       </button>
-                      <button
-                        type="submit"
-                        class="btn btn-secondary white"
-                        @click="draftOrder()"
-                      >
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          fill="currentColor"
-                          class="bi bi-folder-fill svg-sm mr-2"
-                          viewBox="0 0 16 16"
-                        >
+                      <button type="submit" class="btn btn-secondary white" @click="draftOrder()">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                          class="bi bi-folder-fill svg-sm mr-2" viewBox="0 0 16 16">
                           <path
-                            d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.826a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z"
-                          />
+                            d="M9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.826a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31L.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3zm-8.322.12C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139z" />
                         </svg>
                         Draft Order
                       </button>
@@ -680,16 +443,14 @@
               <div class="card-body">
                 <div class="shop-profile">
                   <div class="media">
-                    <div
-                      class="
+                    <div class="
                         bg-primary
                         w-100px
                         h-100px
                         d-flex
                         justify-content-center
                         align-items-center
-                      "
-                    >
+                      ">
                       <h2 class="mb-0 white">{{ businessName.charAt(0) }}</h2>
                     </div>
                     <div class="media-body ml-3">
@@ -706,314 +467,267 @@
                 <div class="resulttable-pos">
                   <table class="table right-table">
                     <tbody>
-                      <tr
-                        class="
+                      <tr class="
                           d-flex
                           align-items-center
                           justify-content-between
-                        "
-                      >
-                        <th
-                          class="
+                        ">
+                        <th class="
                             border-0
                             font-size-h5
                             mb-0
                             font-size-bold
                             text-dark
-                          "
-                        >
+                          ">
                           Total Items
                         </th>
-                        <td
-                          class="
+                        <td class="
                             border-0
                             justify-content-end
                             d-flex
                             text-dark
                             font-size-base
-                          "
-                        >
+                          ">
                           {{ add_to_cart_products.length }}
                         </td>
                       </tr>
-                      <tr
-                        class="
+                      <tr class="
                           d-flex
                           align-items-center
                           justify-content-between
-                        "
-                      >
-                        <th
-                          class="
+                        ">
+                        <th class="
                             border-0
                             font-size-h5
                             mb-0
                             font-size-bold
                             text-dark
-                          "
-                        >
+                          ">
                           Actual Total Price
                         </th>
-                        <td
-                          class="
+                        <td class="
                             border-0
                             justify-content-end
                             d-flex
                             text-dark
                             font-size-base
-                          "
-                        >
+                          ">
                           {{
-                            add_to_cart_products
-                              .reduce(
-                                (acc, item) =>
-                                  parseFloat(acc) +
-                                  parseFloat(item.actual_price),
-                                0
-                              )
-                              .toFixed(2)
+                              currencyFormat(add_to_cart_products
+                                .reduce(
+                                  (acc, item) =>
+                                    parseFloat(acc) +
+                                    parseFloat(item.actual_price),
+                                  0
+                                )
+                                .toFixed(2))
                           }}
                         </td>
                       </tr>
 
-                      <tr
-                        class="
+                      <tr class="
                           d-flex
                           align-items-center
                           justify-content-between
-                        "
-                      >
+                        ">
                         <th class="border-0">
-                          <div
-                            class="
+                          <div class="
                               d-flex
                               align-items-center
                               font-size-h5
                               mb-0
                               font-size-bold
                               text-dark
-                            "
-                          >
+                            ">
                             DISCOUNT ({{
-                              (
-                                ((add_to_cart_products.reduce(
+                                (
+                                  ((add_to_cart_products.reduce(
+                                    (acc, item) =>
+                                      parseFloat(acc) +
+                                      parseFloat(item.actual_price),
+                                    0
+                                  ) -
+                                    add_to_cart_products.reduce(
+                                      (acc, item) =>
+                                        parseFloat(acc) +
+                                        parseFloat(item.subtotal),
+                                      0
+                                    )) /
+                                    add_to_cart_products.reduce(
+                                      (acc, item) =>
+                                        parseFloat(acc) +
+                                        parseFloat(item.actual_price),
+                                      0
+                                    )) *
+                                  100
+                                ).toFixed(2)
+                            }}
+                            %)
+                          </div>
+                        </th>
+                        <td class="
+                            border-0
+                            justify-content-end
+                            d-flex
+                            text-dark
+                            font-size-base
+                          ">
+                          {{
+                              currencyFormat((
+                                add_to_cart_products.reduce(
                                   (acc, item) =>
                                     parseFloat(acc) +
                                     parseFloat(item.actual_price),
                                   0
                                 ) -
-                                  add_to_cart_products.reduce(
-                                    (acc, item) =>
-                                      parseFloat(acc) +
-                                      parseFloat(item.subtotal),
-                                    0
-                                  )) /
-                                  add_to_cart_products.reduce(
-                                    (acc, item) =>
-                                      parseFloat(acc) +
-                                      parseFloat(item.actual_price),
-                                    0
-                                  )) *
-                                100
-                              ).toFixed(2)
-                            }}
-                            %)
-                          </div>
-                        </th>
-                        <td
-                          class="
-                            border-0
-                            justify-content-end
-                            d-flex
-                            text-dark
-                            font-size-base
-                          "
-                        >
-                          {{
-                            (
-                              add_to_cart_products.reduce(
-                                (acc, item) =>
-                                  parseFloat(acc) +
-                                  parseFloat(item.actual_price),
-                                0
-                              ) -
-                              add_to_cart_products.reduce(
-                                (acc, item) =>
-                                  parseFloat(acc) + parseFloat(item.subtotal),
-                                0
-                              )
-                            ).toFixed(2)
+                                add_to_cart_products.reduce(
+                                  (acc, item) =>
+                                    parseFloat(acc) + parseFloat(item.subtotal),
+                                  0
+                                )
+                              ).toFixed(2))
                           }}
                         </td>
                       </tr>
 
-                      <tr
-                        class="
+                      <tr class="
                           d-flex
                           align-items-center
                           justify-content-between
-                        "
-                      >
-                        <th
-                          class="
+                        ">
+                        <th class="
                             border-0
                             font-size-h5
                             mb-0
                             font-size-bold
                             text-dark
-                          "
-                        >
+                          ">
                           Subtotal
                         </th>
-                        <td
-                          class="
+                        <td class="
                             border-0
                             justify-content-end
                             d-flex
                             text-dark
                             font-size-base
-                          "
-                        >
+                          ">
                           {{
-                            add_to_cart_products
-                              .reduce(
-                                (acc, item) =>
-                                  parseFloat(acc) + parseFloat(item.subtotal),
-                                0
-                              )
-                              .toFixed(2)
+                              currencyFormat(add_to_cart_products
+                                .reduce(
+                                  (acc, item) =>
+                                    parseFloat(acc) + parseFloat(item.subtotal),
+                                  0
+                                )
+                                .toFixed(2))
                           }}
                         </td>
                       </tr>
 
-                      
-                      <tr
-                        class="
+
+                      <tr class="
                           d-flex
                           align-items-center
                           justify-content-between
-                        "
-                      >
+                        ">
                         <th class="border-0">
-                          <div
-                            class="
+                          <div class="
                               d-flex
                               align-items-center
                               font-size-h5
                               mb-0
                               font-size-bold
                               text-dark
-                            "
-                          >
+                            ">
                             Tax ({{
-                              add_to_cart_products.reduce(
-                                (acc, item) =>
-                                  parseFloat(acc) + parseFloat(item.subtotal),
-                                0
-                              ) > 0
-                                ? tax_per_apply
-                                : 0
+                                add_to_cart_products.reduce(
+                                  (acc, item) =>
+                                    parseFloat(acc) + parseFloat(item.subtotal),
+                                  0
+                                ) > 0
+                                  ? tax_per_apply
+                                  : 0
                             }}) %
                           </div>
                         </th>
-                        <td
-                          class="
+                        <td class="
                             border-0
                             justify-content-end
                             d-flex
                             text-dark
                             font-size-base
-                          "
-                        >
+                          ">
                           {{
-                            (
-                              (add_to_cart_products.reduce(
-                                (acc, item) =>
-                                  parseFloat(acc) + parseFloat(item.subtotal),
-                                0
-                              ) /
-                                100) *
-                              parseFloat(tax_per_apply)
-                            ).toFixed(2)
+                              currencyFormat((
+                                (add_to_cart_products.reduce(
+                                  (acc, item) =>
+                                    parseFloat(acc) + parseFloat(item.subtotal),
+                                  0
+                                ) /
+                                  100) *
+                                parseFloat(tax_per_apply)
+                              ).toFixed(2))
                           }}
                         </td>
                       </tr>
-                      <tr
-                        class="
+                      <tr class="
                           d-flex
                           align-items-center
                           justify-content-between
                           item-price
-                        "
-                      >
-                        <th
-                          class="
+                        ">
+                        <th class="
                             border-0
                             font-size-h5
                             mb-0
                             font-size-bold
                             text-primary
-                          "
-                        >
+                          ">
                           TOTAL
                         </th>
-                        <td
-                          class="
+                        <td class="
                             border-0
                             justify-content-end
                             d-flex
                             text-primary
                             font-size-base
-                          "
-                        >
+                          ">
                           {{
-                            (
-                              add_to_cart_products.reduce(
-                                (acc, item) =>
-                                  parseFloat(acc) + parseFloat(item.subtotal),
-                                0
-                              ) +
-                              (add_to_cart_products.reduce(
-                                (acc, item) =>
-                                  parseFloat(acc) + parseFloat(item.subtotal),
-                                0
-                              ) /
-                                100) *
+                              currencyFormat((
+                                add_to_cart_products.reduce(
+                                  (acc, item) =>
+                                    parseFloat(acc) + parseFloat(item.subtotal),
+                                  0
+                                ) +
+                                (add_to_cart_products.reduce(
+                                  (acc, item) =>
+                                    parseFloat(acc) + parseFloat(item.subtotal),
+                                  0
+                                ) /
+                                  100) *
                                 parseFloat(tax_per_apply)
-                            ).toFixed(2)
+                              ).toFixed(2))
                           }}
                         </td>
                       </tr>
                     </tbody>
                   </table>
                 </div>
-                <div
-                  class="
+                <div class="
                     d-flex
                     justify-content-end
                     align-items-center
                     flex-column
                     buttons-cash
-                  "
-                >
+                  ">
                   <div>
-                    <a
-                      href="javascript:;"
-                      class="btn btn-primary white mb-2"
-                      data-toggle="modal"
-                      data-target="#payment-popup"
-                      @click="saveTransaction()"
-                    >
+                    <a href="javascript:;" class="btn btn-primary white mb-2" data-toggle="modal"
+                      data-target="#payment-popup" @click="saveTransaction()">
                       <i class="fas fa-money-bill-wave mr-2"></i>
                       Pay With Cash
                     </a>
                   </div>
                   <div class="d-none">
-                    <a
-                      href="javascript:;"
-                      class="btn btn-outline-secondary"
-                      @click="showDraftOrderModal()"
-                    >
+                    <a href="javascript:;" class="btn btn-outline-secondary" @click="showDraftOrderModal()">
                       <i class="fas fa-credit-card mr-2"></i>
                       Pay With Card
                     </a>
@@ -1025,47 +739,26 @@
         </div>
       </div>
     </div>
-    <div
-      class="modal-backdrop"
-      :class="discountModel == 1 ? 'show' : 'd-none'"
-    ></div>
-    <div
-      role="dialog"
-      aria-modal="true"
-      class="text-left modal"
-      tabindex="-1"
-      :class="discountModel == 1 ? 'd-block' : 'd-none'"
-    >
+    <div class="modal-backdrop" :class="discountModel == 1 ? 'show' : 'd-none'"></div>
+    <div role="dialog" aria-modal="true" class="text-left modal" tabindex="-1"
+      :class="discountModel == 1 ? 'd-block' : 'd-none'">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
             <div class="modal-title h4">
               <h3 class="modal-title" id="myModalLabel1">Add Discount</h3>
             </div>
-            <button
-              type="button"
-              class="
+            <button type="button" class="
                 close
                 rounded-pill
                 btn btn-sm btn-icon btn-light btn-hover-primary
                 m-0
-              "
-              data-dismiss="modal"
-              aria-label="Close"
-              @click="showDiscountModel()"
-            >
-              <svg
-                width="20px"
-                height="20px"
-                viewBox="0 0 16 16"
-                class="bi bi-x"
-                fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
-                ></path>
+              " data-dismiss="modal" aria-label="Close" @click="showDiscountModel()">
+              <svg width="20px" height="20px" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z">
+                </path>
               </svg>
             </button>
           </div>
@@ -1074,17 +767,9 @@
               <div class="col-12">
                 <label class="text-body">Discount</label>
                 <fieldset class="form-group mb-3 d-flex">
-                  <input
-                    type="text"
-                    name="text"
-                    class="form-control bg-white"
-                    id="exampleInputText"
-                    aria-describedby="textHelp"
-                    placeholder="Enter Discount"
-                    v-model="dicount_per"
-                  /><a
-                    href="javascript:void(0)"
-                    class="
+                  <input type="text" name="text" class="form-control bg-white" id="exampleInputText"
+                    aria-describedby="textHelp" placeholder="Enter Discount" v-model="dicount_per" /><a
+                    href="javascript:void(0)" class="
                       btn-secondary btn
                       ml-2
                       white
@@ -1093,10 +778,7 @@
                       d-flex
                       align-items-center
                       justify-content-center
-                    "
-                    @click="discountApply()"
-                    >Apply</a
-                  >
+                    " @click="discountApply()">Apply</a>
                 </fieldset>
               </div>
             </div>
@@ -1105,47 +787,26 @@
       </div>
     </div>
 
-    <div
-      class="modal-backdrop"
-      :class="taxModel == 1 ? 'show' : 'd-none'"
-    ></div>
-    <div
-      role="dialog"
-      aria-modal="true"
-      class="text-left modal"
-      tabindex="-1"
-      :class="taxModel == 1 ? 'd-block' : 'd-none'"
-    >
+    <div class="modal-backdrop" :class="taxModel == 1 ? 'show' : 'd-none'"></div>
+    <div role="dialog" aria-modal="true" class="text-left modal" tabindex="-1"
+      :class="taxModel == 1 ? 'd-block' : 'd-none'">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
             <div class="modal-title h4">
               <h3 class="modal-title" id="myModalLabel1">Add Tax</h3>
             </div>
-            <button
-              type="button"
-              class="
+            <button type="button" class="
                 close
                 rounded-pill
                 btn btn-sm btn-icon btn-light btn-hover-primary
                 m-0
-              "
-              data-dismiss="modal"
-              aria-label="Close"
-              @click="showTaxModel()"
-            >
-              <svg
-                width="20px"
-                height="20px"
-                viewBox="0 0 16 16"
-                class="bi bi-x"
-                fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
-                ></path>
+              " data-dismiss="modal" aria-label="Close" @click="showTaxModel()">
+              <svg width="20px" height="20px" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z">
+                </path>
               </svg>
             </button>
           </div>
@@ -1154,16 +815,8 @@
               <div class="col-12">
                 <label class="text-body">Tax</label>
                 <fieldset class="form-group mb-3 d-flex">
-                  <input
-                    type="text"
-                    name="text"
-                    class="form-control bg-white"
-                    id="exampleInputText"
-                    aria-describedby="textHelp"
-                    placeholder="Enter Tax"
-                    v-model="tax_val"
-                  /><a
-                    href="javascript:void(0)"
+                  <input type="text" name="text" class="form-control bg-white" id="exampleInputText"
+                    aria-describedby="textHelp" placeholder="Enter Tax" v-model="tax_val" /><a href="javascript:void(0)"
                     class="
                       btn-secondary btn
                       ml-2
@@ -1173,10 +826,7 @@
                       d-flex
                       align-items-center
                       justify-content-center
-                    "
-                    @click="taxApply()"
-                    >Apply</a
-                  >
+                    " @click="taxApply()">Apply</a>
                 </fieldset>
               </div>
             </div>
@@ -1185,47 +835,26 @@
       </div>
     </div>
 
-    <div
-      class="modal-backdrop show"
-      :class="draftModel == 1 ? 'show' : 'd-none'"
-    ></div>
-    <div
-      role="dialog"
-      aria-modal="true"
-      class="text-left modal"
-      tabindex="-1"
-      :class="draftModel == 1 ? 'd-block' : 'd-none'"
-    >
+    <div class="modal-backdrop show" :class="draftModel == 1 ? 'show' : 'd-none'"></div>
+    <div role="dialog" aria-modal="true" class="text-left modal" tabindex="-1"
+      :class="draftModel == 1 ? 'd-block' : 'd-none'">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
             <div class="modal-title h4">
               <h3 class="modal-title" id="myModalLabel1">Draft Orders</h3>
             </div>
-            <button
-              type="button"
-              class="
+            <button type="button" class="
                 close
                 rounded-pill
                 btn btn-sm btn-icon btn-light btn-hover-primary
                 m-0
-              "
-              data-dismiss="modal"
-              aria-label="Close"
-              @click="showDraftOrderModal()"
-            >
-              <svg
-                width="20px"
-                height="20px"
-                viewBox="0 0 16 16"
-                class="bi bi-x"
-                fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
-                ></path>
+              " data-dismiss="modal" aria-label="Close" @click="showDraftOrderModal()">
+              <svg width="20px" height="20px" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z">
+                </path>
               </svg>
             </button>
           </div>
@@ -1233,17 +862,13 @@
             <div class="modal-body pos-ordermain">
               <div class="row">
                 <div class="col-lg-12">
-                  <div
-                    class="pos-order col-lg-4"
-                    v-for="(draftOrder, index) in draftOrders"
-                  >
+                  <div class="pos-order col-lg-4" v-for="(draftOrder, index) in draftOrders">
                     <h3 class="pos-order-title" id="myModalLabel1">
                       Order {{ index + 1 }}
                     </h3>
                     <div class="orderdetail-pos">
                       <p>
-                        <strong>Customer Name </strong
-                        >{{ draftOrder.customer_name }}
+                        <strong>Customer Name </strong>{{ draftOrder.customer_name }}
                       </p>
                       <p><strong>Payment Status </strong>Pending</p>
                       <p>
@@ -1251,10 +876,10 @@
                         {{ draftOrder.product ? draftOrder.product.length : 0 }}
                       </p>
                       <p>
-                        
+
                         <strong>Amount to Pay </strong> ${{
-                          draftOrder.product
-                            ? draftOrder.product.reduce(
+                            draftOrder.product
+                              ? draftOrder.product.reduce(
                                 (acc, item) => acc + parseFloat(item.subtotal),
                                 0
                               ) +
@@ -1272,27 +897,17 @@
                                 0
                               ) /
                                 100) *
-                                +parseFloat(draftOrder.tax_per_apply)
-                              
-                            : 0
+                              +parseFloat(draftOrder.tax_per_apply)
+                        
+                              : 0
                         }}
                       </p>
                     </div>
                     <div class="d-flex justify-content-end">
-                      <a
-                        href="javascript:;"
-                        class="confirm-delete ml-3"
-                        title="edit"
-                        @click="editDraft(draftOrder.id)"
-                        ><i class="fas fa-edit"></i
-                      ></a>
-                      <a
-                        href="javascript:;"
-                        class="confirm-delete ml-3"
-                        title="Delete"
-                        @click="deleteDraft(draftOrder.id)"
-                        ><i class="fas fa-trash-alt"></i
-                      ></a>
+                      <a href="javascript:;" class="confirm-delete ml-3" title="edit"
+                        @click="editDraft(draftOrder.id)"><i class="fas fa-edit"></i></a>
+                      <a href="javascript:;" class="confirm-delete ml-3" title="Delete"
+                        @click="deleteDraft(draftOrder.id)"><i class="fas fa-trash-alt"></i></a>
                     </div>
                   </div>
                 </div>
@@ -1300,49 +915,33 @@
             </div>
           </div>
           <div class="modal-footer border-0 modal-footer">
-            <div class="row"><div class="col-12"></div></div>
+            <div class="row">
+              <div class="col-12"></div>
+            </div>
           </div>
         </div>
       </div>
     </div>
 
-    <div
-      role="dialog"
-      aria-modal="true"
-      class="text-left modal"
-      tabindex="-1"
-      :class="customerModel == 1 ? 'd-block' : 'd-none'"
-    >
+    <div role="dialog" aria-modal="true" class="text-left modal" tabindex="-1"
+      :class="customerModel == 1 ? 'd-block' : 'd-none'">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
             <div class="modal-title h4">
               <h3 class="modal-title" id="myModalLabel1">Add Customer</h3>
             </div>
-            <button
-              type="button"
-              class="
+            <button type="button" class="
                 close
                 rounded-pill
                 btn btn-sm btn-icon btn-light btn-hover-primary
                 m-0
-              "
-              data-dismiss="modal"
-              aria-label="Close"
-              @click="showCustomerModel()"
-            >
-              <svg
-                width="20px"
-                height="20px"
-                viewBox="0 0 16 16"
-                class="bi bi-x"
-                fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
-                ></path>
+              " data-dismiss="modal" aria-label="Close" @click="showCustomerModel()">
+              <svg width="20px" height="20px" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z">
+                </path>
               </svg>
             </button>
           </div>
@@ -1352,39 +951,19 @@
                 <div class="col-md-6">
                   <label class="text-body">First Name</label>
                   <fieldset class="form-group mb-3">
-                    <input
-                      type="text"
-                      name="first_name"
-                      class="form-control"
-                      id="exampleInputText"
-                      aria-describedby="textHelp"
-                      placeholder="Enter First Name"
-                      v-model="customer_info.first_name"
-                    />
-                    <small
-                      class="form-text text-danger"
-                      v-if="errors.has('first_name')"
-                      v-text="errors.get('first_name')"
-                    ></small>
+                    <input type="text" name="first_name" class="form-control" id="exampleInputText"
+                      aria-describedby="textHelp" placeholder="Enter First Name" v-model="customer_info.first_name" />
+                    <small class="form-text text-danger" v-if="errors.has('first_name')"
+                      v-text="errors.get('first_name')"></small>
                   </fieldset>
                 </div>
                 <div class="col-md-6">
                   <label class="text-body">Last Name</label>
                   <fieldset class="form-group mb-3">
-                    <input
-                      type="text"
-                      name="last_name"
-                      class="form-control"
-                      id="exampleInputText"
-                      aria-describedby="textHelp"
-                      placeholder="Enter Last Name"
-                      v-model="customer_info.last_name"
-                    />
-                    <small
-                      class="form-text text-danger"
-                      v-if="errors.has('last_name')"
-                      v-text="errors.get('last_name')"
-                    ></small>
+                    <input type="text" name="last_name" class="form-control" id="exampleInputText"
+                      aria-describedby="textHelp" placeholder="Enter Last Name" v-model="customer_info.last_name" />
+                    <small class="form-text text-danger" v-if="errors.has('last_name')"
+                      v-text="errors.get('last_name')"></small>
                   </fieldset>
                 </div>
               </div>
@@ -1392,47 +971,25 @@
                 <div class="col-md-6">
                   <label class="text-body">Email</label>
                   <fieldset class="form-group mb-3">
-                    <input
-                      type="text"
-                      name="email"
-                      class="form-control"
-                      id="exampleInputText"
-                      aria-describedby="textHelp"
-                      placeholder="Enter Email"
-                      v-model="customer_info.email"
-                    />
-                    <small
-                      class="form-text text-danger"
-                      v-if="errors.has('email')"
-                      v-text="errors.get('email')"
-                    ></small>
+                    <input type="text" name="email" class="form-control" id="exampleInputText"
+                      aria-describedby="textHelp" placeholder="Enter Email" v-model="customer_info.email" />
+                    <small class="form-text text-danger" v-if="errors.has('email')"
+                      v-text="errors.get('email')"></small>
                   </fieldset>
                 </div>
                 <div class="col-md-6">
                   <label class="text-body">Password</label>
                   <fieldset class="form-group mb-3">
-                    <input
-                      type="password"
-                      name="password"
-                      class="form-control"
-                      id="exampleInputText"
-                      aria-describedby="textHelp"
-                      placeholder="Enter Password"
-                      v-model="customer_info.password"
-                    />
-                    <small
-                      class="form-text text-danger"
-                      v-if="errors.has('password')"
-                      v-text="errors.get('password')"
-                    ></small>
+                    <input type="password" name="password" class="form-control" id="exampleInputText"
+                      aria-describedby="textHelp" placeholder="Enter Password" v-model="customer_info.password" />
+                    <small class="form-text text-danger" v-if="errors.has('password')"
+                      v-text="errors.get('password')"></small>
                   </fieldset>
                 </div>
               </div>
               <div class="form-group row justify-content-end mb-0">
                 <div class="col-md-6 text-right">
-                  <a href="javascript:;" class="btn btn-primary" @click="saveCustomer()"
-                    >Add Customer</a
-                  >
+                  <a href="javascript:;" class="btn btn-primary" @click="saveCustomer()">Add Customer</a>
                 </div>
               </div>
             </form>
@@ -1440,18 +997,10 @@
         </div>
       </div>
     </div>
-    <div
-      class="modal-backdrop"
-      :class="customerModel == 1 ? 'show' : 'd-none'"
-    ></div>
+    <div class="modal-backdrop" :class="customerModel == 1 ? 'show' : 'd-none'"></div>
 
-    <div
-      role="dialog"
-      aria-modal="true"
-      class="text-left modal"
-      tabindex="-1"
-      :class="customerAddressModel == 1 ? 'd-block' : 'd-none'"
-    >
+    <div role="dialog" aria-modal="true" class="text-left modal" tabindex="-1"
+      :class="customerAddressModel == 1 ? 'd-block' : 'd-none'">
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
@@ -1460,30 +1009,17 @@
                 Add Customer Address
               </h3>
             </div>
-            <button
-              type="button"
-              class="
+            <button type="button" class="
                 close
                 rounded-pill
                 btn btn-sm btn-icon btn-light btn-hover-primary
                 m-0
-              "
-              data-dismiss="modal"
-              aria-label="Close"
-              @click="showCustomerAddressModel()"
-            >
-              <svg
-                width="20px"
-                height="20px"
-                viewBox="0 0 16 16"
-                class="bi bi-x"
-                fill="currentColor"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fill-rule="evenodd"
-                  d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"
-                ></path>
+              " data-dismiss="modal" aria-label="Close" @click="showCustomerAddressModel()">
+              <svg width="20px" height="20px" viewBox="0 0 16 16" class="bi bi-x" fill="currentColor"
+                xmlns="http://www.w3.org/2000/svg">
+                <path fill-rule="evenodd"
+                  d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z">
+                </path>
               </svg>
             </button>
           </div>
@@ -1497,79 +1033,41 @@
                 <div class="col-md-6">
                   <label class="text-body">First Name</label>
                   <fieldset class="form-group mb-3">
-                    <input
-                      type="text"
-                      name="first_name"
-                      class="form-control"
-                      id="exampleInputText"
-                      aria-describedby="textHelp"
-                      placeholder="Enter First Name"
-                      v-model="customer_address_fields.first_name"
-                    />
-                    <small
-                      class="form-text text-danger"
-                      v-if="errors.has('first_name')"
-                      v-text="errors.get('first_name')"
-                    ></small>
+                    <input type="text" name="first_name" class="form-control" id="exampleInputText"
+                      aria-describedby="textHelp" placeholder="Enter First Name"
+                      v-model="customer_address_fields.first_name" />
+                    <small class="form-text text-danger" v-if="errors.has('first_name')"
+                      v-text="errors.get('first_name')"></small>
                   </fieldset>
                 </div>
                 <div class="col-md-6">
                   <label class="text-body">Last Name</label>
                   <fieldset class="form-group mb-3">
-                    <input
-                      type="text"
-                      name="last_name"
-                      class="form-control"
-                      id="exampleInputText"
-                      aria-describedby="textHelp"
-                      placeholder="Enter Last Name"
-                      v-model="customer_address_fields.last_name"
-                    />
-                    <small
-                      class="form-text text-danger"
-                      v-if="errors.has('last_name')"
-                      v-text="errors.get('last_name')"
-                    ></small>
+                    <input type="text" name="last_name" class="form-control" id="exampleInputText"
+                      aria-describedby="textHelp" placeholder="Enter Last Name"
+                      v-model="customer_address_fields.last_name" />
+                    <small class="form-text text-danger" v-if="errors.has('last_name')"
+                      v-text="errors.get('last_name')"></small>
                   </fieldset>
                 </div>
 
                 <div class="col-md-6">
                   <label class="text-body">Postal Code</label>
                   <fieldset class="form-group mb-3">
-                    <input
-                      type="text"
-                      name="postcode"
-                      class="form-control"
-                      id="exampleInputText"
-                      aria-describedby="textHelp"
-                      placeholder="Enter Postal Code"
-                      v-model="customer_address_fields.postcode"
-                    />
-                    <small
-                      class="form-text text-danger"
-                      v-if="errors.has('postcode')"
-                      v-text="errors.get('postcode')"
-                    ></small>
+                    <input type="text" name="postcode" class="form-control" id="exampleInputText"
+                      aria-describedby="textHelp" placeholder="Enter Postal Code"
+                      v-model="customer_address_fields.postcode" />
+                    <small class="form-text text-danger" v-if="errors.has('postcode')"
+                      v-text="errors.get('postcode')"></small>
                   </fieldset>
                 </div>
 
                 <div class="col-md-6">
                   <label class="text-body">City</label>
                   <fieldset class="form-group mb-3">
-                    <input
-                      type="text"
-                      name="city"
-                      class="form-control"
-                      id="exampleInputText"
-                      aria-describedby="textHelp"
-                      placeholder="Enter City"
-                      v-model="customer_address_fields.city"
-                    />
-                    <small
-                      class="form-text text-danger"
-                      v-if="errors.has('city')"
-                      v-text="errors.get('city')"
-                    ></small>
+                    <input type="text" name="city" class="form-control" id="exampleInputText"
+                      aria-describedby="textHelp" placeholder="Enter City" v-model="customer_address_fields.city" />
+                    <small class="form-text text-danger" v-if="errors.has('city')" v-text="errors.get('city')"></small>
                   </fieldset>
                 </div>
               </div>
@@ -1577,22 +1075,13 @@
                 <div class="col-md-6">
                   <label class="text-dark">Country </label>
                   <fieldset class="form-group mb-3">
-                    <select
-                      v-model="customer_address_fields.country_id"
-                      @change="fetchStates()"
-                    >
-                      <option
-                        v-for="country in countries"
-                        :value="country.country_id"
-                      >
+                    <select v-model="customer_address_fields.country_id" @change="fetchStates()">
+                      <option v-for="country in countries" :value="country.country_id">
                         {{ country.country_name }}
                       </option>
                     </select>
-                    <small
-                      class="form-text text-danger"
-                      v-if="errors.has('country_id')"
-                      v-text="errors.get('country_id')"
-                    ></small>
+                    <small class="form-text text-danger" v-if="errors.has('country_id')"
+                      v-text="errors.get('country_id')"></small>
                   </fieldset>
                 </div>
                 <div class="col-md-6">
@@ -1603,11 +1092,8 @@
                         {{ state.name }}
                       </option>
                     </select>
-                    <small
-                      class="form-text text-danger"
-                      v-if="errors.has('state_id')"
-                      v-text="errors.get('state_id')"
-                    ></small>
+                    <small class="form-text text-danger" v-if="errors.has('state_id')"
+                      v-text="errors.get('state_id')"></small>
                   </fieldset>
                 </div>
               </div>
@@ -1615,39 +1101,21 @@
                 <div class="col-md-6">
                   <label class="text-body">Street Address</label>
                   <fieldset class="form-group mb-3">
-                    <input
-                      type="text"
-                      name="street_address"
-                      class="form-control"
-                      id="exampleInputText"
-                      aria-describedby="textHelp"
-                      placeholder="Enter Steet Address"
-                      v-model="customer_address_fields.street_address"
-                    />
-                    <small
-                      class="form-text text-danger"
-                      v-if="errors.has('street_address')"
-                      v-text="errors.get('street_address')"
-                    ></small>
+                    <input type="text" name="street_address" class="form-control" id="exampleInputText"
+                      aria-describedby="textHelp" placeholder="Enter Steet Address"
+                      v-model="customer_address_fields.street_address" />
+                    <small class="form-text text-danger" v-if="errors.has('street_address')"
+                      v-text="errors.get('street_address')"></small>
                   </fieldset>
                 </div>
                 <div class="col-md-6">
                   <label class="text-body">Company</label>
                   <fieldset class="form-group mb-3">
-                    <input
-                      type="text"
-                      name="company"
-                      class="form-control"
-                      id="exampleInputText"
-                      aria-describedby="textHelp"
-                      placeholder="Enter Company"
-                      v-model="customer_address_fields.company"
-                    />
-                    <small
-                      class="form-text text-danger"
-                      v-if="errors.has('company')"
-                      v-text="errors.get('company')"
-                    ></small>
+                    <input type="text" name="company" class="form-control" id="exampleInputText"
+                      aria-describedby="textHelp" placeholder="Enter Company"
+                      v-model="customer_address_fields.company" />
+                    <small class="form-text text-danger" v-if="errors.has('company')"
+                      v-text="errors.get('company')"></small>
                   </fieldset>
                 </div>
               </div>
@@ -1656,51 +1124,27 @@
                 <div class="col-md-6">
                   <label class="text-body">Lat Lng</label>
                   <fieldset class="form-group mb-3">
-                    <input
-                      type="text"
-                      name="latlong"
-                      class="form-control"
-                      id="exampleInputText"
-                      aria-describedby="textHelp"
-                      placeholder="Enter LatLng"
-                      v-model="customer_address_fields.latlong"
-                    />
-                    <small
-                      class="form-text text-danger"
-                      v-if="errors.has('latlong')"
-                      v-text="errors.get('latlong')"
-                    ></small>
+                    <input type="text" name="latlong" class="form-control" id="exampleInputText"
+                      aria-describedby="textHelp" placeholder="Enter LatLng"
+                      v-model="customer_address_fields.latlong" />
+                    <small class="form-text text-danger" v-if="errors.has('latlong')"
+                      v-text="errors.get('latlong')"></small>
                   </fieldset>
                 </div>
                 <div class="col-md-6">
                   <label class="text-body">Phone</label>
                   <fieldset class="form-group mb-3">
-                    <input
-                      type="text"
-                      name="phone"
-                      class="form-control"
-                      id="exampleInputText"
-                      aria-describedby="textHelp"
-                      placeholder="Enter Phone"
-                      v-model="customer_address_fields.phone"
-                    />
-                    <small
-                      class="form-text text-danger"
-                      v-if="errors.has('phone')"
-                      v-text="errors.get('phone')"
-                    ></small>
+                    <input type="text" name="phone" class="form-control" id="exampleInputText"
+                      aria-describedby="textHelp" placeholder="Enter Phone" v-model="customer_address_fields.phone" />
+                    <small class="form-text text-danger" v-if="errors.has('phone')"
+                      v-text="errors.get('phone')"></small>
                   </fieldset>
                 </div>
               </div>
 
               <div class="form-group row justify-content-end mb-0">
                 <div class="col-md-6 text-right">
-                  <a
-                    href="javascript:;"
-                    class="btn btn-primary"
-                    @click="saveCustomerAddress()"
-                    >Add Customer Address</a
-                  >
+                  <a href="javascript:;" class="btn btn-primary" @click="saveCustomerAddress()">Add Customer Address</a>
                 </div>
               </div>
             </form>
@@ -1708,10 +1152,7 @@
         </div>
       </div>
     </div>
-    <div
-      class="modal-backdrop"
-      :class="customerAddressModel == 1 ? 'show' : 'd-none'"
-    ></div>
+    <div class="modal-backdrop" :class="customerAddressModel == 1 ? 'show' : 'd-none'"></div>
   </div>
 </template>
 
@@ -1721,7 +1162,7 @@ import Calculator from "./settings/Calculator.vue";
 import DigitalClock from "./settings/DigitalClock.vue";
 
 export default {
-  components: { Calculator, DigitalClock }, 
+  components: { Calculator, DigitalClock },
   data() {
     return {
       loading: false,
@@ -1817,12 +1258,12 @@ export default {
     draftOrder() {
       var total =
         this.add_to_cart_products.reduce(
-          (acc, item) => acc + item.subtotal,
+          (acc, item) => parseFloat(acc) + parseFloat(item.subtotal),
           0
         ) -
         +(
           (this.add_to_cart_products.reduce(
-            (acc, item) => acc + item.subtotal,
+            (acc, item) => parseFloat(acc) + parseFloat(item.subtotal),
             0
           ) /
             100) *
@@ -1922,29 +1363,17 @@ export default {
     saveTransaction() {
       this.errors = new ErrorHandling();
 
+      const nota = `POS-${Date.now() + (Math.floor(Math.random() * 900) + 100)}`
+
       var customer_id = this.selectedCustomer.id;
       var warehouse_id = this.selectedWarehouse.id;
       var tax_amount = this.tax_per_apply;
-      var discount =
-        (this.add_to_cart_products.reduce(
-          (acc, item) => acc + item.subtotal,
-          0
-        ) /
-          100) *
-        this.dicount_per_apply;
+      var discount = (this.add_to_cart_products.reduce((acc, item) => parseFloat(acc) + parseFloat(item.subtotal), 0) / 100) * this.dicount_per_apply;
 
       var total =
-        this.add_to_cart_products.reduce(
-          (acc, item) => acc + item.subtotal,
-          0
-        ) -
+        this.add_to_cart_products.reduce((acc, item) => parseFloat(acc) + parseFloat(item.subtotal), 0) -
         +(
-          (this.add_to_cart_products.reduce(
-            (acc, item) => acc + item.subtotal,
-            0
-          ) /
-            100) *
-          this.dicount_per_apply
+          (this.add_to_cart_products.reduce((acc, item) => parseFloat(acc) + parseFloat(item.subtotal), 0) / 100) * this.dicount_per_apply
         ) +
         +this.tax_per_apply;
 
@@ -1952,6 +1381,7 @@ export default {
         this.$toaster.error("please Select Product");
         return;
       }
+
       var payable = total;
       var amount_paid = total;
       var currentDate = new Date();
@@ -1992,11 +1422,13 @@ export default {
         product_combination_id: this.product_combination_id,
       };
 
+      let invoiceData = data
+      let added_products = this.add_to_cart_products
+
       var cartItemsCount = 0;
       var err = {};
       var isError = false;
-      
-     
+
       if (this.selectedWarehouse.id == "" || this.selectedWarehouse.id in window) {
         err.warehouse_id = ["Warehouse field is required"];
         isError = true;
@@ -2015,9 +1447,9 @@ export default {
         this.errors.record(err);
       } else {
         this.product_id.forEach((element, i) => {
-          
+
           this.loading = true;
-          
+
           var page_url = "/api/admin/cart";
           axios
             .post(
@@ -2033,93 +1465,194 @@ export default {
             )
             .then((res) => {
               if (res.data.status == "Success") {
-                document.getElementById('orderTable').rows.item(i+1).style.color = "black";
+                document.getElementById('orderTable').rows.item(i + 1).style.color = "black";
                 if (isError == false) {
-                if (this.product_id.length == i + 1) {
-                  var page_url =
-                    "/api/admin/customer/" + this.selectedCustomer.id;
-                  axios.get(page_url, this.token).then((res) => {
-                    if (res.data.status == "Success") {
-                      this.loading = true;
-                      var page_url = "/api/admin/order";
-                      var data = {
-                        ispos:"1",
-                        warehouse_id:this.selectedWarehouse.id,
-                        billing_first_name: res.data.data.customer_first_name,
-                        billing_last_name: res.data.data.customer_last_name,
-                        billing_street_aadress:
-                          this.selectedCustomerAddress.street_address,
-                        billing_country:
-                          this.selectedCustomerAddress.country_id.country_id,
-                        billing_state: this.selectedCustomerAddress.state_id.id,
-                        billing_city: this.selectedCustomerAddress.city,
-                        billing_postcode: this.selectedCustomerAddress.postcode,
-                        billing_phone: this.selectedCustomerAddress.phone
-                          ? this.selectedCustomerAddress.phone
-                          : "no phone number",
+                  if (this.product_id.length == i + 1) {
+                    var page_url =
+                      "/api/admin/customer/" + this.selectedCustomer.id;
+                    axios.get(page_url, this.token).then((res) => {
+                      if (res.data.status == "Success") {
+                        this.loading = true;
+                        var page_url = "/api/admin/order";
+                        var data = {
+                          ispos: "1",
+                          warehouse_id: this.selectedWarehouse.id,
+                          billing_first_name: res.data.data.customer_first_name,
+                          billing_last_name: res.data.data.customer_last_name,
+                          billing_street_aadress:
+                            this.selectedCustomerAddress.street_address,
+                          billing_country:
+                            this.selectedCustomerAddress.country_id.country_id,
+                          billing_state: this.selectedCustomerAddress.state_id.id,
+                          billing_city: this.selectedCustomerAddress.city,
+                          billing_postcode: this.selectedCustomerAddress.postcode,
+                          billing_phone: this.selectedCustomerAddress.phone
+                            ? this.selectedCustomerAddress.phone
+                            : "no phone number",
 
-                        delivery_first_name: res.data.data.customer_first_name,
-                        delivery_last_name: res.data.data.customer_last_name,
-                        delivery_street_aadress:
-                          this.selectedCustomerAddress.street_address,
-                        delivery_country:
-                          this.selectedCustomerAddress.country_id.country_id,
-                        delivery_state:
-                          this.warehouse_state_id,
-                        delivery_city: this.selectedCustomerAddress.city,
-                        delivery_postcode:
-                          this.selectedCustomerAddress.postcode,
-                        delivery_phone: this.selectedCustomerAddress.phone
-                          ? this.selectedCustomerAddress.phone
-                          : "no phone number",
-                        order_notes: "",
-                        coupon_code: "",
-                        latlong: "12312312312",
-                        currency_id: "1",
-                        payment_method: "cod",
-                        customer_id: this.selectedCustomer.id,
-                        order_status:'Complete'
+                          delivery_first_name: res.data.data.customer_first_name,
+                          delivery_last_name: res.data.data.customer_last_name,
+                          delivery_street_aadress:
+                            this.selectedCustomerAddress.street_address,
+                          delivery_country:
+                            this.selectedCustomerAddress.country_id.country_id,
+                          delivery_state:
+                            this.warehouse_state_id,
+                          delivery_city: this.selectedCustomerAddress.city,
+                          delivery_postcode:
+                            this.selectedCustomerAddress.postcode,
+                          delivery_phone: this.selectedCustomerAddress.phone
+                            ? this.selectedCustomerAddress.phone
+                            : "no phone number",
+                          order_notes: "",
+                          coupon_code: "",
+                          latlong: "12312312312",
+                          currency_id: "1",
+                          payment_method: "cod",
+                          customer_id: this.selectedCustomer.id,
+                          order_status: 'Complete',
+                          nota
+                        };
 
-                      };
-                      axios
-                        .post(page_url, data, this.token)
-                        .then((res) => {
-                          if (res.data.status == "Success") {
-                            this.loading = false;
-                            this.emptyValue();
-                            this.$toaster.success(res.data.message);
-                          } else {
-                            this.$toaster.error(res.data.message);
-                            this.loading = false;
-                          }
-                        })
-                        .catch((error) => {
-                          this.loading = false;
-                          this.error_message = "";
-                          this.errors = new ErrorHandling();
-                          if (error.response.status == 422) {
-                            if (error.response.data.status == "Error") {
-                              // this.error_message = error.response.data.message;
-                              this.$toaster.error(error.response.data.message);
+                        axios
+                          .post(page_url, data, this.token)
+                          .then((res) => {
+                            if (res.data.status == "Success") {
+                              this.loading = false;
+                              this.emptyValue();
+                              this.$toaster.success(res.data.message);
+
+                              // Print out invoice
+                              let invoiceHTML = `<!DOCTYPE html>
+                                                      <html lang="en">
+                                                      <head>
+                                                        <meta charset="UTF-8">
+                                                        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                                                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                                                        <title>Document</title>
+
+                                                        <style>
+                                                          .flex-2-col {
+                                                            display: flex;
+                                                          }
+                                                          .flex-2-col div {
+                                                            flex: 1;
+                                                          }
+                                                          .flex-2-col .right {
+                                                            flex: 1;
+                                                            text-align: right;
+                                                          }
+                                                          table {
+                                                            width: 100%;
+                                                            table-layout: fixed;
+                                                            overflow-x: none;
+                                                          }
+                                                          table th {
+                                                            text-align: left;
+                                                          }
+                                                        </style>
+                                                      </head>
+                                                      <body>
+                                                        <div>${this.businessName}</div>
+                                                        <div>${this.businessAddress}</div>
+                                                        <div>${this.businessPhone}</div>
+                                                        
+                                                        <hr style="border-top: 1px dashed black;margin-bottom:2px;margin-top:5px;">
+                                                        <hr style="border-top: 1px dashed black;margin-bottom:5px;">
+
+                                                        <div>Nota: ${nota}</div>
+                                                        <div>Kasir: ${localStorage.getItem('name')}</div>
+                                                        <div>Tgl.: ${new Date().toLocaleString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' }).replaceAll('/', '-').replace(',', '')}</div>
+
+                                                        <br>
+
+                                                        <table>
+                                                          <thead style="border-bottom:solid 2px black;">
+                                                            <th colspan="3">Item</th>
+                                                            <th>Qty</th>
+                                                            <th>Harga</th>
+                                                            <th>Total</th>
+                                                          </thead>
+                                                          <tbody>`;
+
+                              added_products.map((item) => {
+                                invoiceHTML += `<tr>
+                                                          <td colspan="3">${item.product_name}</td>
+                                                          <td>${item.qty}</td>
+                                                          <td>${this.currencyFormat(item.price)}</td>
+                                                          <td>${this.currencyFormat(item.subtotal)}</td>
+                                                        </tr>`
+                              })
+
+                              invoiceHTML += `</tbody>
+                                                        </table>
+
+                                                        <hr style="border-top: 1px dashed black;margin-top:10px;margin-bottom:10px;">
+
+                                                        <div class="flex-2-col">
+                                                          <div>Sub Total</div>
+                                                          <div class="right">${this.currencyFormat(invoiceData.payable)}</div>
+                                                        </div>
+                                                        <div class="flex-2-col">
+                                                          <div>Diskon</div>
+                                                          <div class="right">${this.currencyFormat(invoiceData.discount)}</div>
+                                                        </div>
+                                                        <div class="flex-2-col">
+                                                          <div>PPN</div>
+                                                          <div class="right">${this.currencyFormat(invoiceData.tax_amount)}</div>
+                                                        </div>
+                                                        <div class="flex-2-col">
+                                                          <div>Grand Total</div>
+                                                          <div class="right">${this.currencyFormat(invoiceData.payable)}</div>
+                                                        </div>
+
+                                                        <div style="text-align:center;margin-top:20px;">
+                                                          * Terima kasih atas kunjungan Anda *
+                                                        </div>
+                                                      </body>
+                                                      </html>`;
+
+                              const printWindow = window.open('', '_blank');
+                              printWindow.document.open();
+                              printWindow.document.write(invoiceHTML);
+                              printWindow.document.close();
+
+                              printWindow.onload = function () {
+                                printWindow.print();
+                                printWindow.close();
+                              };
                             } else {
-                              this.errors.record(error.response.data.errors);
+                              this.$toaster.error(res.data.message);
+                              this.loading = false;
                             }
-                          }
-                        })
-                        .finally(() => (this.$parent.loading = false));
-                    } else {
-                      this.$toaster.error(res.data.message);
-                    }
-                  });
-                }
+                          })
+                          .catch((error) => {
+                            this.loading = false;
+                            this.error_message = "";
+                            this.errors = new ErrorHandling();
+                            if (error.response.status == 422) {
+                              if (error.response.data.status == "Error") {
+                                // this.error_message = error.response.data.message;
+                                this.$toaster.error(error.response.data.message);
+                              } else {
+                                this.errors.record(error.response.data.errors);
+                              }
+                            }
+                          })
+                          .finally(() => (this.$parent.loading = false));
+                      } else {
+                        this.$toaster.error(res.data.message);
+                      }
+                    });
+                  }
                 }
               } else {
                 this.$toaster.error(res.data.message);
                 this.loading = false;
                 isError = true;
-                //alert ("1");
-                document.getElementById('orderTable').rows.item(i+1).style.color = "red";
-                
+
+                document.getElementById('orderTable').rows.item(i + 1).style.color = "red";
+
               }
             })
             .catch((error) => {
@@ -2132,19 +1665,18 @@ export default {
                   this.$toaster.error(error.response.data.message);
                   isError = true;
                   //alert (i);
-                  document.getElementById('orderTable').rows.item(i+1).style.color = "red";
+                  document.getElementById('orderTable').rows.item(i + 1).style.color = "red";
                 } else {
                   this.errors.record(error.response.data.errors);
                   isError = true;
                   //alert ("3");
-                  document.getElementById('orderTable').rows.item(i+1).style.color = "red";
+                  document.getElementById('orderTable').rows.item(i + 1).style.color = "red";
                 }
               }
             })
             .finally(() => (this.$parent.loading = false));
         });
         //alert (isError);
-        
       }
     },
     emptyValue() {
@@ -2193,9 +1725,9 @@ export default {
 
       document.getElementById("basicInput1").value = "";
       document.getElementById("basicInput2").value = "";
-   
+
       this.searchFilters = '';
-      
+
       this.loading = true;
       let vm = this;
       page_url = page_url || "/api/admin/product";
@@ -2212,8 +1744,8 @@ export default {
 
       page_url += "&sortBy=" + this.sortBy + "&sortType=" + this.sortType;
       page_url += "&getDetail=1&getCategory=1";
-      if(this.select_category != '' && this.select_category != 'all')
-        page_url +="&productCategories="+this.select_category
+      if (this.select_category != '' && this.select_category != 'all')
+        page_url += "&productCategories=" + this.select_category
 
       axios.get(page_url, this.token).then((res) => {
         this.list_products = res.data.data;
@@ -2248,16 +1780,16 @@ export default {
       var data = this.list_products;
       this.category_products = [];
       for (var i = 0; i < data.length; i++) {
-        
+
         if (this.select_category != "all") {
           var continue_loop = 0;
           for (var loop = 0; loop < data[i].category.length; loop++) {
             if (data[i].category[loop].category_detail != null) {
               if (
                 data[i].category[loop].category_detail.id ==
-                  this.select_category ||
+                this.select_category ||
                 data[i].category[loop].category_detail.parent_id ==
-                  this.select_category
+                this.select_category
               ) {
                 continue_loop = 1;
                 break;
@@ -2316,10 +1848,10 @@ export default {
         }
       }
     },
-    qtyInc(index,product_id, product_combination_id, val, product_type) {
-      if(val < 1){
+    qtyInc(index, product_id, product_combination_id, val, product_type) {
+      if (val < 1) {
         this.$toaster.error("Qty Cannot be less then 1");
-        this.$refs['qtyRef'+index][0].value = 1;
+        this.$refs['qtyRef' + index][0].value = 1;
         return
       }
 
@@ -2338,33 +1870,33 @@ export default {
       //   this.selectedWarehouse.id;
       // axios.get(page_url, this.token).then((res) => {
       //   if (res.data.data.remaining_stock >= val) {
-          for (var i = 0; i < this.add_to_cart_products.length; i++) {
-            if (
-              this.add_to_cart_products[i].product_id == product_id &&
-              this.add_to_cart_products[i].product_combination_id ==
-                product_combination_id
-            ) {
-              this.add_to_cart_products[i].qty = val;
-              this.add_to_cart_products[i].subtotal =
-                this.add_to_cart_products[i].discount > 0
-                  ? parseFloat(
-                      +(+val * this.add_to_cart_products[i].discount)
-                    ).toFixed(2)
-                  : parseFloat(
-                      +(+val * this.add_to_cart_products[i].price)
-                    ).toFixed(2);
-
-              this.add_to_cart_products[i].actual_price = parseFloat(
+      for (var i = 0; i < this.add_to_cart_products.length; i++) {
+        if (
+          this.add_to_cart_products[i].product_id == product_id &&
+          this.add_to_cart_products[i].product_combination_id ==
+          product_combination_id
+        ) {
+          this.add_to_cart_products[i].qty = val;
+          this.add_to_cart_products[i].subtotal =
+            this.add_to_cart_products[i].discount > 0
+              ? parseFloat(
+                +(+val * this.add_to_cart_products[i].discount)
+              ).toFixed(2)
+              : parseFloat(
                 +(+val * this.add_to_cart_products[i].price)
               ).toFixed(2);
 
-              break;
-            }
-          }
-        // } else {
-        //   this.add_to_cart_products[index].qty = 1;
-        //   this.$toaster.error("Product is out of stock");
-        // }
+          this.add_to_cart_products[i].actual_price = parseFloat(
+            +(+val * this.add_to_cart_products[i].price)
+          ).toFixed(2);
+
+          break;
+        }
+      }
+      // } else {
+      //   this.add_to_cart_products[index].qty = 1;
+      //   this.$toaster.error("Product is out of stock");
+      // }
       // });
     },
     removeProduct(product_id, product_combination_id) {
@@ -2372,7 +1904,7 @@ export default {
         if (
           this.add_to_cart_products[i].product_id == product_id &&
           this.add_to_cart_products[i].product_combination_id ==
-            product_combination_id
+          product_combination_id
         ) {
           this.add_to_cart_products.splice(i, 1);
           break;
@@ -2422,73 +1954,73 @@ export default {
         page_url += "&getDetail=1&getCategory=1";
         //alert (page_url);
         axios.get(page_url, this.token).then((res) => {
-          
+
           this.list_products = res.data.data;
           vm.makePagination(res.data.meta, res.data.links);
 
           this.showSideBarProduct();
 
           this.loading = false;
-        
-        var data = this.list_products;
 
-        //var data = this.list_products;
-        this.searchFilters = [];
-        for (var i = 0; i < data.length; i++) {
-          if (data[i].product_type == "variable") {
-            for (var k = 0; k < data[i].combination_detail.length; k++) {
-              // data[i].combination_detail[k].available_qty;
-              var product_name = data[i].detail[0].title + " ";
-              for (
-                var m = 0;
-                m < data[i].combination_detail[k].combination.length;
-                m++
-              ) {
-                if (data[i].combination_detail[k].combination.length - 1 == m) {
-                  product_name +=
-                    data[i].combination_detail[k].combination[m].variation
-                      .detail[0].name;
-                } else {
-                  product_name +=
-                    data[i].combination_detail[k].combination[m].variation
-                      .detail[0].name + "_";
+          var data = this.list_products;
+
+          //var data = this.list_products;
+          this.searchFilters = [];
+          for (var i = 0; i < data.length; i++) {
+            if (data[i].product_type == "variable") {
+              for (var k = 0; k < data[i].combination_detail.length; k++) {
+                // data[i].combination_detail[k].available_qty;
+                var product_name = data[i].detail[0].title + " ";
+                for (
+                  var m = 0;
+                  m < data[i].combination_detail[k].combination.length;
+                  m++
+                ) {
+                  if (data[i].combination_detail[k].combination.length - 1 == m) {
+                    product_name +=
+                      data[i].combination_detail[k].combination[m].variation
+                        .detail[0].name;
+                  } else {
+                    product_name +=
+                      data[i].combination_detail[k].combination[m].variation
+                        .detail[0].name + "_";
+                  }
                 }
+                var parms = {};
+                parms["product_name"] = product_name;
+                parms["product_id"] = data[i].product_id;
+                parms["product_combination_id"] =
+                  data[i].combination_detail[k].product_combination_id;
+                var parms_product = {};
+                parms_product["sku"] = data[i].combination_detail[k].sku;
+                parms_product["product_price"] =
+                  data[i].combination_detail[k].price;
+                parms_product["discount"] = data[i].combination_detail[k].price;
+                parms_product["discount_show"] =
+                  data[i].combination_detail[k].price;
+                parms_product["subtotal"] = data[i].combination_detail[k].price;
+                parms["product"] = parms_product;
+                this.searchFilters.push(parms);
               }
+            } else {
               var parms = {};
-              parms["product_name"] = product_name;
+              parms["product_name"] = data[i].detail[0].title;
               parms["product_id"] = data[i].product_id;
-              parms["product_combination_id"] =
-                data[i].combination_detail[k].product_combination_id;
+              parms["product_combination_id"] = "";
+
               var parms_product = {};
-              parms_product["sku"] = data[i].combination_detail[k].sku;
-              parms_product["product_price"] =
-                data[i].combination_detail[k].price;
-              parms_product["discount"] = data[i].combination_detail[k].price;
-              parms_product["discount_show"] =
-                data[i].combination_detail[k].price;
-              parms_product["subtotal"] = data[i].combination_detail[k].price;
+              parms_product["product_price"] = data[i].price;
+              parms_product["sku"] = data[i].product_sku;
+              parms_product["discount"] = data[i].product_discount_price;
+              parms_product["discount_show"] = data[i].product_discount_price;
+              parms_product["subtotal"] =
+                +data[i].price - +data[i].product_discount_price;
               parms["product"] = parms_product;
+
               this.searchFilters.push(parms);
             }
-          } else {
-            var parms = {};
-            parms["product_name"] = data[i].detail[0].title;
-            parms["product_id"] = data[i].product_id;
-            parms["product_combination_id"] = "";
 
-            var parms_product = {};
-            parms_product["product_price"] = data[i].price;
-            parms_product["sku"] = data[i].product_sku;
-            parms_product["discount"] = data[i].product_discount_price;
-            parms_product["discount_show"] = data[i].product_discount_price;
-            parms_product["subtotal"] =
-              +data[i].price - +data[i].product_discount_price;
-            parms["product"] = parms_product;
-
-            this.searchFilters.push(parms);
           }
-        
-        }
         });
       }
     },
@@ -2508,9 +2040,9 @@ export default {
       //   if (res.data.status == "Success") {
 
       //     if (res.data.data.remaining_stock > 0) {
-            var data = this.list_products;
-            data = data.filter((query) => query.product_id == product_id);
-            this.saveProducttoCart(data, product_combination_id);
+      var data = this.list_products;
+      data = data.filter((query) => query.product_id == product_id);
+      this.saveProducttoCart(data, product_combination_id);
       //     } else {
       //       this.$toaster.error("Product is out of stock");
       //     }
@@ -2558,7 +2090,7 @@ export default {
                 if (
                   query.product_id == data[i].product_id &&
                   data[i].combination_detail[k].product_combination_id ==
-                    query.product_combination_id
+                  query.product_combination_id
                 ) {
                   return true;
                 }
@@ -2800,27 +2332,27 @@ export default {
             };
             this.getCustomer();
             setTimeout(() => {
-            this.customer_address = [];
-            if (this.customers.length > 0) {
-              this.selectedCustomerAddress = {};
-              this.customers.forEach((element) => {
-                console.log(element.customer_id,parseInt(this.selectedCustomer.id),"customer address");
+              this.customer_address = [];
+              if (this.customers.length > 0) {
+                this.selectedCustomerAddress = {};
+                this.customers.forEach((element) => {
+                  console.log(element.customer_id, parseInt(this.selectedCustomer.id), "customer address");
 
-                if (element.customer_id == parseInt(this.selectedCustomer.id)) {
-                  if (element.customer_address != null) {
-                    element.customer_address.forEach((caddress) => {
-                      this.customer_address.push(caddress);
-                      if (caddress.default_address == 1)
+                  if (element.customer_id == parseInt(this.selectedCustomer.id)) {
+                    if (element.customer_address != null) {
+                      element.customer_address.forEach((caddress) => {
+                        this.customer_address.push(caddress);
+                        if (caddress.default_address == 1)
                           this.selectedCustomerAddress = caddress;
-                    });
+                      });
+                    }
                   }
-                }
-              });
-            }
+                });
+              }
             }, 1000);
 
 
-            
+
             this.$toaster.success(res.data.message);
           } else {
             this.$toaster.error(res.data.message);

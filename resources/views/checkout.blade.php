@@ -955,6 +955,7 @@
                                 id: item.product_id,
                                 price: item.price,
                                 quantity: item.qty,
+                                unit: item.product_unit.unit_name,
                                 name: item.product_detail[0].title
                             }
                         })
@@ -1069,7 +1070,6 @@
                     }
                 },
                 error: function(data) {
-                    console.log(data);
                     price = $(".caritem_subtotal").attr('price-symbol');
                     $(".caritem_discount_coupon").attr('price', 0);
                     $(".caritem_discount_coupon").html('');
@@ -1684,7 +1684,14 @@
                         shipping_ro_city,
                         shipping_ro_method,
                         shipping_ro_service,
-                        shipping_price
+                        shipping_price,
+                        items: midtransCartItems,
+                        gross_amount: parseInt(orderAmount),
+                        customer: {
+                            name: `${billing_first_name} ${billing_last_name}`,
+                            email: localStorage.getItem("customerEmail"),
+                            phone: billing_phone
+                        }
                     }
 
                     midtransOrderId = Date.now() + (Math.floor(Math.random() * 900) + 100) + localStorage.getItem("customerId")
@@ -1693,6 +1700,7 @@
                         id: 0,
                         price: shipping_price,
                         quantity: 1,
+                        unit: '-',
                         name: `${shipping_ro_method.toUpperCase()} - ${shipping_ro_service}`
                     })
 

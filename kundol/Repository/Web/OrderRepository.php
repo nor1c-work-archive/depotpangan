@@ -6,6 +6,7 @@ use App\Contract\Web\OrderInterface;
 use App\Traits\ApiResponser;
 use Illuminate\Support\Collection;
 use App\Jobs\OrderProcess;
+use App\Mail\OrderConfirmation;
 use App\Models\Admin\OrderComment;
 use App\Models\Admin\PaymentMethodSetting;
 use App\Models\Web\Order;

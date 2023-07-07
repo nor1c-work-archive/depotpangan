@@ -18,6 +18,7 @@ class Unit extends JsonResource
         return [
             'id' => $this->id,
             'is_active' => $this->is_active,
+            'unit_name' => $this->detail[0]->name,
             'detail' => UnitDetailResource::collection($this->whenLoaded('detail'))
         ];
     }
