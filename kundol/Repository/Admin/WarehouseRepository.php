@@ -24,7 +24,7 @@ class WarehouseRepository implements WarehouseInterface
             }
             $warehouse = new Warehouse;
             
-            if(\Auth::user()->role->id != 1 || \Auth::user()->role()->id != 2) {
+            if(\Auth::user()->role_id != 1 && \Auth::user()->role_id != 2) {
                 $userWareHouses = UserWarehouse::where('user_id', \Auth::id())->pluck('warehouse_id');
                 $warehouse = $warehouse->whereIn('id',$userWareHouses);
             }
