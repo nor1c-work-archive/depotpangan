@@ -247,7 +247,7 @@ return [
     'shipping-address-country-state-city' => 'Kode Wilayah',
     'shipping-address-action' => 'AKSI',
     'shipping-address-add' => 'Atur Alamat Pengiriman',
-    'shipping-address-stret-address' => 'Nama Jalan',
+    'shipping-address-stret-address' => 'Alamat Lengkap',
     'shipping-address-country' => 'Pilih Negara',
     'shipping-address-state' => 'Pilih Wilayah',
     'shipping-address-city' => 'Kota',

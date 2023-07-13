@@ -712,26 +712,65 @@
                     </tbody>
                   </table>
                 </div>
+
+                <!-- PAYMENT OPTIONS -->
+                <div class="col-12">
+                  <label>TIPE PEMBAYARAN/PESANAN</label>
+                  <select class="form-control w-full" v-model="orderPaymentType">
+                    <option value="cash">CASH/TUNAI</option>
+                    <option value="po">PRE-ORDER</option>
+                    <option value="contract">KONTRAK/CONTACT</option>
+                    <option value="edc">EDC/KARTU KREDIT/DEBIT</option>
+                  </select>
+
+                  <br>
+
+                  <!-- preorder dp -->
+                  <div v-if="orderPaymentType === 'po'">
+                    <div>
+                      <label>DOWN PAYMENT</label>
+                      <div class="form-group">
+                        <input
+                          type="input"
+                          min="0"
+                          v-model="preorder_dp"
+                          id="preorder_dp"
+                          class="form-control"
+                          placeholder="Kosongkan jika bayar penuh/tidak menggunakan DP"
+                        />
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <label>TANGGAL JATUH TEMPO</label>
+                      <div class="form-group">
+                        <input type="date" class="form-control bg-white" value="" v-model="preorder_due_date">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
                 <div class="
                     d-flex
-                    justify-content-end
+                    justify-content-center
                     align-items-center
                     flex-column
                     buttons-cash
                   ">
                   <div>
-                    <a href="javascript:;" class="btn btn-primary white mb-2" data-toggle="modal"
+                    <a href="javascript:;" class="btn btn-primary white" data-toggle="modal"
                       data-target="#payment-popup" @click="saveTransaction()">
                       <i class="fas fa-money-bill-wave mr-2"></i>
-                      Pay With Cash
+                      Bayar
                     </a>
                   </div>
-                  <div class="d-none">
+
+                  <!-- <div class="d-none">
                     <a href="javascript:;" class="btn btn-outline-secondary" @click="showDraftOrderModal()">
                       <i class="fas fa-credit-card mr-2"></i>
                       Pay With Card
                     </a>
-                  </div>
+                  </div> -->
                 </div>
               </div>
             </div>
@@ -1157,6 +1196,7 @@
 </template>
 
 <script>
+import axios from "axios";
 import ErrorHandling from "../../ErrorHandling";
 import Calculator from "./settings/Calculator.vue";
 import DigitalClock from "./settings/DigitalClock.vue";
@@ -1248,6 +1288,14 @@ export default {
       },
       countries: [],
       states: [],
+      orderPaymentType: 'cash',
+      is_preorder: 0,
+      preorder_dp: 0,
+      preorder_due_date: 0,
+      invoiceData: {},
+      addedProducts: [],
+      selected_customer: {},
+      customerDetail: {},
       csrf: document
         .querySelector('meta[name="csrf-token"]')
         .getAttribute("content"),
@@ -1349,14 +1397,14 @@ export default {
         .catch((error) => {
           this.error_message = "";
           this.errors = new ErrorHandling();
-          if (error.response.status == 422) {
-            if (error.response.data.status == "Error") {
-              // this.error_message = error.response.data.message;
-              this.$toaster.error(error.response.data.message);
-            } else {
-              this.errors.record(error.response.data.errors);
-            }
-          }
+          // if (error.response.status == 422) {
+          //   if (error.response.data.status == "Error") {
+          //     // this.error_message = error.response.data.message;
+          //     this.$toaster.error(error.response.data.message);
+          //   } else {
+          //     this.errors.record(error.response.data.errors);
+          //   }
+          // }
         })
         .finally(() => (this.$parent.loading = false));
     },
@@ -1406,6 +1454,15 @@ export default {
         this.product_combination_id.push(res.product_combination_id);
       });
 
+      // invoice data
+      const invoiceDiscount = (
+                                this.add_to_cart_products.reduce((acc, item) => parseFloat(acc) + parseFloat(item.actual_price), 0)
+                                -
+                                this.add_to_cart_products.reduce((acc, item) => parseFloat(acc) + parseFloat(item.subtotal), 0)
+                              )
+
+      const invoiceTax = (this.add_to_cart_products.reduce((acc, item) => parseFloat(acc) + parseFloat(item.subtotal), 0) / 100) * parseFloat(this.tax_per_apply)
+
       var data = {
         customer_id,
         warehouse_id,
@@ -1420,10 +1477,16 @@ export default {
         total: this.total,
         product_id: this.product_id,
         product_combination_id: this.product_combination_id,
+        discount: invoiceDiscount,
+        tax: invoiceTax,
+        nota,
       };
 
-      let invoiceData = data
-      let added_products = this.add_to_cart_products
+      this.invoiceData = data
+      this.addedProducts = this.add_to_cart_products
+
+      // console.log('invoice data:', invoiceData)
+      // return
 
       var cartItemsCount = 0;
       var err = {};
@@ -1474,36 +1537,26 @@ export default {
                       if (res.data.status == "Success") {
                         this.loading = true;
                         var page_url = "/api/admin/order";
+                        this.customerDetail = res.data.data
                         var data = {
                           ispos: "1",
                           warehouse_id: this.selectedWarehouse.id,
                           billing_first_name: res.data.data.customer_first_name,
                           billing_last_name: res.data.data.customer_last_name,
-                          billing_street_aadress:
-                            this.selectedCustomerAddress.street_address,
-                          billing_country:
-                            this.selectedCustomerAddress.country_id.country_id,
+                          billing_street_aadress: this.selectedCustomerAddress.street_address,
+                          billing_country: this.selectedCustomerAddress.country_id.country_id,
                           billing_state: this.selectedCustomerAddress.state_id.id,
                           billing_city: this.selectedCustomerAddress.city,
                           billing_postcode: this.selectedCustomerAddress.postcode,
-                          billing_phone: this.selectedCustomerAddress.phone
-                            ? this.selectedCustomerAddress.phone
-                            : "no phone number",
-
+                          billing_phone: this.selectedCustomerAddress.phone ? this.selectedCustomerAddress.phone : "no phone number",
                           delivery_first_name: res.data.data.customer_first_name,
                           delivery_last_name: res.data.data.customer_last_name,
-                          delivery_street_aadress:
-                            this.selectedCustomerAddress.street_address,
-                          delivery_country:
-                            this.selectedCustomerAddress.country_id.country_id,
-                          delivery_state:
-                            this.warehouse_state_id,
+                          delivery_street_aadress: this.selectedCustomerAddress.street_address,
+                          delivery_country: this.selectedCustomerAddress.country_id.country_id,
+                          delivery_state: this.warehouse_state_id,
                           delivery_city: this.selectedCustomerAddress.city,
-                          delivery_postcode:
-                            this.selectedCustomerAddress.postcode,
-                          delivery_phone: this.selectedCustomerAddress.phone
-                            ? this.selectedCustomerAddress.phone
-                            : "no phone number",
+                          delivery_postcode: this.selectedCustomerAddress.postcode,
+                          delivery_phone: this.selectedCustomerAddress.phone ? this.selectedCustomerAddress.phone : "no phone number",
                           order_notes: "",
                           coupon_code: "",
                           latlong: "12312312312",
@@ -1511,7 +1564,13 @@ export default {
                           payment_method: "cod",
                           customer_id: this.selectedCustomer.id,
                           order_status: 'Complete',
-                          nota
+                          nota,
+                          is_preorder: this.orderPaymentType === 'po' ? 1 : 0,
+                          po_use_dp: this.preorder_dp != 0 ? 1 : 0,
+                          preorder_dp: this.preorder_dp,
+                          is_contract: this.orderPaymentType === 'contract' ? 1 : 0,
+                          contract_payment_date_recurring: 0,
+                          po_due_date: this.preorder_due_date,
                         };
 
                         axios
@@ -1522,105 +1581,7 @@ export default {
                               this.emptyValue();
                               this.$toaster.success(res.data.message);
 
-                              // Print out invoice
-                              let invoiceHTML = `<!DOCTYPE html>
-                                                      <html lang="en">
-                                                      <head>
-                                                        <meta charset="UTF-8">
-                                                        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-                                                        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-                                                        <title>Document</title>
-
-                                                        <style>
-                                                          .flex-2-col {
-                                                            display: flex;
-                                                          }
-                                                          .flex-2-col div {
-                                                            flex: 1;
-                                                          }
-                                                          .flex-2-col .right {
-                                                            flex: 1;
-                                                            text-align: right;
-                                                          }
-                                                          table {
-                                                            width: 100%;
-                                                            table-layout: fixed;
-                                                            overflow-x: none;
-                                                          }
-                                                          table th {
-                                                            text-align: left;
-                                                          }
-                                                        </style>
-                                                      </head>
-                                                      <body>
-                                                        <div>${this.businessName}</div>
-                                                        <div>${this.businessAddress}</div>
-                                                        <div>${this.businessPhone}</div>
-                                                        
-                                                        <hr style="border-top: 1px dashed black;margin-bottom:2px;margin-top:5px;">
-                                                        <hr style="border-top: 1px dashed black;margin-bottom:5px;">
-
-                                                        <div>Nota: ${nota}</div>
-                                                        <div>Kasir: ${localStorage.getItem('name')}</div>
-                                                        <div>Tgl.: ${new Date().toLocaleString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' }).replaceAll('/', '-').replace(',', '')}</div>
-
-                                                        <br>
-
-                                                        <table>
-                                                          <thead style="border-bottom:solid 2px black;">
-                                                            <th colspan="3">Item</th>
-                                                            <th>Qty</th>
-                                                            <th>Harga</th>
-                                                            <th>Total</th>
-                                                          </thead>
-                                                          <tbody>`;
-
-                              added_products.map((item) => {
-                                invoiceHTML += `<tr>
-                                                          <td colspan="3">${item.product_name}</td>
-                                                          <td>${item.qty}</td>
-                                                          <td>${this.currencyFormat(item.price)}</td>
-                                                          <td>${this.currencyFormat(item.subtotal)}</td>
-                                                        </tr>`
-                              })
-
-                              invoiceHTML += `</tbody>
-                                                        </table>
-
-                                                        <hr style="border-top: 1px dashed black;margin-top:10px;margin-bottom:10px;">
-
-                                                        <div class="flex-2-col">
-                                                          <div>Sub Total</div>
-                                                          <div class="right">${this.currencyFormat(invoiceData.payable)}</div>
-                                                        </div>
-                                                        <div class="flex-2-col">
-                                                          <div>Diskon</div>
-                                                          <div class="right">${this.currencyFormat(invoiceData.discount)}</div>
-                                                        </div>
-                                                        <div class="flex-2-col">
-                                                          <div>PPN</div>
-                                                          <div class="right">${this.currencyFormat(invoiceData.tax_amount)}</div>
-                                                        </div>
-                                                        <div class="flex-2-col">
-                                                          <div>Grand Total</div>
-                                                          <div class="right">${this.currencyFormat(invoiceData.payable)}</div>
-                                                        </div>
-
-                                                        <div style="text-align:center;margin-top:20px;">
-                                                          * Terima kasih atas kunjungan Anda *
-                                                        </div>
-                                                      </body>
-                                                      </html>`;
-
-                              const printWindow = window.open('', '_blank');
-                              printWindow.document.open();
-                              printWindow.document.write(invoiceHTML);
-                              printWindow.document.close();
-
-                              printWindow.onload = function () {
-                                printWindow.print();
-                                printWindow.close();
-                              };
+                              this.printOutInvoice()
                             } else {
                               this.$toaster.error(res.data.message);
                               this.loading = false;
@@ -1630,14 +1591,14 @@ export default {
                             this.loading = false;
                             this.error_message = "";
                             this.errors = new ErrorHandling();
-                            if (error.response.status == 422) {
-                              if (error.response.data.status == "Error") {
-                                // this.error_message = error.response.data.message;
-                                this.$toaster.error(error.response.data.message);
-                              } else {
-                                this.errors.record(error.response.data.errors);
-                              }
-                            }
+                            // if (error.response.status == 422) {
+                            //   if (error.response.data.status == "Error") {
+                            //     // this.error_message = error.response.data.message;
+                            //     this.$toaster.error(error.response.data.message);
+                            //   } else {
+                            //     this.errors.record(error.response.data.errors);
+                            //   }
+                            // }
                           })
                           .finally(() => (this.$parent.loading = false));
                       } else {
@@ -1652,7 +1613,6 @@ export default {
                 isError = true;
 
                 document.getElementById('orderTable').rows.item(i + 1).style.color = "red";
-
               }
             })
             .catch((error) => {
@@ -1678,6 +1638,225 @@ export default {
         });
         //alert (isError);
       }
+    },
+    printOutInvoice() {
+      // Print out invoice
+      let invoiceHTML = ''
+
+      const today = new Date().toLocaleDateString('id-ID', { day: "numeric", month: "long", year: "numeric" })
+      const actualSubTotal = this.addedProducts.reduce((acc, item) => parseFloat(acc) + parseFloat(item.actual_price), 0)
+      const grandTotal = parseFloat(this.invoiceData.total.reduce((acc, item) => parseFloat(acc) + parseFloat(item), 0) + this.invoiceData.tax)
+
+      switch (this.orderPaymentType) {
+        case 'po':
+            invoiceHTML += `
+              <!DOCTYPE html>
+              <html>
+              <head>
+                  <title>FAKTUR PEMBELIAN</title>
+                  <style>
+                      table {
+                          border-collapse: collapse;
+                          width: 100%;
+                      }
+                      td, th {
+                          border: 1px solid black;
+                          padding: 8px;
+                      }
+                      [center] {
+                          text-align: center;
+                      }
+                      [bold] {
+                          font-weight: bold;
+                      }
+                  </style>
+              </head>
+              <body>
+                  <div align="center">
+                      <h2>FAKTUR PEMBELIAN</h2>
+                  </div>
+                  <div>
+                      <h3>
+                          <span style="font-weight:bold;">${this.businessName}</span><br>
+                          <span style="font-weight:bold;">${this.businessAddress}</span><br>
+                          <span style="font-weight:bold;">${this.businessPhone}</span><br>
+                      </h3>
+                  </div>
+                  <table align="center">
+                      <tr>
+                          <th align="left">Pembeli</th>
+                          <th colspan="5" align="left">${this.customerDetail.customer_first_name} ${this.customerDetail.customer_last_name}</th>
+                      </tr>
+                      <tr>
+                          <th align="left">Alamat</th>
+                          <th colspan="5" align="left">${this.selectCustomerAddress.street_address}</th>
+                      </tr>
+                      <tr>
+                          <th>No</th>
+                          <th>Deskripsi</th>
+                          <th>Unit</th>
+                          <th>Price/Pc</th>
+                          <th>Subtotal</th>
+                      </tr>`
+
+            this.addedProducts.map((item, key) => {
+              invoiceHTML += `<tr>
+                                <td>${key+1}</td>
+                                <td>${item.product_name}</td>
+                                <td>${item.qty}</td>
+                                <td>${this.currencyFormat(item.price)}</td>
+                                <td>${this.currencyFormat(item.actual_price)}</td>
+                              </tr>`
+            })
+
+            invoiceHTML += `<tr>
+                              <td colspan="2"></td>
+                              <td></td>
+                              <td>Subtotal</td>
+                              <td>${this.currencyFormat(actualSubTotal)}</td>
+                          </tr>
+                          <tr>
+                              <td colspan="2"></td>
+                              <td></td>
+                              <td>Diskon</td>
+                              <td>${this.currencyFormat(this.invoiceData.discount)}</td>
+                          </tr>
+                          <tr>
+                              <td colspan="2"></td>
+                              <td></td>
+                              <td>PPN (${this.addedProducts.reduce((acc, item) => parseFloat(acc) + parseFloat(item.subtotal), 0) > 0 ? this.tax_per_apply : 0}%)</td>
+                              <td>${this.currencyFormat(this.invoiceData.tax)}</td>
+                          </tr>
+                          <tr>
+                              <td colspan="2"></td>
+                              <td></td>
+                              <td>Grand Total</td>
+                              <td>${this.currencyFormat(grandTotal)}</td>
+                          </tr>
+                          <tr>
+                              <td colspan="3" align="left">
+                                  <b>Catatan:</b><br>
+                                  - Tgl Jatuh Tempo: ${this.preorder_due_date ? new Date(this.preorder_due_date).toLocaleDateString('id-ID', { day: "numeric", month: "long", year: "numeric" }) : '-'}<br>
+                                  - Keterlambatan pembayaran dikenakan bunga
+                              </td>
+                              <td colspan="2" align="center">
+                                  ${today}<br><br><br>
+                                  Finance Manager
+                              </td>
+                          </tr>
+                      </table>
+                  </body>
+                  </html>
+                `
+          break;
+
+        case 'contract':
+          break;
+
+        case 'edc':
+          break;
+      
+        default:
+          invoiceHTML += `<!DOCTYPE html>
+                          <html lang="en">
+                          <head>
+                            <meta charset="UTF-8">
+                            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                            <title>Document</title>
+
+                            <style>
+                              .flex-2-col {
+                                display: flex;
+                              }
+                              .flex-2-col div {
+                                flex: 1;
+                              }
+                              .flex-2-col .right {
+                                flex: 1;
+                                text-align: right;
+                              }
+                              table {
+                                width: 100%;
+                                table-layout: fixed;
+                                overflow-x: none;
+                              }
+                              table th {
+                                text-align: left;
+                              }
+                            </style>
+                          </head>
+                          <body>
+                            <div>${this.businessName}</div>
+                            <div>${this.businessAddress}</div>
+                            <div>${this.businessPhone}</div>
+                            
+                            <hr style="border-top: 1px dashed black;margin-bottom:2px;margin-top:5px;">
+                            <hr style="border-top: 1px dashed black;margin-bottom:5px;">
+
+                            <div>Nota: ${this.invoiceData.nota}</div>
+                            <div>Kasir: ${localStorage.getItem('name')}</div>
+                            <div>Tgl.: ${new Date().toLocaleString('en-GB', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' }).replaceAll('/', '-').replace(',', '')}</div>
+
+                            <br>
+
+                            <table>
+                              <thead style="border-bottom:solid 2px black;">
+                                <th colspan="3">Item</th>
+                                <th>Qty</th>
+                                <th>Harga</th>
+                                <th>Total</th>
+                              </thead>
+                              <tbody>`;
+
+    this.addedProducts.map((item) => {
+      invoiceHTML += `<tr>
+                        <td colspan="3">${item.product_name}</td>
+                        <td>${item.qty}</td>
+                        <td>${this.currencyFormat(item.price)}</td>
+                        <td>${this.currencyFormat(item.subtotal)}</td>
+                      </tr>`
+    })
+
+    invoiceHTML += `</tbody>
+                  </table>
+
+                  <hr style="border-top: 1px dashed black;margin-top:10px;margin-bottom:10px;">
+
+                  <div class="flex-2-col">
+                    <div>Sub Total</div>
+                    <div class="right">${this.currencyFormat(this.invoiceData.payable)}</div>
+                  </div>
+                  <div class="flex-2-col">
+                    <div>Diskon</div>
+                    <div class="right">${this.currencyFormat(this.invoiceData.discount)}</div>
+                  </div>
+                  <div class="flex-2-col">
+                    <div>PPN</div>
+                    <div class="right">${this.currencyFormat(this.invoiceData.tax)}</div>
+                  </div>
+                  <div class="flex-2-col">
+                    <div>Grand Total</div>
+                    <div class="right">${this.currencyFormat(grandTotal)}</div>
+                  </div>
+
+                  <div style="text-align:center;margin-top:20px;">
+                    * Terima kasih atas kunjungan Anda *
+                  </div>
+                </body>
+                </html>`;
+          break;
+      }
+
+      const printWindow = window.open('', '_blank');
+      printWindow.document.open();
+      printWindow.document.write(invoiceHTML);
+      printWindow.document.close();
+
+      printWindow.onload = function () {
+        printWindow.print();
+        printWindow.close();
+      };
     },
     emptyValue() {
       this.add_to_cart_products = [];

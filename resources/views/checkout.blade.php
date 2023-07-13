@@ -147,7 +147,7 @@
 
                                             </div>
 
-                                            <div class="form-row">
+                                            {{-- <div class="form-row">
 
                                                 @if (isset(getSetting()['is_deliveryboyapp_purchased']) && getSetting()['is_deliveryboyapp_purchased'] == '1')
                                                     <div class="form-group col-md-6 mb-3">
@@ -161,7 +161,7 @@
                                                     </div>
                                                 @endif
 
-                                            </div>
+                                            </div> --}}
 
                                             <div class="col-12 col-sm-12">
                                                 <div class="row">
@@ -331,47 +331,46 @@
 
                                         <div class="col-12 col-sm-12">
                                             <div class="row">
-                                                <div class="col-md-12">
+                                                <div class="heading">
                                                     <h4>{{ trans('lables.order-courier-select') }}</h4>
                                                 </div>
-                                                <div class="col-md-12">
-                                                    <div class="form-row">
-                                                        <div class="from-group col-md-6 mb-3">
-                                                            <label for="">{{ trans('lables.order-courier-province') }}</label>
-                                                            <div class="input-group select-control">
-                                                                <select class="form-control" id="shipping_cost_province" onchange="provinceChanged()">
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                
-                                                        <div class="from-group col-md-6 mb-3">
-                                                            <label for="">{{ trans('lables.order-courier-city') }}</label>
-                                                            <div class="input-group select-control">
-                                                                <select class="form-control" id="shipping_cost_cities" onchange="cityChanged()">
-                                                                </select>
-                                                            </div>
-                                                        </div>
-                                                        
-                                                        <div class="from-group col-md-6 mb-3">
-                                                            <label for="">{{ trans('lables.order-courier-choice') }}</label>
-                                                            <div class="input-group select-control">
-                                                                <select class="form-control" id="shipping_cost_courier" onchange="courierChanged()">
-                                                                    <option value="jne" selected>JNE</option>
-                                                                    <option value="tiki" selected>TIKI</option>
-                                                                    <option value="pos" selected>Post Indonesia</option>
-                                                                </select>
-                                                            </div>
-                                                        </div>
 
-                                                        <div class="from-group col-md-6 mb-3">
-                                                            <label for="">{{ trans('lables.order-courier-service') }}</label>
-                                                            <div class="input-group select-control">
-                                                                <select class="form-control" id="shipping_cost_courier_service" onchange="courierServiceChanged()"></select>
-                                                            </div>
+                                                <div class="form-row">
+                                                    <div class="from-group col-md-6 mb-3">
+                                                        <label for="">{{ trans('lables.order-courier-province') }}</label>
+                                                        <div class="input-group select-control">
+                                                            <select class="form-control" id="shipping_cost_province" onchange="provinceChanged()">
+                                                            </select>
                                                         </div>
-                                                        
-                                                        <div id="delivery_cost"></div>
                                                     </div>
+                            
+                                                    <div class="from-group col-md-6 mb-3">
+                                                        <label for="">{{ trans('lables.order-courier-city') }}</label>
+                                                        <div class="input-group select-control">
+                                                            <select class="form-control" id="shipping_cost_cities" onchange="cityChanged()">
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="from-group col-md-6 mb-3">
+                                                        <label for="">{{ trans('lables.order-courier-choice') }}</label>
+                                                        <div class="input-group select-control">
+                                                            <select class="form-control" id="shipping_cost_courier" onchange="courierChanged()">
+                                                                <option value="jne">JNE</option>
+                                                                <option value="tiki">TIKI</option>
+                                                                <option value="pos">Post Indonesia</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="from-group col-md-6 mb-3">
+                                                        <label for="">{{ trans('lables.order-courier-service') }}</label>
+                                                        <div class="input-group select-control">
+                                                            <select class="form-control" id="shipping_cost_courier_service" onchange="courierServiceChanged()"></select>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div id="delivery_cost"></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -1490,7 +1489,7 @@
             e.preventDefault();
 
             $('.invalid-feedback').css('display', 'none');
-            locations = $("#latlong").val();
+            locations = $("#billing_street_aadress").val();
             billing_first_name = $("#billing_first_name").val();
             billing_last_name = $("#billing_last_name").val();
             billing_street_aadress = $("#billing_street_aadress").val();
@@ -2587,7 +2586,7 @@
             if (paytmOrderStatus == '') {
                 e.preventDefault();
                 $('.invalid-feedback').css('display', 'none');
-                locations = $("#latlong").val();
+                locations = $("#billing_street_aadress").val();
                 billing_first_name = $("#billing_first_name").val();
                 billing_last_name = $("#billing_last_name").val();
                 billing_street_aadress = $("#billing_street_aadress").val();

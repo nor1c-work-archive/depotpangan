@@ -35,7 +35,7 @@ class CustomerAddressBookRequest extends FormRequest
             'state_id' => 'nullable|integer|exists:states,id',
             'lattitude' => $rule1,
             'longitude' => $rule1,
-            'latlong' => $isDeliveryboy . $id,
+            // 'latlong' => $isDeliveryboy . $id,
             'phone' => 'exclude_if:type,profile|required|string|max:191',
         ];
     }

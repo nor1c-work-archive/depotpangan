@@ -18,6 +18,11 @@
   customerToken = $.trim(localStorage.getItem("customerToken"));
   accountType = $.trim(localStorage.getItem("customerAccountType"));
 
+  // currency formatter
+  window.currencyFormat = function (value) {
+    return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(nominal).replace(/,00$/, '')
+  }
+
   $(document).ready(function() {
     var url = "{{ url('') }}" +
       '/api/client/products?accType='+accountType+'&limit=10&getCategory=1&getDetail=1&language_id=' + languageId +

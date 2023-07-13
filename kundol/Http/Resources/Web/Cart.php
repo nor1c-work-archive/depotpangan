@@ -29,7 +29,7 @@ class Cart extends JsonResource
             $priceToConsider = ($this->discounts * $this->exchange_rate);
         }
         else{
-            $priceToConsider = ($this->prices * $this->exchange_rate);
+            $priceToConsider = (currencyFormat($this->prices * $this->exchange_rate));
         }
 
         return [
@@ -46,8 +46,8 @@ class Cart extends JsonResource
             'product_gallary' => new GallaryResource(Gallary::with('detail')->find($this->product->gallary_id)),
             'customer' => $this->customer,
             'category_detail' => ProductCategoryResource::collection($this->product->category),
-            'price' => $this->prices * $this->exchange_rate,
-            'product_price_symbol' => !isset($currency->symbol_position) ? $this->prices * $this->exchange_rate : ($currency->symbol_position == 'right' ? ($this->prices * $this->exchange_rate) . ' ' . $currency->code : $currency->code . ' ' . ($this->prices * $this->exchange_rate)),
+            'price' => currencyFormat($this->prices * $this->exchange_rate),
+            'product_price_symbol' => !isset($currency->symbol_position) ? currencyFormat($this->prices * $this->exchange_rate) : ($currency->symbol_position == 'right' ? (currencyFormat($this->prices * $this->exchange_rate)) . ' ' . $currency->code : $currency->code . ' ' . (currencyFormat($this->prices * $this->exchange_rate))),
             'discount_price' => $this->discounts * $this->exchange_rate,
             'product_discount_price_symbol' => !isset($currency->symbol_position) ? $this->discounts * $this->exchange_rate : ($currency->symbol_position == 'right' ? ($this->discounts * $this->exchange_rate) . ' ' . $currency->code : $currency->code . ' ' . ($this->discounts * $this->exchange_rate)),
             'total' => $priceToConsider * $this->qty,

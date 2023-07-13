@@ -15,6 +15,7 @@ use App\Mail\OrderConfirmation;
 use App\Models\Admin\Account;
 use App\Models\Admin\Currency;
 use App\Models\Admin\DefaultAccount;
+use App\Models\Admin\OrderPreorder;
 use App\Models\Admin\PaymentMethod;
 use App\Models\Admin\PaymentMethodSetting;
 use App\Models\Admin\ShippingMethod;
@@ -129,11 +130,9 @@ class OrderProcess implements ShouldQueue
                     } else {
                         $shipping_method_price = $shippingMethodPrice->amount * $currency->exchange_rate;
                     }    
-                }
-            
+                }            
             }
 
-               
             if (isset($this->parms['ispos']) && !empty($this->parms['ispos'])) {
                 $this->parms['order_from'] = 'pos';
             } elseif (isset($this->parms['is_add_sale']) && !empty($this->parms['is_add_sale'])) {
@@ -154,8 +153,22 @@ class OrderProcess implements ShouldQueue
             $this->parms['customer_id'] = $customer_id;
             $this->parms['currency_id'] = $currency->id;
             $this->parms['currency_value'] = $currency->exchange_rate;
+            $this->parms['is_preorder'] = $this->parms['is_preorder'];
+            $this->parms['po_use_dp'] = $this->parms['preorder_dp'] != 0 ? 1 : 0;
+            $this->parms['is_contract'] = $this->parms['is_contract'] ? 1 : 0;
+            $this->parms['contract_payment_date_recurring'] = $this->parms['contract_payment_date_recurring'];
+            $this->parms['po_due_date'] = $this->parms['po_due_date'];
             $sql = Order::create($this->parms);
 
+            if ($sql && $this->parms['is_preorder']) {
+                $this->parms['order_id'] = $sql->id;
+                $this->parms['is_dp'] = $this->parms['preorder_dp'] != 0 ? 1 : 0;
+                $this->parms['paid_off'] = $this->parms['preorder_dp'] != 0 ? $this->parms['preorder_dp'] : $this->parms['order_price'];
+
+                OrderPreorder::create($this->parms);
+            }
+
+            // (front only) send order invoice to customer email
             if (!isset($this->parms['ispos']) || $this->parms['ispos'] = false) {
                 $mail_data = [
                     'order_id' => $sql->id,

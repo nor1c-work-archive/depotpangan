@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Order extends Model
 {
     use HasFactory;
-    protected $fillable = ['customer_id','warehouse_id','order_from', 'billing_first_name','billing_last_name','billing_company','billing_street_aadress','billing_suburb','billing_city','billing_postcode','billing_country','billing_state','billing_phone','delivery_first_name','delivery_last_name','delivery_company','delivery_street_aadress','delivery_suburb','delivery_city','delivery_postcode','delivery_country','delivery_state','delivery_phone','cc_type','cc_owner','cc_number','cc_expiry','currency_id','currency_value','order_price','shipping_cost','shipping_method','shipping_duration','order_notes','is_seen','coupon_code','coupon_amount','payment_method','transaction_id','order_status','total_tax','delivery_boy_id','latlong', 'shipping_ro_method', 'shipping_ro_service', 'shipping_ro_province', 'shipping_ro_province_id', 'shipping_ro_city', 'shipping_ro_city_id', 'shipping_ro_resi_number', 'snap_token', 'midtrans_order_id', 'nota'];
+    protected $fillable = ['customer_id','warehouse_id','order_from', 'billing_first_name','billing_last_name','billing_company','billing_street_aadress','billing_suburb','billing_city','billing_postcode','billing_country','billing_state','billing_phone','delivery_first_name','delivery_last_name','delivery_company','delivery_street_aadress','delivery_suburb','delivery_city','delivery_postcode','delivery_country','delivery_state','delivery_phone','cc_type','cc_owner','cc_number','cc_expiry','currency_id','currency_value','order_price','shipping_cost','shipping_method','shipping_duration','order_notes','is_seen','coupon_code','coupon_amount','payment_method','transaction_id','order_status','total_tax','delivery_boy_id','latlong', 'shipping_ro_method', 'shipping_ro_service', 'shipping_ro_province', 'shipping_ro_province_id', 'shipping_ro_city', 'shipping_ro_city_id', 'shipping_ro_resi_number', 'snap_token', 'midtrans_order_id', 'nota', 'is_preorder', 'po_use_dp', 'is_contract', 'contract_payment_date_recurring', 'po_due_date'];
 
     public function ScopeGetOrderByStatus($query, $status)
     {
@@ -99,5 +99,11 @@ class Order extends Model
         ->Orwhere('orders.payment_method', 'like', '%' . $parameter . '%');
     }
     
-    
+    public function preorderPayments() {
+        return $this->hasMany('App\Models\Admin\OrderPreorder', 'order_id', 'id');
+    }
+
+    public function contractPayments() {
+        return $this->hasMany('App\Models\Admin\OrderContract', 'order_id', 'id');
+    }
 }

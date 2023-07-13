@@ -247,7 +247,7 @@ return [
     'shipping-address-country-state-city' => 'Country State City',
     'shipping-address-action' => 'ACTION',
     'shipping-address-add' => 'Manage Shipping Address',
-    'shipping-address-stret-address' => 'Street Address',
+    'shipping-address-stret-address' => 'Full Address',
     'shipping-address-country' => 'Select Country',
     'shipping-address-state' => 'Select State',
     'shipping-address-city' => 'City',

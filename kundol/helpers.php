@@ -68,6 +68,10 @@ if(!function_exists("currencyConvertor")){
     }
 }
 
+function currencyFormat($value) {
+    return number_format($value, 0, '.', '');
+}
+
 
 if(!function_exists("PaymentMethods")){
 

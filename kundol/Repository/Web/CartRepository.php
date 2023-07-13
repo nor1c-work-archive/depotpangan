@@ -69,7 +69,7 @@ class CartRepository implements CartInterface
                 $warehouse_id = $parms['warehouse_id'];
             }
             $parms['warehouse_id'] = $warehouse_id;
-            // dd($parms['warehouse_id']);
+            
             if (Auth::check()) {
                 $customer_id = Auth::id();
                 $session_id = '';
