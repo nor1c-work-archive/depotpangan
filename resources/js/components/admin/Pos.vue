@@ -278,7 +278,6 @@
 ">
                           {{ customer.customer_first_name }}
                           {{ customer.customer_last_name }}
-                          {{ customer.customer_id }}
                         </option>
                       </select>
                       <small class="form-text text-danger" v-if="errors.has('customer_id')"
@@ -718,8 +717,8 @@
                   <label>TIPE PEMBAYARAN/PESANAN</label>
                   <select class="form-control w-full" v-model="orderPaymentType">
                     <option value="cash">CASH/TUNAI</option>
-                    <option value="po">PRE-ORDER</option>
-                    <option value="contract">KONTRAK/CONTACT</option>
+                    <option value="po">PO</option>
+                    <option value="contract">KONTRAK/CONTRACT</option>
                     <option value="edc">EDC/KARTU KREDIT/DEBIT</option>
                   </select>
 
@@ -745,6 +744,30 @@
                       <label>TANGGAL JATUH TEMPO</label>
                       <div class="form-group">
                         <input type="date" class="form-control bg-white" value="" v-model="preorder_due_date">
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- contract -->
+                  <div v-if="orderPaymentType === 'contract'">
+                    <div>
+                      <label>TAGIHAN AWAL</label>
+                      <div class="form-group">
+                        <input
+                          type="input"
+                          min="0"
+                          v-model="contract_first_paid"
+                          id="preorder_dp"
+                          class="form-control"
+                          placeholder="Kosongkan jika bayar penuh/tidak menggunakan DP"
+                        />
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <label>TANGGAL PEMBAYARAN RUTIN</label>
+                      <div class="form-group">
+                        <input type="date" class="form-control bg-white" value="" v-model="contract_payment_date_recurring">
                       </div>
                     </div>
                   </div>
@@ -1203,6 +1226,16 @@ import DigitalClock from "./settings/DigitalClock.vue";
 
 export default {
   components: { Calculator, DigitalClock },
+  watch: {
+    orderPaymentType(newVal, prevVal) {
+      this.is_preorder = 0
+      this.preorder_dp = 0
+      this.preorder_due_date = 0
+      this.is_contract = 0
+      this.contract_first_paid = 0
+      this.contract_payment_date_recurring = ""
+    }
+  },
   data() {
     return {
       loading: false,
@@ -1292,6 +1325,9 @@ export default {
       is_preorder: 0,
       preorder_dp: 0,
       preorder_due_date: 0,
+      is_contract: 0,
+      contract_first_paid: 0,
+      contract_payment_date_recurring: "",
       invoiceData: {},
       addedProducts: [],
       selected_customer: {},
@@ -1566,11 +1602,12 @@ export default {
                           order_status: 'Complete',
                           nota,
                           is_preorder: this.orderPaymentType === 'po' ? 1 : 0,
-                          po_use_dp: this.preorder_dp != 0 ? 1 : 0,
-                          preorder_dp: this.preorder_dp,
+                          po_use_dp: this.orderPaymentType === 'po' && this.preorder_dp != 0 ? 1 : 0,
+                          preorder_dp: this.orderPaymentType === 'po' ? this.preorder_dp : 0,
+                          po_due_date: this.orderPaymentType === 'po' ? this.preorder_due_date : '',
                           is_contract: this.orderPaymentType === 'contract' ? 1 : 0,
-                          contract_payment_date_recurring: 0,
-                          po_due_date: this.preorder_due_date,
+                          contract_first_paid: this.orderPaymentType === 'contract' ? this.contract_first_paid : 0,
+                          contract_payment_date_recurring: this.contract_payment_date_recurring,
                         };
 
                         axios
@@ -1647,21 +1684,27 @@ export default {
       const actualSubTotal = this.addedProducts.reduce((acc, item) => parseFloat(acc) + parseFloat(item.actual_price), 0)
       const grandTotal = parseFloat(this.invoiceData.total.reduce((acc, item) => parseFloat(acc) + parseFloat(item), 0) + this.invoiceData.tax)
 
+      console.log('products:', this.addedProducts)
+
       switch (this.orderPaymentType) {
         case 'po':
             invoiceHTML += `
               <!DOCTYPE html>
               <html>
               <head>
-                  <title>FAKTUR PEMBELIAN</title>
+                  <title>PURCHASE ORDER</title>
                   <style>
                       table {
                           border-collapse: collapse;
                           width: 100%;
                       }
                       td, th {
-                          border: 1px solid black;
-                          padding: 8px;
+                          border: 1px solid black !important;
+                          padding: 6px;
+                      }
+                      #table-noborder td, #table-noborder th {
+                          border: none !important;
+                          padding: 0px;
                       }
                       [center] {
                           text-align: center;
@@ -1673,15 +1716,46 @@ export default {
               </head>
               <body>
                   <div align="center">
-                      <h2>FAKTUR PEMBELIAN</h2>
+                      <h2>PURCHASE ORDER</h2>
                   </div>
-                  <div>
-                      <h3>
-                          <span style="font-weight:bold;">${this.businessName}</span><br>
-                          <span style="font-weight:bold;">${this.businessAddress}</span><br>
-                          <span style="font-weight:bold;">${this.businessPhone}</span><br>
-                      </h3>
-                  </div>
+
+                  <table id="table-noborder" style="font-weight:bold;border-collapse:collapse;border-spacing:0;" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td>${this.businessName}</tds>
+                      <td style="text-align:right"></td>
+                    </tr>
+                    <tr>
+                      <td>${this.businessAddress}</tds>
+                      <td style="text-align:right">${today}</td>
+                    </tr>
+                    <tr>
+                      <td>${this.businessPhone}</tds>
+                      <td style="text-align:right">PURHCASE ORDER NO: ${this.invoiceData.nota}</td>
+                    </tr>
+                  </table>
+                  <br><br>
+
+                  <b>INFORMASI PELANGGAN</b>
+                  <br>
+                  <table id="table-noborder" style="border-collapse:collapse;border-spacing:0;" border="0" cellspacing="0" cellpadding="0">
+                    <tr>
+                      <td>${this.customerDetail.customer_first_name} ${this.customerDetail.customer_last_name}</td>
+                      <td style="text-align:right">CONTACT PERSON</td>
+                    </tr>
+                    <tr>
+                      <td>${this.selectedCustomerAddress.street_address}</td>
+                      <td style="text-align:right">Depot Pangan/Staff Purchasing</td>
+                    </tr>
+                    <tr>
+                      <td>${this.selectedCustomerAddress.phone ? this.selectedCustomerAddress.phone : "no phone number"}</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                  </table>
+
                   <table align="center">
                       <tr>
                           <th align="left">Pembeli</th>
@@ -1693,10 +1767,10 @@ export default {
                       </tr>
                       <tr>
                           <th>No</th>
-                          <th>Deskripsi</th>
-                          <th>Unit</th>
-                          <th>Price/Pc</th>
-                          <th>Subtotal</th>
+                          <th>Item</th>
+                          <th>Qty</th>
+                          <th>Harga (Rp)</th>
+                          <th>Total (Rp)</th>
                       </tr>`
 
             this.addedProducts.map((item, key) => {
@@ -1704,44 +1778,63 @@ export default {
                                 <td>${key+1}</td>
                                 <td>${item.product_name}</td>
                                 <td>${item.qty}</td>
-                                <td>${this.currencyFormat(item.price)}</td>
-                                <td>${this.currencyFormat(item.actual_price)}</td>
+                                <td style="text-align:right">${this.currencyFormat(item.price)}</td>
+                                <td style="text-align:right">${this.currencyFormat(item.actual_price)}</td>
                               </tr>`
             })
 
             invoiceHTML += `<tr>
                               <td colspan="2"></td>
-                              <td></td>
-                              <td>Subtotal</td>
-                              <td>${this.currencyFormat(actualSubTotal)}</td>
+                              <td colspan="2">Subtotal</td>
+                              <td style="text-align:right">${this.currencyFormat(actualSubTotal)}</td>
                           </tr>
                           <tr>
                               <td colspan="2"></td>
-                              <td></td>
-                              <td>Diskon</td>
-                              <td>${this.currencyFormat(this.invoiceData.discount)}</td>
+                              <td colspan="2">Diskon (${(
+                                  (
+                                    (
+                                      this.addedProducts.reduce((acc, item) => parseFloat(acc) + parseFloat(item.actual_price), 0)
+                                      -
+                                      this.addedProducts.reduce((acc, item) => parseFloat(acc) + parseFloat(item.subtotal), 0)
+                                    ) /
+                                    this.addedProducts.reduce((acc, item) => parseFloat(acc) + parseFloat(item.actual_price), 0)
+                                  ) * 100
+                                ).toFixed(2)}%)
+                              </td>
+                              <td style="text-align:right">${this.currencyFormat(this.invoiceData.discount)}</td>
                           </tr>
                           <tr>
                               <td colspan="2"></td>
-                              <td></td>
-                              <td>PPN (${this.addedProducts.reduce((acc, item) => parseFloat(acc) + parseFloat(item.subtotal), 0) > 0 ? this.tax_per_apply : 0}%)</td>
-                              <td>${this.currencyFormat(this.invoiceData.tax)}</td>
+                              <td colspan="2">PPN (${this.addedProducts.reduce((acc, item) => parseFloat(acc) + parseFloat(item.subtotal), 0) > 0 ? this.tax_per_apply : 0}%)</td>
+                              <td style="text-align:right">${this.currencyFormat(this.invoiceData.tax)}</td>
                           </tr>
                           <tr>
                               <td colspan="2"></td>
-                              <td></td>
-                              <td>Grand Total</td>
-                              <td>${this.currencyFormat(grandTotal)}</td>
+                              <td colspan="2">Grand Total</td>
+                              <td style="text-align:right">${this.currencyFormat(grandTotal)}</td>
+                          </tr>
+                          
+                          <tr>
+                              <td colspan="2"></td>
+                              <td colspan="2">Uang Muka</td>
+                              <td style="text-align:right">${this.preorder_dp != 0 ? this.currencyFormat(this.preorder_dp) : '-'}</td>
+                          </tr>
+                          <tr>
+                              <td colspan="2"></td>
+                              <td colspan="2">Sisa Pembayaran</td>
+                              <td style="text-align:right">${this.preorder_dp != 0 ? this.currencyFormat(parseFloat(grandTotal) - parseFloat(this.preorder_dp)) : '-'}</td>
                           </tr>
                           <tr>
                               <td colspan="3" align="left">
-                                  <b>Catatan:</b><br>
+                                  <b>Syarat & Ketentuan</b><br>
                                   - Tgl Jatuh Tempo: ${this.preorder_due_date ? new Date(this.preorder_due_date).toLocaleDateString('id-ID', { day: "numeric", month: "long", year: "numeric" }) : '-'}<br>
-                                  - Keterlambatan pembayaran dikenakan bunga
+                                  <!-- - Keterlambatan pembayaran dikenakan bunga -->
+                                  - Seluruh proses pengiman barang harus disertai dengan adanya faktur, nota atau kuitansi.<br>
+                                  - Proses pelunasan dilakukan selambat-lambatnya 30 hari sejak barang diterima.
                               </td>
                               <td colspan="2" align="center">
-                                  ${today}<br><br><br>
-                                  Finance Manager
+                                  Disetujui oleh, &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br><br><br>
+                                  Manager Purchasing
                               </td>
                           </tr>
                       </table>
@@ -1751,6 +1844,128 @@ export default {
           break;
 
         case 'contract':
+          invoiceHTML += `
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <title>FAKTUR TAGIHAN (KONTRAK)</title>
+                <style>
+                    table {
+                        border-collapse: collapse;
+                        width: 100%;
+                    }
+                    td, th {
+                        border: 1px solid black;
+                        padding: 8px;
+                    }
+                    [center] {
+                        text-align: center;
+                    }
+                    [bold] {
+                        font-weight: bold;
+                    }
+                </style>
+            </head>
+            <body>
+                <div align="center">
+                    <h2>FAKTUR PEMBELIAN</h2>
+                </div>
+                <div>
+                    <h3>
+                        <span style="font-weight:bold;">${this.businessName}</span><br>
+                        <span style="font-weight:bold;">${this.businessAddress}</span><br>
+                        <span style="font-weight:bold;">${this.businessPhone}</span><br>
+                    </h3>
+                </div>
+                <table align="center">
+                    <tr>
+                        <th align="left">Pembeli</th>
+                        <th colspan="5" align="left">${this.customerDetail.customer_first_name} ${this.customerDetail.customer_last_name}</th>
+                    </tr>
+                    <tr>
+                        <th align="left">Alamat</th>
+                        <th colspan="5" align="left">${this.selectCustomerAddress.street_address}</th>
+                    </tr>
+                    <tr>
+                        <th>No</th>
+                        <th>Deskripsi</th>
+                        <th>Unit</th>
+                        <th>Price/Pc (Rp)</th>
+                        <th>Subtotal (Rp)</th>
+                    </tr>`
+
+          this.addedProducts.map((item, key) => {
+            invoiceHTML += `<tr>
+                              <td>${key+1}</td>
+                              <td>${item.product_name}</td>
+                              <td>${item.qty}</td>
+                              <td>${this.currencyFormat(item.price)}</td>
+                              <td>${this.currencyFormat(item.actual_price)}</td>
+                            </tr>`
+          })
+
+          invoiceHTML += `<tr>
+                            <td colspan="2"></td>
+                            <td></td>
+                            <td>Subtotal</td>
+                            <td>${this.currencyFormat(actualSubTotal)}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"></td>
+                            <td></td>
+                            <td>Diskon (${(
+                                (
+                                  (
+                                    this.addedProducts.reduce((acc, item) => parseFloat(acc) + parseFloat(item.actual_price), 0)
+                                    -
+                                    this.addedProducts.reduce((acc, item) => parseFloat(acc) + parseFloat(item.subtotal), 0)
+                                  ) /
+                                  this.addedProducts.reduce((acc, item) => parseFloat(acc) + parseFloat(item.actual_price), 0)
+                                ) * 100
+                              ).toFixed(2)}%)
+                            </td>
+                            <td>${this.currencyFormat(this.invoiceData.discount)}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"></td>
+                            <td></td>
+                            <td>PPN (${this.addedProducts.reduce((acc, item) => parseFloat(acc) + parseFloat(item.subtotal), 0) > 0 ? this.tax_per_apply : 0}%)</td>
+                            <td>${this.currencyFormat(this.invoiceData.tax)}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"></td>
+                            <td></td>
+                            <td>Grand Total</td>
+                            <td>${this.currencyFormat(grandTotal)}</td>
+                        </tr>
+                        
+                        <tr>
+                            <td colspan="2"></td>
+                            <td></td>
+                            <td>JUMLAH TERBAYAR</td>
+                            <td>${this.contract_first_paid != 0 ? this.currencyFormat(this.contract_first_paid) : '-'}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="2"></td>
+                            <td></td>
+                            <td>SISA PEMBAYARAN</td>
+                            <td>${this.contract_first_paid != 0 ? this.currencyFormat(parseFloat(grandTotal) - parseFloat(this.contract_first_paid)) : '-'}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" align="left">
+                                <b>Catatan:</b><br>
+                                - Tgl Jatuh Tempo: ${this.contract_payment_date_recurring ? new Date(this.contract_payment_date_recurring).toLocaleDateString('id-ID', { day: "numeric", month: "long", year: "numeric" }) : '-'}<br>
+                                - Keterlambatan pembayaran dikenakan bunga
+                            </td>
+                            <td colspan="2" align="center">
+                                ${today}<br><br><br>
+                                Finance Manager
+                            </td>
+                        </tr>
+                    </table>
+                </body>
+                </html>
+              `
           break;
 
         case 'edc':
@@ -1814,7 +2029,7 @@ export default {
                         <td colspan="3">${item.product_name}</td>
                         <td>${item.qty}</td>
                         <td>${this.currencyFormat(item.price)}</td>
-                        <td>${this.currencyFormat(item.subtotal)}</td>
+                        <td>${this.currencyFormat(item.actual_price)}</td>
                       </tr>`
     })
 
@@ -1824,15 +2039,25 @@ export default {
                   <hr style="border-top: 1px dashed black;margin-top:10px;margin-bottom:10px;">
 
                   <div class="flex-2-col">
-                    <div>Sub Total</div>
-                    <div class="right">${this.currencyFormat(this.invoiceData.payable)}</div>
+                    <div>Subtotal</div>
+                    <div class="right">${this.currencyFormat(actualSubTotal)}</div>
                   </div>
                   <div class="flex-2-col">
-                    <div>Diskon</div>
+                    <div>Diskon (${(
+                        (
+                          (
+                            this.addedProducts.reduce((acc, item) => parseFloat(acc) + parseFloat(item.actual_price), 0)
+                            -
+                            this.addedProducts.reduce((acc, item) => parseFloat(acc) + parseFloat(item.subtotal), 0)
+                          ) /
+                          this.addedProducts.reduce((acc, item) => parseFloat(acc) + parseFloat(item.actual_price), 0)
+                        ) * 100
+                      ).toFixed(2)}%)
+                    </div>
                     <div class="right">${this.currencyFormat(this.invoiceData.discount)}</div>
                   </div>
                   <div class="flex-2-col">
-                    <div>PPN</div>
+                    <div>PPN (${this.addedProducts.reduce((acc, item) => parseFloat(acc) + parseFloat(item.subtotal), 0) > 0 ? this.tax_per_apply : 0}%)</div>
                     <div class="right">${this.currencyFormat(this.invoiceData.tax)}</div>
                   </div>
                   <div class="flex-2-col">

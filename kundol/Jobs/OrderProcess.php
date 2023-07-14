@@ -15,6 +15,7 @@ use App\Mail\OrderConfirmation;
 use App\Models\Admin\Account;
 use App\Models\Admin\Currency;
 use App\Models\Admin\DefaultAccount;
+use App\Models\Admin\OrderContract;
 use App\Models\Admin\OrderPreorder;
 use App\Models\Admin\PaymentMethod;
 use App\Models\Admin\PaymentMethodSetting;
@@ -160,12 +161,20 @@ class OrderProcess implements ShouldQueue
             $this->parms['po_due_date'] = $this->parms['po_due_date'];
             $sql = Order::create($this->parms);
 
-            if ($sql && $this->parms['is_preorder']) {
-                $this->parms['order_id'] = $sql->id;
-                $this->parms['is_dp'] = $this->parms['preorder_dp'] != 0 ? 1 : 0;
-                $this->parms['paid_off'] = $this->parms['preorder_dp'] != 0 ? $this->parms['preorder_dp'] : $this->parms['order_price'];
+            if ($sql) {
+                if ($this->parms['is_preorder']) {
+                    $this->parms['order_id'] = $sql->id;
+                    $this->parms['is_dp'] = $this->parms['preorder_dp'] != 0 ? 1 : 0;
+                    $this->parms['paid_off'] = $this->parms['preorder_dp'] != 0 ? $this->parms['preorder_dp'] : $this->parms['order_price'];
+    
+                    OrderPreorder::create($this->parms);
+                } else if ($this->parms['is_contract']) {
+                    $this->parms['order_id'] = $sql->id;
+                    $this->parms['is_dp'] = $this->parms['preorder_dp'] != 0 ? 1 : 0;
+                    $this->parms['paid_off'] = $this->parms['contract_first_paid'] != 0 ? $this->parms['contract_first_paid'] : $this->parms['order_price'];
 
-                OrderPreorder::create($this->parms);
+                    OrderContract::create($this->parms);
+                }
             }
 
             // (front only) send order invoice to customer email

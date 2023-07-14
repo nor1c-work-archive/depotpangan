@@ -12,6 +12,7 @@
         "academe/omnipay-authorizenetapi": " ~3.0",
         "anandsiddharth/laravel-paytm-wallet": "^2.0",
         "cartalyst/stripe-laravel": "^13.1",
+        "doctrine/dbal": "^3.3",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
