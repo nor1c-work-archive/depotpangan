@@ -12,7 +12,7 @@ class RajaOngkirController extends Controller
 
     public function __construct()
     {
-        // 
+        header('Content-Type: application/json; charset=utf-8');
     }
 
     private function callApi($url)
@@ -43,12 +43,12 @@ class RajaOngkirController extends Controller
         } else {
             $response = json_decode($response, true);
             if (isset($response['rajaongkir'])) {
-                echo json_encode(array(
+                return array(
                     "status" => "success",
                     "message" => "Data Get Successfully",
                     "status_code" => 200,
                     "data" => $response['rajaongkir']['results']
-                ));
+                );
             }
         }
     }
@@ -98,18 +98,18 @@ class RajaOngkirController extends Controller
         } else {
             $response = json_decode($response, true);
             if (isset($response['rajaongkir'])) {
-                echo json_encode(array(
+                return array(
                     "status" => "success",
                     "message" => "Data Get Successfully",
                     "status_code" => 200,
                     "data" => $response['rajaongkir']['results']
-                ));
+                );
             }
         }
     }
 
     public function getCourier() {
-        echo json_encode(array(
+        return array(
             "status" => "success",
             "message" => "Data Get Successfully",
             "status_code" => 200,
@@ -127,6 +127,6 @@ class RajaOngkirController extends Controller
                     "title" => "POS Indonesia"
                 )
             )
-        ));
+        );
     }
 }
