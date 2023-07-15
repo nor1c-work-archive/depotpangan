@@ -154,6 +154,9 @@ Route::group(['prefix' => 'client'], function () {
     Route::get('/get-rajaongkir-province', 'API\Web\RajaOngkirController@getProvince');
     Route::get('/get-rajaongkir-cities', 'API\Web\RajaOngkirController@getCities');
     Route::get('/get-rajaongkir-cost', 'API\Web\RajaOngkirController@getCost');
+    Route::get('/get-rajaongkir-courier', 'API\Web\RajaOngkirController@getCourier');
+
+    Route::resource('/city', 'API\Admin\CityController');
 });
 
 Route::group(['prefix' => 'client', 'middleware' => ['auth:customer-api', 'scopes:customer']], function () {

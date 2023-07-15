@@ -41,7 +41,15 @@ class RajaOngkirController extends Controller
         if ($err) {
             echo "cURL Error #:" . $err;
         } else {
-            echo $response;
+            $response = json_decode($response, true);
+            if (isset($response['rajaongkir'])) {
+                echo json_encode(array(
+                    "status" => "success",
+                    "message" => "Data Get Successfully",
+                    "status_code" => 200,
+                    "data" => $response['rajaongkir']['results']
+                ));
+            }
         }
     }
 
@@ -88,7 +96,37 @@ class RajaOngkirController extends Controller
         if ($err) {
             echo "cURL Error #:" . $err;
         } else {
-            echo $response;
+            $response = json_decode($response, true);
+            if (isset($response['rajaongkir'])) {
+                echo json_encode(array(
+                    "status" => "success",
+                    "message" => "Data Get Successfully",
+                    "status_code" => 200,
+                    "data" => $response['rajaongkir']['results']
+                ));
+            }
         }
+    }
+
+    public function getCourier() {
+        echo json_encode(array(
+            "status" => "success",
+            "message" => "Data Get Successfully",
+            "status_code" => 200,
+            "data" => array(
+                array(
+                    "name" => "jne",
+                    "title" => "JNE",
+                ),
+                array(
+                    "name" => "tiki",
+                    "title" => "TIKI",
+                ),
+                array(
+                    "name" => "pos",
+                    "title" => "POS Indonesia"
+                )
+            )
+        ));
     }
 }

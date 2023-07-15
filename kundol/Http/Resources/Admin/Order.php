@@ -20,6 +20,14 @@ class Order extends JsonResource
              $currency = Currency::findByCurrencyId($request->currency)->select('exchange_rate', 'symbol_position', 'code')->first();
              $this->exchange_rate = $currency->exchange_rate;
         }
+
+        $orderType = 'Cash';
+        if ($this->is_preorder) {
+            $orderType = 'Purchase Order';
+        } else if ($this->is_contract) {
+            $orderType = 'Kontrak';
+        }
+
         return [
             'order_id' => $this->id,
             'customer_id' => new CustomerResource($this->whenLoaded('customer')),
@@ -84,6 +92,14 @@ class Order extends JsonResource
             'shipping_ro_city_id' => $this->shipping_ro_city_id,
             'shipping_ro_city' => $this->shipping_ro_city,
             'shipping_ro_resi_number' => $this->shipping_ro_resi_number ?? '-',
+
+            'nota' => $this->nota,
+            'is_po' => $this->is_preorder,
+            'po_use_dp' => $this->po_use_dp,
+            'is_contract' => $this->is_contract,
+            'contract_payment_date_recurring' => $this->contract_payment_date_recurring,
+            'po_due_date' => $this->po_due_date,
+            'order_type' => $orderType,
         ];
     }
 }

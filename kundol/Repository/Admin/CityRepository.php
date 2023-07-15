@@ -38,6 +38,9 @@ class CityRepository implements CityInterface
             if (isset($_GET['searchParameter']) && $_GET['searchParameter'] != '') {
                 $city = $city->searchParameter($_GET['searchParameter']);
             }
+            if (isset($_GET['search']) && $_GET['search'] != '') {
+                $city = $city->where('name', 'LIKE', '%'.$_GET['search'].'%');
+            }
             if (isset($_GET['limit']) && is_numeric($_GET['limit']) && $_GET['limit'] > 0) {
                 $numOfResult = $_GET['limit'];
             } else {

@@ -80,6 +80,10 @@
                                 </th>
                                 <th class="sorting" tabindex="0" rowspan="1" colspan="1"
                                   aria-label="sale: activate to sort column ascending" style="width: 95.5288px">
+                                  Tipe Pesanan
+                                </th>
+                                <th class="sorting" tabindex="0" rowspan="1" colspan="1"
+                                  aria-label="sale: activate to sort column ascending" style="width: 95.5288px">
                                   Action
                                 </th>
                               </tr>
@@ -101,6 +105,9 @@
                                 </td>
                                 <td>
                                   {{ order.payment_method }}
+                                </td>
+                                <td>
+                                  {{ order.order_type }}
                                 </td>
                                 <td>
                                   <a :href="'/admin/order/' + order.order_id" class="click-edit" id="click-edit1"

@@ -254,7 +254,7 @@
                 <div class="card-body">
                   <div class="d-flex justify-content-between colorfull-select">
                     <div class="selectmain">
-                      <label class="text-dark d-flex">Choose a Customer
+                      <label class="text-dark d-flex">Pilih Pelanggan
                         <span class="badge badge-secondary white rounded-circle" data-toggle="modal"
                           data-target="#choosecustomer" @click="showCustomerModel()">
                           <svg xmlns="http://www.w3.org/2000/svg" class="svg-sm"
@@ -285,7 +285,7 @@
                     </div>
 
                     <div class="selectmain">
-                      <label class="text-dark d-flex">Choose a Customer Address
+                      <label class="text-dark d-flex">Pilih Alamat Pelanggan
                         <span class="badge badge-secondary white rounded-circle" data-toggle="modal"
                           data-target="#choosecustomer" @click="showCustomerAddressModel()">
                           <svg xmlns="http://www.w3.org/2000/svg" class="svg-sm"
@@ -373,10 +373,10 @@
                     <table id="orderTable" class="display" style="width: 100%">
                       <thead>
                         <tr>
-                          <th style="width:30%">Name</th>
-                          <th style="width:15%">Price</th>
-                          <th style="width:15%">Quantity</th>
-                          <th style="width:20%">Discount Price</th>
+                          <th style="width:30%">Nama Item</th>
+                          <th style="width:15%">Harga/Pc</th>
+                          <th style="width:15%">Kuantitas</th>
+                          <th style="width:20%">Harga Setelah Diskon</th>
                           <th style="width:15%">Subtotal</th>
                           <th style="width:5%" class="text-right no-sort"></th>
                         </tr>
@@ -502,7 +502,7 @@
                             font-size-bold
                             text-dark
                           ">
-                          Actual Total Price
+                          Total Harga Aktual
                         </th>
                         <td class="
                             border-0
@@ -538,7 +538,7 @@
                               font-size-bold
                               text-dark
                             ">
-                            DISCOUNT ({{
+                            DISKON ({{
                                 (
                                   ((add_to_cart_products.reduce(
                                     (acc, item) =>
@@ -601,7 +601,7 @@
                             font-size-bold
                             text-dark
                           ">
-                          Subtotal
+                          SUBTOTAL
                         </th>
                         <td class="
                             border-0
@@ -637,7 +637,7 @@
                               font-size-bold
                               text-dark
                             ">
-                            Tax ({{
+                            PAJAK/TAX ({{
                                 add_to_cart_products.reduce(
                                   (acc, item) =>
                                     parseFloat(acc) + parseFloat(item.subtotal),
@@ -681,7 +681,7 @@
                             font-size-bold
                             text-primary
                           ">
-                          TOTAL
+                          GRAND TOTAL
                         </th>
                         <td class="
                             border-0
@@ -719,7 +719,7 @@
                     <option value="cash">CASH/TUNAI</option>
                     <option value="po">PO</option>
                     <option value="contract">KONTRAK/CONTRACT</option>
-                    <option value="edc">EDC/KARTU KREDIT/DEBIT</option>
+                    <option value="edc">EDC/KARTU KREDIT/DEBIT (INACTIVE)</option>
                   </select>
 
                   <br>
@@ -934,7 +934,7 @@
                       </p>
                       <p><strong>Payment Status </strong>Pending</p>
                       <p>
-                        <strong>Total Items </strong>
+                        <strong>Total Item</strong>
                         {{ draftOrder.product ? draftOrder.product.length : 0 }}
                       </p>
                       <p>
@@ -1574,6 +1574,7 @@ export default {
                         this.loading = true;
                         var page_url = "/api/admin/order";
                         this.customerDetail = res.data.data
+                        const grandTotal = parseFloat(this.invoiceData.total.reduce((acc, item) => parseFloat(acc) + parseFloat(item), 0) + this.invoiceData.tax)
                         var data = {
                           ispos: "1",
                           warehouse_id: this.selectedWarehouse.id,
@@ -1608,6 +1609,7 @@ export default {
                           is_contract: this.orderPaymentType === 'contract' ? 1 : 0,
                           contract_first_paid: this.orderPaymentType === 'contract' ? this.contract_first_paid : 0,
                           contract_payment_date_recurring: this.contract_payment_date_recurring,
+                          grand_total: grandTotal
                         };
 
                         axios
