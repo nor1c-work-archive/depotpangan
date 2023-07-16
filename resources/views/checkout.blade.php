@@ -2233,7 +2233,7 @@
             type: 'GET',
             url: "{{ url('') }}" + '/api/client/get-rajaongkir-province',
             success: function (data) {
-                const province = JSON.parse(data).rajaongkir.results
+                const province = data.data
 
                 if (province) {
                     html = '<option value="">Select</option>';
@@ -2267,7 +2267,7 @@
                 type: 'GET',
                 url: "{{ url('') }}" + '/api/client/get-rajaongkir-cities?province_id=' + provinceId,
                 success: function (data) {
-                    const cities = JSON.parse(data).rajaongkir.results
+                    const cities = data.data
                 
                     if (cities) {
                         html = '<option value="">Select</option>';
@@ -2306,7 +2306,7 @@
                 type: 'GET',
                 url: "{{ url('') }}" + '/api/client/get-rajaongkir-cost?city_id=' + cityId + '&courier=' + courierKey + '&weight=' + weight + '&courier=' + courierKey,
                 success: function (data) {
-                    const courierServices = JSON.parse(data).rajaongkir.results[0].costs
+                    const courierServices = data.data[0].costs
                 
                     if (courierServices) {
                         html = '<option value="">Select</option>';

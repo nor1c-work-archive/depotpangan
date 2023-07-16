@@ -154,11 +154,11 @@ class OrderProcess implements ShouldQueue
             $this->parms['customer_id'] = $customer_id;
             $this->parms['currency_id'] = $currency->id;
             $this->parms['currency_value'] = $currency->exchange_rate;
-            $this->parms['is_preorder'] = $this->parms['is_preorder'];
-            $this->parms['po_use_dp'] = $this->parms['preorder_dp'] != 0 ? 1 : 0;
-            $this->parms['is_contract'] = $this->parms['is_contract'] ? 1 : 0;
-            $this->parms['contract_payment_date_recurring'] = $this->parms['contract_payment_date_recurring'];
-            $this->parms['po_due_date'] = $this->parms['po_due_date'];
+            $this->parms['is_preorder'] = $this->parms['is_preorder'] ?? 0;
+            $this->parms['po_use_dp'] = isset($this->parms['preorder_dp']) && $this->parms['preorder_dp'] != 0 ? 1 : 0;
+            $this->parms['is_contract'] = isset($this->parms['is_contract']) && $this->parms['is_contract'] ? 1 : 0;
+            $this->parms['contract_payment_date_recurring'] = $this->parms['contract_payment_date_recurring'] ?? 0;
+            $this->parms['po_due_date'] = $this->parms['po_due_date'] ?? 0;
             $sql = Order::create($this->parms);
 
             if ($sql) {
