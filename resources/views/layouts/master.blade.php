@@ -194,8 +194,8 @@
                                     {
                                         breakpoint: 576,
                                         settings: {
-                                            slidesToShow: itemmobile || 1,
-                                            slidesToScroll: itemmobile || 1
+                                            slidesToShow: itemmobile || 2,
+                                            slidesToScroll: itemmobile || 2
                                         }
                                     }
                                 ]

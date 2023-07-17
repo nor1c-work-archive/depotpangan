@@ -222,7 +222,7 @@
             $("." + appendTo).append(clone);
 
             if (appendTo == 'new-arrival' || appendTo == 'weekly-sale') {
-              $(".div-class").addClass('col-12 col-sm-6 col-lg-2');
+              $(".div-class").addClass('col-6 col-sm-6 col-lg-2');
             }
           }
 

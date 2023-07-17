@@ -43,8 +43,8 @@
                     {
                         breakpoint: 650,
                         settings: {
-                            slidesToShow: itemmobile || 1,
-                            slidesToScroll: itemmobile || 1,
+                            slidesToShow: itemmobile || 2,
+                            slidesToScroll: itemmobile || 2,
                         }
                     }]
                 });
@@ -91,8 +91,8 @@
                   {
                       breakpoint: 650,
                       settings: {
-                          slidesToShow: itemmobile || 1,
-                          slidesToScroll: itemmobile || 1,
+                          slidesToShow: itemmobile || 2,
+                          slidesToScroll: itemmobile || 2,
                       }
                   }]
               });
@@ -140,8 +140,8 @@
                   {
                       breakpoint: 650,
                       settings: {
-                          slidesToShow: itemmobile || 1,
-                          slidesToScroll: itemmobile || 1,
+                          slidesToShow: itemmobile || 2,
+                          slidesToScroll: itemmobile || 2,
                       }
                   }]
               });
@@ -218,8 +218,8 @@ jQuery('.slick-basic-dot-js').slick({
                     {
                         breakpoint: 650,
                         settings: {
-                            slidesToShow: itemmobile || 1,
-                            slidesToScroll: itemmobile || 1,
+                            slidesToShow: itemmobile || 2,
+                            slidesToScroll: itemmobile || 2,
                         }
                     }]
                 });
@@ -282,8 +282,8 @@ jQuery('.slick-basic-dot-js').slick({
 //                     {
 //                         breakpoint: 650,
 //                         settings: {
-//                             slidesToShow: itemmobile || 1,
-//                             slidesToScroll: itemmobile || 1,
+//                             slidesToShow: itemmobile || 2,
+//                             slidesToScroll: itemmobile || 2,
 //                         }
 //                     }]
 //                 });

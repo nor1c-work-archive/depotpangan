@@ -4572,8 +4572,8 @@ jQuery( document ).ready(function() {
                         {
                             breakpoint: 768,
                             settings: {
-                                slidesToShow: itemmobile || 1,
-                                slidesToScroll: itemmobile || 1
+                                slidesToShow: itemmobile || 2,
+                                slidesToScroll: itemmobile || 2
                             }
                         }]
                     });
@@ -4685,8 +4685,8 @@ jQuery( document ).ready(function() {
                         {
                             breakpoint: 650,
                             settings: {
-                                slidesToShow: itemmobile || 1,
-                                slidesToScroll: itemmobile || 1
+                                slidesToShow: itemmobile || 2,
+                                slidesToScroll: itemmobile || 2
                             }
                         }]
                     });
@@ -4736,8 +4736,8 @@ jQuery( document ).ready(function() {
                         {
                             breakpoint: 650,
                             settings: {
-                                slidesToShow: itemmobile || 1,
-                                slidesToScroll: itemmobile || 1
+                                slidesToShow: itemmobile || 2,
+                                slidesToScroll: itemmobile || 2
                             }
                         }]
                     });
@@ -4788,8 +4788,8 @@ jQuery( document ).ready(function() {
                         {
                             breakpoint: 650,
                             settings: {
-                                slidesToShow: itemmobile || 1,
-                                slidesToScroll: itemmobile || 1
+                                slidesToShow: itemmobile || 2,
+                                slidesToScroll: itemmobile || 2
                             }
                         }]
                     });
@@ -4840,8 +4840,8 @@ jQuery( document ).ready(function() {
                         {
                             breakpoint: 650,
                             settings: {
-                                slidesToShow: itemmobile || 1,
-                                slidesToScroll: itemmobile || 1
+                                slidesToShow: itemmobile || 2,
+                                slidesToScroll: itemmobile || 2
                             }
                         }]
                     });
@@ -4891,8 +4891,8 @@ jQuery( document ).ready(function() {
                         {
                             breakpoint: 650,
                             settings: {
-                                slidesToShow: itemmobile || 1,
-                                slidesToScroll: itemmobile || 1
+                                slidesToShow: itemmobile || 2,
+                                slidesToScroll: itemmobile || 2
                             }
                         }]
                     });
@@ -4943,8 +4943,8 @@ jQuery( document ).ready(function() {
                         {
                             breakpoint: 650,
                             settings: {
-                                slidesToShow: itemmobile || 1,
-                                slidesToScroll: itemmobile || 1
+                                slidesToShow: itemmobile || 2,
+                                slidesToScroll: itemmobile || 2
                             }
                         }]
                     });
@@ -4995,8 +4995,8 @@ jQuery( document ).ready(function() {
                         {
                             breakpoint: 650,
                             settings: {
-                                slidesToShow: itemmobile || 1,
-                                slidesToScroll: itemmobile || 1
+                                slidesToShow: itemmobile || 2,
+                                slidesToScroll: itemmobile || 2
                             }
                         }]
                     });

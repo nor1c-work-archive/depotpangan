@@ -172,7 +172,7 @@
 
             if (data.data[i].product_type == 'simple') {
               if (data.data[i].product_discount_price == '' || data.data[i].product_discount_price == null || data.data[i].product_discount_price == 'null') {
-                clone.querySelector(".product-card-price").innerHTML = (data.data[i].previous_price ? (data.data[i].price > data.data[i].previous_price.price ? '<i class="fas fa-circle-arrow-up" style="color:red;font-size:16px;"></i>&nbsp;' : '<i class="fas fa-circle-arrow-down" style="color:green;font-size:16px;"></i>&nbsp;') : '') + data.data[i].product_price_symbol;
+                clone.querySelector(".product-card-price").innerHTML = (data.data[i].previous_price ? (data.data[i].price > data.data[i].previous_price.price ? '<i class="fas fa-circle-arrow-up" style="color:red;font-size:16px;"></i>&nbsp;' : '<i class="fas fa-circle-arrow-down" style="color:green;font-size:16px;"></i>&nbsp;') : '') + data.data[i].product_price_symbol_front;
               } else {
                 clone.querySelector(".product-card-price").innerHTML = (data.data[i].previous_price ? (data.data[i].price > data.data[i].previous_price.price ? '<i class="fas fa-circle-arrow-up" style="color:red;font-size:16px;"></i>&nbsp;' : '<i class="fas fa-circle-arrow-down" style="color:green;font-size:16px;"></i>&nbsp;') : '') + data.data[i].product_discount_price_symbol + '<br><span>' + data.data[i].product_price_symbol + '</span>';
               }
