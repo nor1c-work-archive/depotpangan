@@ -217,52 +217,52 @@ class OrderProcess implements ShouldQueue
                 }
             }
             else if($this->parms['payment_method'] == 'paypal'){
-                $this->gateway = Omnipay::create('PayPal_Pro');
-                $payment = PaymentMethodSetting::where('payment_method_id',1)->get();
-                $this->gateway->setUsername(isset($payment[0]->value) ? $payment[0]->value : '');
-                $this->gateway->setPassword(isset($payment[1]->value) ? $payment[1]->value : '');
-                $this->gateway->setSignature(isset($payment[2]->value) ? $payment[2]->value : '');
-                $this->gateway->setTestMode(true);
-                $formData = array(
-                    'firstName' => $this->parms['billing_first_name'],
-                    'lastName' => $this->parms['billing_last_name'],
-                    'number' => $this->parms['cc_number'],
-                    'expiryMonth' => $this->parms['cc_expiry_month'],
-                    'expiryYear' => $this->parms['cc_expiry_year'],
-                    'cvv' => $this->parms['cc_cvc']
-                );
+                // $this->gateway = Omnipay::create('PayPal_Pro');
+                // $payment = PaymentMethodSetting::where('payment_method_id',1)->get();
+                // $this->gateway->setUsername(isset($payment[0]->value) ? $payment[0]->value : '');
+                // $this->gateway->setPassword(isset($payment[1]->value) ? $payment[1]->value : '');
+                // $this->gateway->setSignature(isset($payment[2]->value) ? $payment[2]->value : '');
+                // $this->gateway->setTestMode(true);
+                // $formData = array(
+                //     'firstName' => $this->parms['billing_first_name'],
+                //     'lastName' => $this->parms['billing_last_name'],
+                //     'number' => $this->parms['cc_number'],
+                //     'expiryMonth' => $this->parms['cc_expiry_month'],
+                //     'expiryYear' => $this->parms['cc_expiry_year'],
+                //     'cvv' => $this->parms['cc_cvc']
+                // );
         
-                try {
-                    // Send purchase request
-                    $response = $this->gateway->purchase([
-                        'amount' => $this->parms['order_price'],
-                        'currency' => 'USD',
-                        'card' => $formData
-                    ])->send();
+                // try {
+                //     // Send purchase request
+                //     $response = $this->gateway->purchase([
+                //         'amount' => $this->parms['order_price'],
+                //         'currency' => 'USD',
+                //         'card' => $formData
+                //     ])->send();
         
-                    // Process response
-                    if ($response->isSuccessful()) {
+                //     // Process response
+                //     if ($response->isSuccessful()) {
         
-                        // Payment was successful
-                        $arr_body = $response->getData();
-                        $amounts = $arr_body['AMT'];
-                        $currencies = $arr_body['CURRENCYCODE'];
-                        $transaction_id = $arr_body['TRANSACTIONID'];
+                //         // Payment was successful
+                //         $arr_body = $response->getData();
+                //         $amounts = $arr_body['AMT'];
+                //         $currencies = $arr_body['CURRENCYCODE'];
+                //         $transaction_id = $arr_body['TRANSACTIONID'];
         
-                        // echo "Payment of $amount $currency is successful. Your Transaction ID is: $transaction_id";
-                        $sql->transaction_id = $transaction_id;
-                        $sql->payment_status = 'Success';
-                        $paymentMethod['message'] = 'Success';
+                //         // echo "Payment of $amount $currency is successful. Your Transaction ID is: $transaction_id";
+                //         $sql->transaction_id = $transaction_id;
+                //         $sql->payment_status = 'Success';
+                //         $paymentMethod['message'] = 'Success';
 
-                    } else {
-                        // Payment failed
-                        $sql->transaction_id = $transaction_id;
-                        $sql->payment_status = 'Success';
-                        $paymentMethod['message'] = '';
-                    }
-                } catch(Exception $e) {
+                //     } else {
+                //         // Payment failed
+                //         $sql->transaction_id = $transaction_id;
+                //         $sql->payment_status = 'Success';
+                //         $paymentMethod['message'] = '';
+                //     }
+                // } catch(Exception $e) {
                     
-                }
+                // }
             }
 
             else if($this->parms['payment_method'] == 'braintree'){
@@ -334,43 +334,43 @@ class OrderProcess implements ShouldQueue
                 
             }
             else if($this->parms['payment_method'] == 'sagepay'){
-                $payment = PaymentMethodSetting::where('payment_method_id',7)->get();
-                $this->gateway = OmniPay::create('SagePay\Direct');
-                $this->gateway->setVendor('your-vendor-code');
-                $this->gateway->setTestMode(true);
-                $creditCard = new \Omnipay\Common\CreditCard([
-                    'number' => $this->parms['cc_number'],
-                    'expiryMonth' => $this->parms['cc_expiry_month'],
-                    'expiryYear' => $this->parms['cc_expiry_year'],
-                    'cvv' => $this->parms['cc_cvc'],
-                ]);
+                // $payment = PaymentMethodSetting::where('payment_method_id',7)->get();
+                // $this->gateway = OmniPay::create('SagePay\Direct');
+                // $this->gateway->setVendor('your-vendor-code');
+                // $this->gateway->setTestMode(true);
+                // $creditCard = new \Omnipay\Common\CreditCard([
+                //     'number' => $this->parms['cc_number'],
+                //     'expiryMonth' => $this->parms['cc_expiry_month'],
+                //     'expiryYear' => $this->parms['cc_expiry_year'],
+                //     'cvv' => $this->parms['cc_cvc'],
+                // ]);
       
         
-                try {
-                    // Send purchase request
-                   // Send the request.
+                // try {
+                //     // Send purchase request
+                //    // Send the request.
 
-                    $request = $this->gateway->createCard([
-                        'currency' => 'USD',
-                        'card' => $creditCard,
-                    ]);
-                    $response = $request->send();
+                //     $request = $this->gateway->createCard([
+                //         'currency' => 'USD',
+                //         'card' => $creditCard,
+                //     ]);
+                //     $response = $request->send();
                    
-                    // Process response
-                    if ($response->isSuccessful()) {
+                //     // Process response
+                //     if ($response->isSuccessful()) {
         
-                        $cardReference = $response->getCardReference();
-                        $sql->transaction_id = $cardReference;
-                        $sql->payment_status = 'Success';
-                        $paymentMethod['message'] = 'Success';
-                    } else {
-                        $sql->transaction_id = '';
-                        $sql->payment_status = 'Failed';
-                        $paymentMethod['message'] = '';
-                    }
-                } catch(Exception $e) {
+                //         $cardReference = $response->getCardReference();
+                //         $sql->transaction_id = $cardReference;
+                //         $sql->payment_status = 'Success';
+                //         $paymentMethod['message'] = 'Success';
+                //     } else {
+                //         $sql->transaction_id = '';
+                //         $sql->payment_status = 'Failed';
+                //         $paymentMethod['message'] = '';
+                //     }
+                // } catch(Exception $e) {
                     
-                }
+                // }
             }
 
             else if($this->parms['payment_method'] == 'razorpay'){
