@@ -25379,6 +25379,7 @@ a.carousel-control-next.btn-secondary.swipe-to-top:focus {
   display: flex;
   justify-content: center;
   align-items: center;
+  text-align: center;
   color: #111;
   margin: 0;
   line-height: 1.5;
@@ -25396,10 +25397,10 @@ a.carousel-control-next.btn-secondary.swipe-to-top:focus {
 }
 .product article .content .price {
   font-family: "Roboto", sans-serif;
-  display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.6rem;
+  text-align: center;
+  font-size: 1.1rem;
   font-weight: 700;
   color: #4fbbd0;
 }

@@ -2,7 +2,7 @@
 <!-- //header style One-->
 <header id="headerOne" class="header-area header-one  header-desktop d-none d-lg-block d-xl-block">
 
-  @if (trans('lables.header-top-offer') != '')
+  {{-- @if (trans('lables.header-top-offer') != '')
   <div class="alert alert-warning alert-dismissible fade show" role="alert">
     <div class="container">
       <div class="pro-description">
@@ -15,7 +15,7 @@
       </div>
     </div>
   </div>
-  @endif
+  @endif --}}
 
   <div class="header-mini bg-top-bar">
     <div class="container">

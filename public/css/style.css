@@ -23552,7 +23552,7 @@ a.carousel-control-next.btn-secondary.swipe-to-top:focus {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 1.6rem;
+  font-size: 1rem;
   font-weight: 700;
   color: #1e30ca;
 }
