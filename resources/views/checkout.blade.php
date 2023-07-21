@@ -129,18 +129,14 @@
                                                 <div class="from-group col-md-6 mb-3">
                                                     <label for="">{{ trans('lables.checkout-postal-code') }}</label>
                                                     <div class="input-group">
-
-                                                        <input type="text" class="form-control" id="delivery_postcode"
-                                                            placeholder="{{ trans('lables.checkout-postal-code') }}">
+                                                        <input type="text" class="form-control" id="delivery_postcode" placeholder="{{ trans('lables.checkout-postal-code') }}">
                                                         <div class="invalid-feedback"></div>
                                                     </div>
                                                 </div>
                                                 <div class="from-group col-md-6 mb-3">
                                                     <label for="">{{ trans('lables.checkout-phone') }}</label>
                                                     <div class="input-group">
-
-                                                        <input type="text" class="form-control" id="delivery_phone"
-                                                            placeholder="{{ trans('lables.checkout-phone') }}">
+                                                        <input type="text" class="form-control" id="delivery_phone" placeholder="{{ trans('lables.checkout-phone') }}" required>
                                                         <div class="invalid-feedback"></div>
                                                     </div>
                                                 </div>
@@ -564,7 +560,7 @@
                                         </div>
                                         <div class="col-12 col-sm-12">
                                             <div class="row">
-                                                <a data-toggle="pill" href="#pills-method"
+                                                <a data-toggle="pill" href="#pills-billing"
                                                     class="btn btn-light swipe-to-top cta">{{ trans('lables.checkout-back') }}</a>
                                                 <button type="submit"
                                                     class="btn btn-secondary swipe-to-top createOrder">{{ trans('lables.checkout-pay') }}</button>
@@ -752,7 +748,7 @@
                         minimum_order_total = exchange_rate * parseFloat({{ getSetting()['minimum_order_total'] }});
                         free_shipping_order_price = exchange_rate * parseFloat({{ getSetting()['free_shipping_order_price'] }});
                         
-                        $(".minimum_order2").html(minimum_order_total.toFixed(2));
+                        $(".minimum_order2").html(minimum_order_total);
                         $(".free_shipping_order_price2").html(free_shipping_order_price);
                         
                         $(".exchange_rate").attr('price', exchange_rate);
@@ -778,12 +774,11 @@
 
         function cartItem(cartSession) {
             if (loggedIn == '1') {
-                url = "{{ url('') }}" + '/api/client/cart?session_id=' + cartSession + '&language_id=' + languageId +
-                    '&currency=' + localStorage.getItem("currency");
+                url = "{{ url('') }}" + '/api/client/cart?session_id=' + cartSession + '&language_id=' + languageId + '&currency=' + localStorage.getItem("currency");
             } else {
-                url = "{{ url('') }}" + '/api/client/cart/guest/get?session_id=' + cartSession + '&language_id=' +
-                    languageId + '&currency=' + localStorage.getItem("currency");
+                url = "{{ url('') }}" + '/api/client/cart/guest/get?session_id=' + cartSession + '&language_id=' + languageId + '&currency=' + localStorage.getItem("currency");
             }
+
             $.ajax({
                 type: 'get',
                 url: url,
@@ -802,6 +797,8 @@
                         total_weight = 0;
 
                         for (i = 0; i < data.data.length; i++) {
+                            console.log('product', data.data[i]);
+
                             // TODO: convert weight to gram
                             weight += (parseInt(data.data[i].qty) * parseInt(data.data[i].product_weight));
 
@@ -810,25 +807,17 @@
 
                             if (data.data[i].product_type == 'variable') {
                                 for (k = 0; k < data.data[i].combination.length; k++) {
-                                    if (data.data[i].product_combination_id == data.data[i].combination[k]
-                                        .product_combination_id) {
-                                        total_weight += parseFloat(data.data[i].product_weight) * parseFloat(data
-                                            .data[i].qty);
+                                    if (data.data[i].product_combination_id == data.data[i].combination[k].product_combination_id) {
+                                        total_weight += parseFloat(data.data[i].product_weight) * parseFloat(data.data[i].qty);
                                         if (data.data[i].combination[k].gallary != null) {
-                                            clone.querySelector(".cartItem-image").setAttribute('src',
-                                                '/gallary/' + data.data[i].combination[k].gallary
-                                                .gallary_name);
-                                            clone.querySelector(".cartItem-image").setAttribute('alt', data
-                                                .data[i].combination[k].gallary.gallary_name);
+                                            clone.querySelector(".cartItem-image").setAttribute('src', '/gallary/' + data.data[i].combination[k].gallary.gallary_name);
+                                            clone.querySelector(".cartItem-image").setAttribute('alt', data.data[i].combination[k].gallary.gallary_name);
                                             name = data.data[i].product_detail[0].title;
-                                            for (loop = 0; loop < data.data[i].product_combination
-                                                .length; loop++) {
+                                            for (loop = 0; loop < data.data[i].product_combination.length; loop++) {
                                                 if (data.data[i].product_combination[loop].length - 1 == loop) {
-                                                    name += data.data[i].product_combination[loop].variation
-                                                        .detail[0].name;
+                                                    name += data.data[i].product_combination[loop].variation.detail[0].name;
                                                 } else {
-                                                    name += data.data[i].product_combination[loop].variation
-                                                        .detail[0].name + '-';
+                                                    name += data.data[i].product_combination[loop].variation.detail[0].name + '-';
                                                 }
                                             }
                                             clone.querySelector(".cartItem-name").innerHTML = name;
@@ -837,22 +826,15 @@
                                     } else {}
                                 }
                             } else {
-                                total_weight += parseFloat(data.data[i].product_weight) * parseFloat(data.data[i]
-                                    .qty);
-                                if (data.data[i].product_gallary != null && $.trim(data.data[i]
-                                        .product_gallary) != '') {
-                                    if (data.data[i].product_gallary.detail != null && $.trim(data.data[i]
-                                            .product_gallary.detail) != '') {
-                                        clone.querySelector(".cartItem-image").setAttribute('src', data.data[i]
-                                            .product_gallary.detail[2].gallary_path);
+                                total_weight += parseFloat(data.data[i].product_weight) * parseFloat(data.data[i].qty);
+                                if (data.data[i].product_gallary != null && $.trim(data.data[i].product_gallary) != '') {
+                                    if (data.data[i].product_gallary.detail != null && $.trim(data.data[i].product_gallary.detail) != '') {
+                                        clone.querySelector(".cartItem-image").setAttribute('src', data.data[i].product_gallary.detail[2].gallary_path);
                                     }
                                 }
-                                if (data.data[i].product_detail != null && $.trim(data.data[i]
-                                        .product_detail) != '') {
-                                    clone.querySelector(".cartItem-image").setAttribute('alt', data.data[i]
-                                        .product_detail[0].title);
-                                    clone.querySelector(".cartItem-name").innerHTML = data.data[i]
-                                        .product_detail[0].title;
+                                if (data.data[i].product_detail != null && $.trim(data.data[i].product_detail) != '') {
+                                    clone.querySelector(".cartItem-image").setAttribute('alt', data.data[i].product_detail[0].title);
+                                    clone.querySelector(".cartItem-name").innerHTML = data.data[i].product_detail[0].title;
                                 }
                             }
 
@@ -861,21 +843,15 @@
                             } else {
                                 discount_price = data.data[i].price;
                             }
-                            if (data.data[i].currency != '' && data.data[i].currency != 'null' && data.data[i]
-                                .currency != null) {
+                            if (data.data[i].currency != '' && data.data[i].currency != 'null' && data.data[i].currency != null) {
                                 if (data.data[i].currency.symbol_position == 'left') {
                                     sum = +data.data[i].qty * +discount_price;
-                                    clone.querySelector(".cartItem-total").innerHTML = data.data[i].currency
-                                        .code + '' + sum.toFixed(2);
-                                    clone.querySelector(".cartItem-price").innerHTML = data.data[i].currency
-                                        .code + '' + discount_price;
+                                    clone.querySelector(".cartItem-total").innerHTML = data.data[i].currency.code + '' + sum;
+                                    clone.querySelector(".cartItem-price").innerHTML = data.data[i].currency.code + '' + discount_price;
                                 } else {
                                     sum = +data.data[i].qty * +discount_price;
-                                    clone.querySelector(".cartItem-total").innerHTML = sum.toFixed(2) + '' + data.data[i]
-                                        .currency.code;
-                                    clone.querySelector(".cartItem-price").innerHTML = discount_price + '' +
-                                        data.data[i]
-                                        .currency.code;
+                                    clone.querySelector(".cartItem-total").innerHTML = sum + '' + data.data[i].currency.code;
+                                    clone.querySelector(".cartItem-price").innerHTML = discount_price + '' + data.data[i].currency.code;
                                 }
                             } else {
                                 clone.querySelector(".cartItem-price").innerHTML = discount_price;
@@ -885,56 +861,36 @@
 
                             total_price = total_price + (discount_price * data.data[i].qty);
 
-
-                            if ($.trim(data.data[i].category_detail[0].category_detail) != '' && $.trim(data
-                                    .data[i].category_detail[0].category_detail) != 'null' && $.trim(data.data[
-                                    i].category_detail[0].category_detail) != null) {
-                                clone.querySelector(".cartItem-category-name").innerHTML = data.data[i]
-                                    .category_detail[0].category_detail.detail[0].name;
+                            if ($.trim(data.data[i].category_detail[0].category_detail) != '' && $.trim(data.data[i].category_detail[0].category_detail) != 'null' && $.trim(data.data[i].category_detail[0].category_detail) != null) {
+                                clone.querySelector(".cartItem-category-name").innerHTML = data.data[i].category_detail[0].category_detail.detail[0].name;
                             }
-                            clone.querySelector(".cartItem-remove").setAttribute('data-id', data.data[i]
-                                .product_id);
-                            clone.querySelector(".cartItem-remove").setAttribute('data-combination-id', data
-                                .data[i].product_combination_id);
-                            clone.querySelector(".cartItem-remove").setAttribute('onclick',
-                                'removeCartItem(this)');
 
-                            clone.querySelector(".cartItem-row").setAttribute('product_combination_id', data
-                                .data[i].product_combination_id);
-                            clone.querySelector(".cartItem-row").setAttribute('product_id', data.data[i]
-                                .product_id);
-                            clone.querySelector(".cartItem-row").setAttribute('product_type', data.data[i]
-                                .product_type);
+                            clone.querySelector(".cartItem-remove").setAttribute('data-id', data.data[i].product_id);
+                            clone.querySelector(".cartItem-remove").setAttribute('data-combination-id', data.data[i].product_combination_id);
+                            clone.querySelector(".cartItem-remove").setAttribute('onclick','removeCartItem(this)');
+
+                            clone.querySelector(".cartItem-row").setAttribute('product_combination_id', data.data[i].product_combination_id);
+                            clone.querySelector(".cartItem-row").setAttribute('product_id', data.data[i].product_id);
+                            clone.querySelector(".cartItem-row").setAttribute('product_type', data.data[i].product_type);
 
                             $("#cartItem-product-show").append(clone);
                             const temp1 = document.getElementById("cartItem-grandtotal-template");
                             const clone1 = temp1.content.cloneNode(true);
-                            if (data.data[i].currency != '' && data.data[i].currency != 'null' && data.data[i]
-                                .currency != null) {
+                            if (data.data[i].currency != '' && data.data[i].currency != 'null' && data.data[i].currency != null) {
                                 if (data.data[i].currency.symbol_position == 'left') {
-                                    clone1.querySelector(".caritem_subtotal").innerHTML = data.data[i].currency
-                                        .code + '' + total_price.toFixed(2);
-                                    clone1.querySelector(".caritem_subtotal").setAttribute('price',
-                                        total_price);
-                                    clone1.querySelector(".caritem_subtotal").setAttribute('currency_position',
-                                        data.data[i].currency.symbol_position);
-                                    clone1.querySelector(".caritem_subtotal").setAttribute('currency_code', data
-                                        .data[i].currency.code);
-                                    clone1.querySelector(".caritem_subtotal").setAttribute('price-symbol', data
-                                        .data[i].currency.code + '' + total_price);
-                                    clone1.querySelector(".caritem_grandtotal").innerHTML = data.data[i]
-                                        .currency.code + '' + total_price.toFixed(2);
+                                    clone1.querySelector(".caritem_subtotal").innerHTML = currencyFormat(total_price);
+                                    clone1.querySelector(".caritem_subtotal").setAttribute('price',total_price);
+                                    clone1.querySelector(".caritem_subtotal").setAttribute('currency_position',data.data[i].currency.symbol_position);
+                                    clone1.querySelector(".caritem_subtotal").setAttribute('currency_code', data.data[i].currency.code);
+                                    clone1.querySelector(".caritem_subtotal").setAttribute('price-symbol', currencyFormat(total_price));
+                                    clone1.querySelector(".caritem_grandtotal").innerHTML = currencyFormat(total_price);
                                     clone1.querySelector(".shipping_tax").setAttribute('data_price', '0');
                                 } else {
-                                    clone1.querySelector(".caritem_subtotal").innerHTML = total_price.toFixed(2) + '' +
-                                        data.data[i].currency.code;
-                                    clone1.querySelector(".caritem_subtotal").setAttribute('price',
-                                        total_price);
+                                    clone1.querySelector(".caritem_subtotal").innerHTML = total_price + '' +data.data[i].currency.code;
+                                    clone1.querySelector(".caritem_subtotal").setAttribute('price',total_price);
                                     clone1.querySelector(".shipping_tax").setAttribute('data_price', '0');
-                                    clone1.querySelector(".caritem_subtotal").setAttribute('price-symbol', data
-                                        .data[i].currency.code + '' + total_price);
-                                    clone1.querySelector(".caritem_grandtotal").innerHTML = total_price.toFixed(
-                                        2) + '' + data.data[i].currency.code;
+                                    clone1.querySelector(".caritem_subtotal").setAttribute('price-symbol', data.data[i].currency.code + '' + total_price);
+                                    clone1.querySelector(".caritem_grandtotal").innerHTML = currencyFormat(total_price) + '' + data.data[i].currency.code;
                                 }
                             }
                             $("#cartItem-grandtotal-product-show").html('');
@@ -949,10 +905,11 @@
                         }
 
                         // removed unused properties to be used for midtrans 
+                        midtransCartItems = []
                         midtransCartItems = data.data.map(function (item) {
                             return {
                                 id: item.product_id,
-                                price: item.price,
+                                price: item.discount_price.toString().replace('Rp', '').replace('&nbsp;', '').replace('.', ''),
                                 quantity: item.qty,
                                 unit: item.product_unit.unit_name,
                                 name: item.product_detail[0].title
@@ -1046,11 +1003,11 @@
                             if(data.data.currency != '' && data.data.currency != 'null' && data.data.currency != null){
                                 
                                 if(data.data.currency.symbol_position == 'left'){
-                                    $(".caritem_discount_coupon").html(data.data.currency.code +''+ discount.toFixed(2));
-                                    $(".caritem_grandtotal").html(data.data.currency.code +''+ subtotal.toFixed(2));
+                                    $(".caritem_discount_coupon").html(data.data.currency.code +''+ discount);
+                                    $(".caritem_grandtotal").html(currencyFormat(subtotal));
                                 } else {
-                                    $(".caritem_discount_coupon").html(discount.toFixed(2) +''+ data.data.currency.code);
-                                    $(".caritem_grandtotal").html(subtotal.toFixed(2) +''+ data.data.currency.code);
+                                    $(".caritem_discount_coupon").html(discount +''+ data.data.currency.code);
+                                    $(".caritem_grandtotal").html(currencyFormat(subtotal) +''+ data.data.currency.code);
                                 }
                                 $(".caritem_discount_coupon").attr('price', discount);
                             }
@@ -1063,7 +1020,7 @@
                         price = $(".caritem_subtotal").attr('price-symbol');
                         $(".caritem_discount_coupon").attr('price', 0);
                         $(".caritem_discount_coupon").html('');
-                        $(".caritem_grandtotal").html(price);
+                        $(".caritem_grandtotal").html(currencyFormat(price));
                         localStorage.setItem("couponCart", '');
                         toastr.error('{{ trans('invalid-coupon') }}');
                     }
@@ -1072,7 +1029,7 @@
                     price = $(".caritem_subtotal").attr('price-symbol');
                     $(".caritem_discount_coupon").attr('price', 0);
                     $(".caritem_discount_coupon").html('');
-                    $(".caritem_grandtotal").html(price);
+                    $(".caritem_grandtotal").html(currencyFormat(price));
                     localStorage.setItem("couponCart", '');
                     if (data.status == 422) {
                         // toastr.error(data.responseJSON.message);
@@ -1482,6 +1439,15 @@
             }
         });
 
+        function validateVars(variables) {
+            for (const variable in variables) {
+                if (variables[variable] == "") {
+                    return false;
+                }
+            }
+            return true;
+        }
+
         let orderData = {}
         let snapToken = ''
         let midtransOrderId = ''
@@ -1513,10 +1479,41 @@
             shipping_ro_method = $("#shipping_cost_courier").val()
             shipping_ro_service = $("#shipping_cost_courier_service").val().split('_')[0]
             
-            shipping_ro_province_id = $("#shipping_cost_province").val(),
-            shipping_ro_province = $("#shipping_cost_province option:selected").text(),
-            shipping_ro_city_id = $("#shipping_cost_cities").val(),
-            shipping_ro_city = $("#shipping_cost_cities option:selected").text(),
+            shipping_ro_province_id = $("#shipping_cost_province").val()
+            shipping_ro_province = $("#shipping_cost_province option:selected").text()
+            shipping_ro_city_id = $("#shipping_cost_cities").val()
+            shipping_ro_city = $("#shipping_cost_cities option:selected").text()
+
+            const variablesToCheck = [
+                billing_first_name,
+                billing_last_name,
+                billing_street_aadress,
+                billing_country,
+                billing_state,
+                billing_city,
+                billing_postcode,
+                billing_phone,
+                delivery_first_name,
+                delivery_last_name,
+                delivery_street_aadress,
+                delivery_country,
+                delivery_state,
+                delivery_city,
+                delivery_postcode,
+                delivery_phone,
+                shipping_ro_method,
+                shipping_ro_service,
+                shipping_ro_province_id,
+                shipping_ro_province,
+                shipping_ro_city_id,
+                shipping_ro_city,
+            ];
+
+            const allNotEmpty = validateVars(variablesToCheck);
+            if (!allNotEmpty) {
+                alert('Request invalid! Harap cek kembali form Anda.')
+                return
+            }
 
             // payment_method = $(".payment_method:checked").val();
             payment_method = 'midtrans';
@@ -1526,8 +1523,9 @@
             cc_cvc = $("#cc_cvc").val();
             payment_method_nonce = $('#payment-method-nonce').val();
             var orderAmount = $(".caritem_grandtotal").html();
+            orderAmount = orderAmount.toString().replace('Rp', '').replace('&nbsp;', '').replace('.', '')
             //orderAmount = orderAmount.split(" ");
-            orderAmount = parseFloat(orderAmount.match(/-?(?:\d+(?:\.\d*)?|\.\d+)/)[0]);
+            // orderAmount = parseFloat(orderAmount.match(/-?(?:\d+(?:\.\d*)?|\.\d+)/)[0]);
             exchange_rate = $(".exchange_rate").attr('price');
             minimum_order_total = exchange_rate * parseFloat({{ getSetting()['minimum_order_total'] }});
 
@@ -1685,7 +1683,7 @@
                         shipping_ro_service,
                         shipping_price,
                         items: midtransCartItems,
-                        gross_amount: parseInt(orderAmount),
+                        gross_amount: orderAmount,
                         customer: {
                             name: `${billing_first_name} ${billing_last_name}`,
                             email: localStorage.getItem("customerEmail"),
@@ -1695,17 +1693,20 @@
 
                     midtransOrderId = Date.now() + (Math.floor(Math.random() * 900) + 100) + localStorage.getItem("customerId")
 
-                    midtransCartItems.push({
-                        id: 0,
-                        price: shipping_price,
-                        quantity: 1,
-                        unit: '-',
-                        name: `${shipping_ro_method.toUpperCase()} - ${shipping_ro_service}`
-                    })
+                    // add shipping to snap item cart detail
+                    if (midtransCartItems.every(obj => obj.name !== `${shipping_ro_method.toUpperCase()} - ${shipping_ro_service}`)) {
+                        midtransCartItems.push({
+                            id: 0,
+                            price: shipping_price,
+                            quantity: 1,
+                            unit: '-',
+                            name: `${shipping_ro_method.toUpperCase()} - ${shipping_ro_service}`
+                        })
+                    }
 
                     const snapTokenData = {
                         order_id: midtransOrderId,
-                        gross_amount: parseInt(orderAmount),
+                        gross_amount: orderAmount,
                         items: midtransCartItems,
                         customer: {
                             name: `${billing_first_name} ${billing_last_name}`,
@@ -1713,6 +1714,7 @@
                             phone: billing_phone
                         }
                     }
+                    console.log('snap data:', snapTokenData)
 
                     const generateSnapTokenUrl = '/api/client/order/get-snap-token'
                     $.ajax({
@@ -1872,11 +1874,10 @@
 
                                 if ($.trim($(".caritem_subtotal").attr('currency_position')) == 'left') {
                                     html += '<tr class="tax-rows"><th scope="row">' + tax_Desctiption +
-                                    '</th><td align="right" class="caritem_tax" price="' + total_tax + '">' +  $(".caritem_subtotal").attr('currency_code') + '' +
-                                        total_tax.toFixed(2) + '</td></tr>';
+                                    '</th><td align="right" class="caritem_tax" price="' + total_tax + '">' + currencyFormat(total_tax) + '</td></tr>';
                                 } else {
                                     html += '<tr><th scope="row">' + tax_Desctiption +
-                                    '</th><td align="right" class="caritem_tax" price="' + total_tax + '">' +  total_tax.toFixed(2)+''+$(".caritem_subtotal").attr('currency_code') + '</td></tr>';
+                                    '</th><td align="right" class="caritem_tax" price="' + total_tax + '">' +  total_tax+''+$(".caritem_subtotal").attr('currency_code') + '</td></tr>';
                                 }
                             }
                             
@@ -1884,6 +1885,16 @@
                             $(html).insertBefore("#test");        
                             
                             caritemGrandtotal();
+
+                            if (midtransCartItems.every(obj => obj.name !== 'Tax')) {
+                                midtransCartItems.push({
+                                    id: 0,
+                                    price: total_tax,
+                                    quantity: 1,
+                                    unit: '-',
+                                    name: 'Tax'
+                                })
+                            }
                         }
                     } else if (data.status == 'Error') {
                         price = $(".caritem_subtotal").attr('price');
@@ -1894,9 +1905,9 @@
                         shipping_price = $(".shipping_tax").attr('data_price');
                         total = +price + +couponCart + +shipping_price;
                         if ($.trim($(".caritem_subtotal").attr('currency_position')) == 'left') {
-                            $(".caritem_grandtotal").html($(".caritem_subtotal").attr('currency_code') + '' + total.toFixed(2));
+                            $(".caritem_grandtotal").html(currencyFormat(total));
                         } else {
-                            $(".caritem_grandtotal").html(total.toFixed(2) + '' + $(".caritem_subtotal").attr('currency_code'));
+                            $(".caritem_grandtotal").html(total + ' ' + $(".caritem_subtotal").attr('currency_code'));
                         }
                     }
                 },
@@ -1953,11 +1964,9 @@
                                 
 
                                 if ($.trim($(".caritem_subtotal").attr('currency_position')) == 'left') {
-                                    $(".shipping_tax").html($(".caritem_subtotal").attr('currency_code') + '' +
-                                        shipping);
+                                    $(".shipping_tax").html(currencyFormat(shipping));
                                 } else {
-                                    $(".shipping_tax").html(shipping + '' + $(".caritem_subtotal").attr(
-                                        'currency_code'));
+                                    $(".shipping_tax").html(shipping + '' + $(".caritem_subtotal").attr( 'currency_code'));
                                 }
 
 
@@ -1983,7 +1992,7 @@
             setTimeout(function() {
                 var exchange_rate = parseFloat($(".exchange_rate").attr('price'));
                 var free_shipping_order_price = exchange_rate * parseFloat({{ getSetting()['free_shipping_order_price'] }});
-                var caritem_subtotal = parseFloat($(".caritem_subtotal").attr('price')).toFixed(2);
+                var caritem_subtotal = parseFloat($(".caritem_subtotal").attr('price'));
                 var total;
 
                 
@@ -1993,7 +2002,7 @@
                     shipping = "0.00";
                     $(".shipping_tax").attr('data_price', shipping);
                     if ($.trim($(".caritem_subtotal").attr('currency_position')) == 'left') {
-                        $(".shipping_tax").html($(".caritem_subtotal").attr('currency_code') + '' +shipping);
+                        $(".shipping_tax").html(currencyFormat(shipping));
                     } else {
                         $(".shipping_tax").html(shipping + '' + $(".caritem_subtotal").attr('currency_code'));
                     }
@@ -2003,11 +2012,11 @@
                     if ($.trim($(".caritem_subtotal").attr('currency_position')) == 'left') {
 
                         total = parseFloat(free_shipping_order_price) - parseFloat(caritem_subtotal);
-                        $(".free_shipping_order_price2").html($(".caritem_subtotal").attr('currency_code') + '' + total.toFixed(2));
+                        $(".free_shipping_order_price2").html($(".caritem_subtotal").attr('currency_code') + '' + total);
                     
                     } else {
                         total = parseFloat(free_shipping_order_price) - parseFloat(caritem_subtotal);
-                        $(".free_shipping_order_price2").html(total.toFixed(2) +''+$(".caritem_subtotal").attr('currency_code'));
+                        $(".free_shipping_order_price2").html(total +''+$(".caritem_subtotal").attr('currency_code'));
                     
                     }
                     
@@ -2045,9 +2054,9 @@
                 total = +sub_price + +total_tax_price - +couponCart;
             }
             if ($.trim($(".caritem_subtotal").attr('currency_position')) == 'left') {
-                $(".caritem_grandtotal").html($(".caritem_subtotal").attr('currency_code') + '' + total.toFixed(2));
+                $(".caritem_grandtotal").html(currencyFormat(total));
             } else {
-                $(".caritem_grandtotal").html(total.toFixed(2) + '' + $(".caritem_subtotal").attr('currency_code'));
+                $(".caritem_grandtotal").html(total + '' + $(".caritem_subtotal").attr('currency_code'));
             }
         }
     </script>
@@ -2063,6 +2072,10 @@
         var myLatlng;
         var map;
         var geocoder;
+
+        function currencyFormat(nominal) {
+            return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' }).format(nominal).slice(0, -3)
+        }
 
         function setUserLocation() {
             if (navigator.geolocation) {
@@ -2339,7 +2352,7 @@
 
             shipping_price = selectedCourierService.split('_')[1];
             $(".shipping_tax").attr('data_price', shipping_price);
-            $(".shipping_tax").html($(".caritem_subtotal").attr('currency_code') + '' + shipping_price);
+            $(".shipping_tax").html(currencyFormat(shipping_price));
 
             tax()
         }
