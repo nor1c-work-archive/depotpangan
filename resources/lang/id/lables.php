@@ -26,6 +26,7 @@ return [
     'header-my-account' => 'Akun Saya',
     'header-profile' => 'Profil',
     'header-wishlist' => 'Wishlist',
+    'header-account-balance' => 'SALDO AKUN',
     'header-compare' => 'Bandingkan',
     'header-order' => 'Pesanan',
     'header-shipping-address' => 'Alamat Pengiriman',
@@ -233,6 +234,13 @@ return [
     'order-detail-shipping' => 'SHIPPING',
     'order-detail-coupon-discount' => 'KUPON DISKON',
     'order-detail-total' => 'TOTAL',
+
+    'balance-id' => "ID",
+    'balance-amount' => "Nominal",
+    'balance-type' => "Tipe",
+    'balance-date' => "Tanggal",
+    'balance-payment-method' => "Pembayaran",
+    'balance-detail' => "Lihat Detail",
 
     'thank-you-title' => 'Terima Kasih',
     'thank-you-message' => 'Pesanan kamu berhasil diproses..

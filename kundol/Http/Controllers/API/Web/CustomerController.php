@@ -6,7 +6,7 @@ use App\Contract\Web\CustomerInterface;
 use App\Http\Controllers\Controller as Controller;
 use App\Http\Requests\CustomerUpdateRequest;
 use App\Models\Admin\Customer;
-use App\Repository\Web\CustomerRepository;
+use App\Services\Web\AccountBalanceService;
 
 class CustomerController extends Controller
 {
@@ -28,4 +28,10 @@ class CustomerController extends Controller
         return $this->customerRepository->update($parms, $customer);
     }
 
+    public function accountBalance() {
+        $balance = new AccountBalanceService;
+        $data = $balance->homeIndex();
+
+        return view('account-balance', compact('data'));
+    }
 }

@@ -41,4 +41,7 @@ class Customer extends Authenticatable {
         return $this->hasMany('App\Models\Web\CustomerAddressBook');
     }
 
+    public function current_balance() {
+        return $this->hasOne('App\Models\Admin\CurrentBalance');
+    }
 }

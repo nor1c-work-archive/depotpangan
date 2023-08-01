@@ -248,6 +248,13 @@ class IndexController extends Controller
         return view('order-detail', compact('data', 'setting', 'id'));
     }
 
+    public function accountBalance() {
+        $homeService = new HomeService;
+        $data = $homeService->homeIndex();
+        $setting = getSetting();
+        return view('account-balance', compact('data', 'setting'));
+    }
+
     public function term()
     {
         $homeService = new HomeService;

@@ -26,6 +26,7 @@ use App\Contract\Admin\CouponSettingInterface;
 use App\Contract\Admin\CurrencyInterface;
 use App\Contract\Admin\MembershipInterface;
 use App\Contract\Admin\CustomCssJsInterface;
+use App\Contract\Admin\CustomerBalanceInterface;
 use App\Contract\Admin\CustomerInterface;
 use App\Contract\Admin\EmailTemplateSettingInterface;
 use App\Contract\Admin\GallaryInterface;
@@ -153,11 +154,7 @@ use App\Repository\Admin\HomeBannerRepository;
 use App\Repository\Admin\TransactionRepository;
 use App\Repository\Admin\DeliveryBoyRepository;
 use App\Repository\Admin\SupplierRepository;
-
-
-
-
-
+use App\Repository\Web\CustomerBalanceRepository;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -202,6 +199,7 @@ class RepositoryServiceProvider extends ServiceProvider
         $this->app->bind(ProductInterface::class, ProductRepository::class);
         $this->app->bind(PurchaserInterface::class, PurchaserRepository::class);
         $this->app->bind(CustomerInterface::class, CustomerRepository::class);
+        $this->app->bind(CustomerBalanceInterface::class, CustomerBalanceRepository::class);
         $this->app->bind(SliderInterface::class, SliderRepository::class);
         $this->app->bind(MembershipInterface::class, MembershipRepository::class);
         $this->app->bind(SliderTypeInterface::class, SliderTypeRepository::class);

@@ -61,12 +61,16 @@
                 color: #fff;"><i class="fa fa-lock" aria-hidden="true"></i>&nbsp;{{ trans('lables.header-login-register') }}</a></li>
             </li>
           </ul>
-
         </div>
         <div class="col-12 col-md-6 auth-login">
           <ul class="pro-header-options">
             <li>
               <p> {{ trans('lables.header-welcome-text') }} <span class="welcomeUsername"></span></p>
+            </li>
+            <li>
+              <p>
+                <a class="text-white font-normal tracking-normal" href="{{ url('account-balance') }}">My Balance (Rp 0)</a>
+              </p>
             </li>
             <li class="dropdown">
               <button class="btn dropdown-toggle" type="button">

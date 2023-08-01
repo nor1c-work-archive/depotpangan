@@ -178,7 +178,8 @@ class OrderProcess implements ShouldQueue
             }
 
             // (front only) send order invoice to customer email
-            if (isset($this->parms['ispos']) || $this->parms['ispos'] = false) {
+            if (isset($this->parms['ispos']) && $this->parms['ispos'] == false) {
+                dd('ok!');
                 $mail_data = [
                     'order_id' => $sql->id,
                     'order_date' => date('d M Y H:i:s', time()),

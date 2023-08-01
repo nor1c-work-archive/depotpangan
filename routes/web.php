@@ -49,9 +49,7 @@ Route::any('admin/{all}', function () {
     Route::get('/hyperpay', 'Web\IndexController@getcall');
 
 Route::group(['middleware' => ['general','installer']], function () {
-
     Route::get('/', 'Web\IndexController@index');
-
     Route::get('/product/{id}/{slug}', 'Web\IndexController@productDetail');
     Route::get('/shop', 'Web\IndexController@shop');
     Route::get('/cart', 'Web\IndexController@cartPage');
@@ -65,34 +63,25 @@ Route::group(['middleware' => ['general','installer']], function () {
     Route::get('/profile', 'Web\IndexController@profile');
     Route::get('/thankyou', 'Web\IndexController@thankyou')->name('thankyou');
     Route::get('/shipping-address', 'Web\IndexController@shippingAddress');
-
     Route::get('/wishlist', 'Web\IndexController@wishlist');
     Route::get('/change-password', 'Web\IndexController@changePassword');
     Route::get('/forget-password', 'Web\IndexController@forgetPassword');
     Route::get('/reset-password', 'Web\IndexController@resetPassword');
-
-
-
     Route::get('/page/{slug}', 'Web\IndexController@page');
-
     Route::get('/privacy', 'Web\IndexController@privacy');
     Route::get('/refund', 'Web\IndexController@refund');
     Route::get('/term', 'Web\IndexController@term');
     Route::get('/contact-us', 'Web\IndexController@contactUs');
     Route::get('/about-us', 'Web\IndexController@aboutUs');
-
     Route::get('set_currency/{currency}', 'Web\IndexController@setCurrency');
     Route::get('paytm-pay', 'Web\IndexController@paytmPayment');
     Route::get('order-web-view', 'Web\IndexController@orderWebView');
     Route::get('lang/{locale}', 'LocalizationController@index');
-    
-
+    Route::get('account-balance', 'Web\IndexController@accountBalance');
 });
 
 Route::group(['middleware' => ['general','installer']], function () {
-
     Route::get('/', 'Web\IndexController@index');
-
     Route::get('/product/{id}/{slug}', 'Web\IndexController@productDetail');
     Route::get('/shop', 'Web\IndexController@shop');
     Route::get('/cart', 'Web\IndexController@cartPage');
@@ -106,7 +95,6 @@ Route::group(['middleware' => ['general','installer']], function () {
     Route::get('/profile', 'Web\IndexController@profile');
     Route::get('/thankyou', 'Web\IndexController@thankyou');
     Route::get('/shipping-address', 'Web\IndexController@shippingAddress');
-
     Route::get('/wishlist', 'Web\IndexController@wishlist');
     Route::get('/change-password', 'Web\IndexController@changePassword');
     Route::get('/page/{slug}', 'Web\IndexController@page');
@@ -115,16 +103,13 @@ Route::group(['middleware' => ['general','installer']], function () {
     Route::get('/term', 'Web\IndexController@term');
     Route::get('/contact-us', 'Web\IndexController@contactUs');
     Route::get('/about-us', 'Web\IndexController@aboutUs');
-
     Route::get('set_currency/{currency}', 'Web\IndexController@setCurrency');
     Route::post('paytm-pay', 'Web\IndexController@paytmPayment');
     Route::post('paytm_response', 'Web\IndexController@paytmResponse');
     Route::get('mollie-payment/{order_id}', 'Web\IndexController@molliePayment');
     Route::post('mollie-webhook', 'Web\IndexController@mollieWebHook');
-
     Route::get('order-web-view', 'Web\IndexController@orderWebView');
     Route::get('lang/{locale}', 'LocalizationController@index');
-
     Route::get('/payment-paystck/callback', 'Web\IndexController@handleGatewayCallback')->name('payment');
     Route::get('/payment-desgin',function(){
         return view('paymentdesign');
@@ -133,11 +118,4 @@ Route::group(['middleware' => ['general','installer']], function () {
     Route::get('reset-demo-settings', 'Web\IndexController@ResetDemoSettings');
     Route::get('reset-accounts', 'Web\IndexController@seedFromExistingData');
     Route::get('points', 'Web\IndexController@points');
-
-
-
-    
-
-    
-
 });

@@ -846,8 +846,8 @@
                             if (data.data[i].currency != '' && data.data[i].currency != 'null' && data.data[i].currency != null) {
                                 if (data.data[i].currency.symbol_position == 'left') {
                                     sum = +data.data[i].qty * +discount_price;
-                                    clone.querySelector(".cartItem-total").innerHTML = data.data[i].currency.code + '' + sum;
-                                    clone.querySelector(".cartItem-price").innerHTML = data.data[i].currency.code + '' + discount_price;
+                                    clone.querySelector(".cartItem-total").innerHTML = currencyFormat(sum);
+                                    clone.querySelector(".cartItem-price").innerHTML = currencyFormat(discount_price);
                                 } else {
                                     sum = +data.data[i].qty * +discount_price;
                                     clone.querySelector(".cartItem-total").innerHTML = sum + '' + data.data[i].currency.code;
