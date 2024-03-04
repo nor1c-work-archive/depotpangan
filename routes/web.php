@@ -33,22 +33,20 @@ Route::get('clear', function () {
     Artisan::call('cache:clear');
     Artisan::call('config:clear');
     Artisan::call('config:cache');
-
 });
 
 Route::any('admin/{all}', function () {
     return view('layouts.admin-master');
-})
-    ->where(['all' => '.*']);
+})->where(['all' => '.*']);
 
-    // Route::group(['middleware' => ['general','installer']], function () {
-    //     Route::get('/', function () {
-    //         return redirect('/admin/login');
-    //     });
-    // });
-    Route::get('/hyperpay', 'Web\IndexController@getcall');
+// Route::group(['middleware' => ['general','installer']], function () {
+//     Route::get('/', function () {
+//         return redirect('/admin/login');
+//     });
+// });
+Route::get('/hyperpay', 'Web\IndexController@getcall');
 
-Route::group(['middleware' => ['general','installer']], function () {
+Route::group(['middleware' => ['general', 'installer']], function () {
     Route::get('/', 'Web\IndexController@index');
     Route::get('/product/{id}/{slug}', 'Web\IndexController@productDetail');
     Route::get('/shop', 'Web\IndexController@shop');
@@ -80,7 +78,7 @@ Route::group(['middleware' => ['general','installer']], function () {
     Route::get('account-balance', 'Web\IndexController@accountBalance');
 });
 
-Route::group(['middleware' => ['general','installer']], function () {
+Route::group(['middleware' => ['general', 'installer']], function () {
     Route::get('/', 'Web\IndexController@index');
     Route::get('/product/{id}/{slug}', 'Web\IndexController@productDetail');
     Route::get('/shop', 'Web\IndexController@shop');
@@ -111,7 +109,7 @@ Route::group(['middleware' => ['general','installer']], function () {
     Route::get('order-web-view', 'Web\IndexController@orderWebView');
     Route::get('lang/{locale}', 'LocalizationController@index');
     Route::get('/payment-paystck/callback', 'Web\IndexController@handleGatewayCallback')->name('payment');
-    Route::get('/payment-desgin',function(){
+    Route::get('/payment-desgin', function () {
         return view('paymentdesign');
     });
     Route::get('update-settings-by-user', 'Web\IndexController@updateSettingsByUser');

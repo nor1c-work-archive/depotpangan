@@ -67,9 +67,9 @@ class Product extends Model
             $q->orderBy(CategoryDetail::select($sortBy)
             ->whereColumn('product_category.category_id', 'category_detail.category_id')->where('language_id', $languageId), $sortType);
         });
-        
-        
-        
+
+
+
     }
 
     public function scopeSortByTopSellingProduct($query, $sortBy, $sortType)
@@ -90,9 +90,9 @@ class Product extends Model
     public function scopeGetProductByPrice($query, $priceFrom, $priceTo)
     {
         $query->whereRaw('IF (`discount_price` > 0,`discount_price` >= '.$priceFrom.' && `discount_price` <= '.$priceTo.',`price` >= '.$priceFrom.' && `price` <= '.$priceTo.')');
-        
+
         // whereBetween('price', [$priceFrom, $priceTo]);
-        
+
         return $query->orWhereHas('product_combination', function($q) use ($priceFrom, $priceTo){
             $q->whereBetween('product_combination.price', [$priceFrom, $priceTo]);
         });

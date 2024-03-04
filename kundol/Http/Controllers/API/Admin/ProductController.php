@@ -48,7 +48,7 @@ class ProductController extends Controller
     public function update(ProductRequest $request, Product $product)
     {
         $parms = $request->all();
-        
+
         if ($product->product_type != $request->product_type) {
             return $this->errorResponse("You Don't have a right to change the product type!", 401);
         }
@@ -60,7 +60,7 @@ class ProductController extends Controller
                 return $validate;
             }
         }
-        
+
         return $this->ProductRepository->update($parms, $product);
     }
 
